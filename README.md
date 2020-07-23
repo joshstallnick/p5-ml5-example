@@ -25,3 +25,10 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## Dependencies & References
+
+### [p5](https://www.npmjs.com/package/p5)
+
+* [how to use p5 in angular](https://stackoverflow.com/questions/49472433/how-to-use-p5-js-in-angular-5-application)
+
