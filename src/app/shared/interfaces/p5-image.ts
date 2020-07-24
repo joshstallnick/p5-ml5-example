@@ -1,3 +1,5 @@
+import {NumberSupplier, Runnable} from '../types'
+
 /**
  * https://p5js.org/reference/#/p5.Image
  *
@@ -16,7 +18,7 @@ export interface P5Image {
   _pixelsState: any
 
   // fns
-  loadPixels: Runnable                                                            // https://p5js.org/reference/#/p5.Image/loadPixels
+  loadPixels: Runnable                                                              // https://p5js.org/reference/#/p5.Image/loadPixels
   updatePixels: UpdatePixelsFn                                                      // https://p5js.org/reference/#/p5.Image/updatePixels
   get: GetFn                                                                        // https://p5js.org/reference/#/p5.Image/get
   set: (x: number, y: number, a: Alpha) => void                                     // https://p5js.org/reference/#/p5.Image/set
@@ -67,20 +69,14 @@ enum BlendMode {
 // Number|Number[]|Object: grayscale value | pixel array | a p5.Color | image to copy
 type Alpha = number | number[] | P5Image | any
 
-type Runnable = () => void
-
-type Supplier<T> = () => T
-
-type NumberSupplier = () => number
-
 type UpdatePixelsFn = ((x: number, y: number, w: number, h: number) => void) | (Runnable)
 
 type GetFn = ((x: number, y: number, w: number, h: number) => P5Image) |
-             ((x: number, y: number) => P5Image) | (Runnable)
+  ((x: number, y: number) => P5Image) | (Runnable)
 
 // srcImage = p5.Image | p5.Element
 type CopyFn = ((srcImage: any, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number) => void) |
-                             ((sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number) => void)
+  ((sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number) => void)
 
 type FilterFn = ((filterType: FilterType) => void) | ((filterType: FilterType, filterParam: number) => void)
 
