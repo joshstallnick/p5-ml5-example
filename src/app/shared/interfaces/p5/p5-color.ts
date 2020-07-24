@@ -8,4 +8,4 @@ export interface P5Color {
   setAlpha: (alpha: number) => void               // https://p5js.org/reference/#/p5.Color/setAlpha
 }
 
-type ToStringFn = ((format: string) => string) | StringSupplier
+type ToStringFn = ((format: string) => string) & StringSupplier

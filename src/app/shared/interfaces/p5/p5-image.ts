@@ -69,20 +69,20 @@ export enum BlendMode {
 // Number|Number[]|Object: grayscale value | pixel array | a p5.Color | image to copy
 type Alpha = number | number[] | P5Image | any
 
-type UpdatePixelsFn = ((x: number, y: number, w: number, h: number) => void) | (Runnable)
+type UpdatePixelsFn = ((x: number, y: number, w: number, h: number) => void) & Runnable
 
-type GetFn = ((x: number, y: number, w: number, h: number) => P5Image) |
-  ((x: number, y: number) => P5Image) | (Runnable)
+type GetFn = ((x: number, y: number, w: number, h: number) => P5Image) &
+  ((x: number, y: number) => P5Image) & Runnable
 
 // srcImage = p5.Image | p5.Element
-type CopyFn = ((srcImage: any, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number) => void) |
+type CopyFn = ((srcImage: any, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number) => void) &
   ((sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number) => void)
 
-type FilterFn = ((filterType: FilterType) => void) | ((filterType: FilterType, filterParam: number) => void)
+type FilterFn = ((filterType: FilterType) => void) & ((filterType: FilterType, filterParam: number) => void)
 
 type BlendFn =
   ((srcImage: P5Image,
-    sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number, blendMode: BlendMode) => void) |
+    sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number, blendMode: BlendMode) => void) &
   ((sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number, blendMode: BlendMode) => void)
 
-type DelayFn = ((d: number) => void) | ((d: number, index: number) => void)
+type DelayFn = ((d: number) => void) & ((d: number, index: number) => void)

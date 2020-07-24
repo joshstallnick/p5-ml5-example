@@ -1,6 +1,9 @@
 import {AnyFunction, NodeArraySupplier, ObjectSupplier, P5, Runnable, StringSupplier} from '../../types'
 import {P5Color} from './p5-color'
 
+/**
+ *  https://p5js.org/reference/#/p5.Element
+ */
 export interface P5Element {
   elt: string
   pInst?: P5
@@ -51,39 +54,39 @@ export enum PositionType {
 
 type Parent = string | P5Element | object
 
-type ParentFn = ((parent: Parent) => void) | Runnable
+type ParentFn = ((parent: Parent) => void) & Runnable
 
-type IdFn = ((id: string) => void) | Runnable
+type IdFn = ((id: string) => void) & Runnable
 
-type ClassFn = ((clazz: string) => void) | Runnable
+type ClassFn = ((clazz: string) => void) & Runnable
 
 type EventFn = (fxn: Runnable | boolean) => void
 
 type ClassConsumer = (clazz: string) => void
 
-type ChildFn = ((child: string | P5Element) => Node[]) | NodeArraySupplier
+type ChildFn = ((child: string | P5Element) => Node[]) & NodeArraySupplier
 
-type CenterFn = ((align: string) => void) | Runnable
+type CenterFn = ((align: string) => void) & Runnable
 
-type HtmlFn = ((html: string) => string) | ((append: boolean) => string) | ((html: string, append: boolean) => string) | Runnable
+type HtmlFn = ((html: string) => string) & ((append: boolean) => string) & ((html: string, append: boolean) => string) & Runnable
 
 type PositionReturn = {x: number, y: number}
 
 type PositionFn =
-  ((positionType: string | PositionType) => PositionReturn) |
-  ((positionType: string | PositionType, x: number) => PositionReturn) |
-  ((positionType: string | PositionType, y: number) => PositionReturn) |
-  ((positionType: string | PositionType, x: number, y: number) => PositionReturn) |
+  ((positionType: string | PositionType) => PositionReturn) &
+  ((positionType: string | PositionType, x: number) => PositionReturn) &
+  ((positionType: string | PositionType, y: number) => PositionReturn) &
+  ((positionType: string | PositionType, x: number, y: number) => PositionReturn) &
   Runnable
 
-type StyleFn = ((property: string) => string) | ((property: string, value: string | P5Color) => string)
+type StyleFn = ((property: string) => string) & ((property: string, value: string | P5Color) => string)
 
-type AttributeFn = ((attr: string, value: string) => string) | StringSupplier
+type AttributeFn = ((attr: string, value: string) => string) & StringSupplier
 
-type ValueFn = ((value: string | number) => string | number) | (() => string | number)
+type ValueFn = ((value: string | number) => string | number) & (() => string | number)
 
 type AutoSize = number | 'AUTO'
 
-type SizeFn = ((w: AutoSize) => object) | ((w: AutoSize, h: AutoSize) => object) | ObjectSupplier
+type SizeFn = ((w: AutoSize) => object) & ((w: AutoSize, h: AutoSize) => object) & ObjectSupplier
 
-type DropFn = ((callback: AnyFunction) => void) | ((callback: AnyFunction, fxn: AnyFunction) => void)
+type DropFn = ((callback: AnyFunction) => void) & ((callback: AnyFunction, fxn: AnyFunction) => void)
