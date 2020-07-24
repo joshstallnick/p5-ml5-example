@@ -1,14 +1,42 @@
 
-<main style="width: 100%; margin: 0 auto; display: flex; flex-direction: column; align-items: center">
-  <div>
-    <button [class.selected]="selectedDashboard === 'p5'"
-            routerLink="/p5-dashboard"
-            (click)="selectedDashboard = 'p5'">P5 Dashboard</button>
+<main class="main-container">
+  <header class="header header-4">
+    <div class="branding">
+      <a class="nav-link" routerLink="/">
+        <span class="title">P5/ML5</span>
+      </a>
+    </div>
 
-    <button [class.selected]="selectedDashboard === 'ml5'"
-            routerLink="/ml5-dashboard"
-            (click)="selectedDashboard = 'ml5'">ML5 Dashboard</button>
+    <div class="header-nav">
+      <a routerLink="/p5-dashboard"
+         routerLinkActive="active"
+         class="nav-link nav-text"
+         (click)="selectDashboard('p5')">P5 Dashboard</a>
+
+      <a routerLink="/ml5-dashboard"
+         routerLinkActive="active"
+         class="nav-link nav-text"
+         (click)="selectDashboard('ml5')">ML5 Dashboard</a>
+    </div>
+    <form class="search">
+      <label for="search-input">
+        <input id="search-input" type="text" placeholder="Search for keywords...">
+      </label>
+    </form>
+  </header>
+
+  <nav class="subnav" *ngIf="selectedLinkRefs">
+    <ul class="nav">
+      <li class="nav-item" *ngFor="let linkRef of selectedLinkRefs">
+        <a class="nav-item" [routerLink]="linkRef.link">{{linkRef.name}}</a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="content-container">
+    <div class="content-area">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 
-  <router-outlet></router-outlet>
 </main>
