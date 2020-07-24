@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core'
 import * as P5 from 'p5'
 import 'p5/lib/addons/p5.sound'
 import {P5Image, P5Sketch} from '../../../shared/interfaces'
@@ -14,9 +14,10 @@ interface ML5 {
   templateUrl: './ml5-sandbox.component.html',
   styleUrls: ['./ml5-sandbox.component.sass']
 })
-export class ML5SandboxComponent implements OnInit {
+export class ML5SandboxComponent implements OnInit, OnDestroy {
   classifier
   img: P5Image
+  canvas
 
   ngOnInit(): void {
     const sketchFn = (s: P5Sketch) => {
@@ -43,8 +44,14 @@ export class ML5SandboxComponent implements OnInit {
       // }
     }
 
-    const canvas = new P5(sketchFn)
+    this.canvas = new P5(sketchFn)
   }
+
+  ngOnDestroy(): void {
+    this.canvas.remove()
+  }
+
+
 
   gotResults(error, results) {
     if (error) {
