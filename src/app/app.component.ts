@@ -1,14 +1,12 @@
-import {Component, OnInit} from '@angular/core'
-import {ActivatedRoute, ActivatedRouteSnapshot, Router} from '@angular/router'
+import {Component} from '@angular/core'
+import {ApplicationService} from './services/application-service/application.service'
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.sass']
 })
-export class AppComponent implements OnInit {
-  selectedDashboard: 'p5' | 'ml5'
-
+export class AppComponent {
   selectedLinkRefs: { link: string, name: string }[]
 
   linkRefs = {
@@ -16,28 +14,15 @@ export class AppComponent implements OnInit {
     ml5: [{link: '/ml5-dashboard', name: 'Dashboard'}, {link: '/ml5-dashboard/ml5-sandbox', name: 'Sandbox'}]
   }
 
-  constructor(private router: Router) {
-
-  }
-
-  ngOnInit(): void {
-    const route = this.router.routerState.snapshot.url
-
-    console.log(this.router)
-    this.router.getCurrentNavigation()
-
-    console.log(this.router)
-
-    if (route.includes('p5-dashboard')) {
-      this.selectDashboard('p5')
-    } else if (route.includes('ml5-dashboard')) {
-      this.selectDashboard('ml5')
-    }
+  constructor(private applicationService: ApplicationService) {
+    applicationService.selectedDashboard$.subscribe(choice => {
+      if (choice) {
+        this.selectedLinkRefs = this.linkRefs[choice]
+      }
+    })
   }
 
   selectDashboard(choice: 'p5' | 'ml5') {
-    console.log('hits this', choice)
-    this.selectedDashboard = choice
-    this.selectedLinkRefs = this.linkRefs[choice]
+    this.applicationService.selectedDashboard$.next(choice)
   }
 }

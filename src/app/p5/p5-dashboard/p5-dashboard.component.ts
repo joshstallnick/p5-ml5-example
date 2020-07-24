@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core'
+import {ApplicationService} from '../../services/application-service/application.service'
 
 @Component({
   selector: 'app-p5-dashboard',
@@ -7,7 +8,8 @@ import {Component, OnInit} from '@angular/core'
 })
 export class P5DashboardComponent implements OnInit {
 
-  constructor() {
+  constructor(private applicationService: ApplicationService) {
+    this.applicationService.selectedDashboard$.next('p5')
   }
 
   ngOnInit(): void {

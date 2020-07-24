@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ApplicationService} from '../../services/application-service/application.service'
 
 @Component({
   selector: 'app-ml5-dashboard',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ML5DashboardComponent implements OnInit {
 
-  constructor() { }
+  constructor(private applicationService: ApplicationService) {
+    this.applicationService.selectedDashboard$.next('ml5')
+  }
 
   ngOnInit(): void {
   }
