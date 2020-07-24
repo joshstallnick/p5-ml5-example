@@ -1,5 +1,6 @@
 import {P5Image} from './p5-image'
 import {Runnable} from '../../types'
+import {P5Color} from './p5-color'
 
 /**
  * Structured to the documentation on the site
@@ -10,7 +11,7 @@ export interface P5Sketch {
 
   // color
   // setting
-  background: (color: number) => any
+  background: BackgroundFn                                                    // https://p5js.org/reference/#/p5/background
 
   // structure
   preload: Runnable                                                           // https://p5js.org/reference/#/p5/preload
@@ -34,6 +35,14 @@ export enum RendererType {
   P2D = 'P2D',
   WEBGL = 'WEBGL'
 }
+
+type BackgroundFn =
+  ((color: P5Color) => void) |
+  ((colorString: string) => void) | ((colorString: string, a: number) => void) |
+  ((gray: number) => void) | ((gray: number, a: number) => void) |
+  ((v1: number, v2: number, v3: number) => void) | ((v1: number, v2: number, v3: number, a: number) => void) |
+  ((values: number[]) => void) |
+  ((image: P5Image) => void) | ((image: P5Image, a: number) => void)
 
 // returns renderer
 type CreateCanvasFn = ((width: number, height: number) => any) | ((width: number, height: number, renderer: RendererType) => any)
