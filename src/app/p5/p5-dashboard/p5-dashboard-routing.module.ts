@@ -5,7 +5,7 @@ import {P5DashboardComponent} from './p5-dashboard.component'
 
 const routes: Routes = [
   {path: '', component: P5DashboardComponent},
-  {path: 'examples', loadChildren: () => import('../p5-example-section/p5-example-section.module').then(m => m.P5ExampleSectionModule)}
+  {path: 'examples', loadChildren: () => import('./p5-example-section/p5-example-section.module').then(m => m.P5ExampleSectionModule)}
 ]
 
 @NgModule({
