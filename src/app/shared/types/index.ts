@@ -1,1 +1,1 @@
-export {Runnable, Supplier, NumberSupplier} from './function.types'
+export * from './function.types'

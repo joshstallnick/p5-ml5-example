@@ -1,4 +1,4 @@
-import {NumberSupplier, Runnable} from '../types'
+import {NumberSupplier, Runnable} from '../../types'
 
 /**
  * https://p5js.org/reference/#/p5.Image
@@ -37,7 +37,7 @@ export interface P5Image {
   delay: DelayFn                                                                    // https://p5js.org/reference/#/p5.Image/delay
 }
 
-enum FilterType {
+export enum FilterType {
   THRESHOLD = 'THRESHOLD',
   GRAY = 'GRAY',
   OPAQUE = 'OPAQUE',
@@ -48,7 +48,7 @@ enum FilterType {
   DILATE = 'DILATE'
 }
 
-enum BlendMode {
+export enum BlendMode {
   BLEND = 'BLEND',
   DARKEST = 'DARKEST',
   LIGHTEST = 'LIGHTEST',

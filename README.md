@@ -1,6 +1,10 @@
-# ML5
+# ML5 Tutorial
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.3.
+
+The NPM packages are available for ML5 and P5 but aren't setup for angular. This will have some common functions and objects for use in Typescript.
+
+`/shared` contains files for these libraries
 
 ## Development server
 
