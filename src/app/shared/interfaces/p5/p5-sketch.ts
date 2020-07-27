@@ -70,6 +70,16 @@ export interface P5Sketch {
   curvePoint: BezierOptionsFn                                                 // https://p5js.org/reference/#/p5/curvePoint
   curveTangent: BezierOptionsFn                                               // https://p5js.org/reference/#/p5/curveTangent
 
+  // vertex
+  beginContour: Runnable                                                      // https://p5js.org/reference/#/p5/beginContour
+  beginShape: BeginShapeFn                                                    // https://p5js.org/reference/#/p5/beginShape
+  bezierVertex: BezierVertexFn                                                // https://p5js.org/reference/#/p5/bezierVertex
+  curveVertexFn: CurveVertexFn                                                // https://p5js.org/reference/#/p5/curveVertex
+  endContour: Runnable                                                        // https://p5js.org/reference/#/p5/endContour
+  endShape: EndShapeFn                                                        // https://p5js.org/reference/#/p5/endShape
+  quadraticVertex: QuadraticVertexFn                                          // https://p5js.org/reference/#/p5/quadraticVertext
+  vertex: VertexFn                                                            // https://p5js.org/reference/#/p5/vertex
+
 
   // structure
   preload: Runnable                                                           // https://p5js.org/reference/#/p5/preload
@@ -262,6 +272,42 @@ export enum JointType {
 
 // curves
 type BezierOptionsFn = (a: number, b: number, c: number, d: number, t: number) => number
+
+// vertex
+export enum ShapeKind {
+  POINTS = 'POINTS',
+  LINES = 'LINES',
+  TRIANGLES = 'TRIANGLES',
+  TRIANGLE_FAN = 'TRIANGLE_FAN',
+  TRIANGLE_STRIP = 'TRIANGLE_STRIP',
+  QUADS = 'QUADS',
+  QUAD_STRIP = 'QUAD_STRIP',
+  TESS = 'TESS'
+}
+
+type BeginShapeFn = ((kind: ShapeKind) => void) & Runnable
+
+type BezierVertexFn =
+  ((x2: number, y2: number, x3: number, y3: number, x4: number, y4: number) => void) &
+  ((x2: number, y2: number, z2: number, x3: number, y3: number, z3: number, x4: number, y4: number, z4: number) => void)
+
+type CurveVertexFn =
+  ((x: number, y: number) => void) &
+  ((x: number, y: number, z: number) => void)
+
+type EndShapeFn = ((mode: 'CLOSE') => void) & Runnable
+
+type QuadraticVertexFn =
+  ((cx: number, cy: number, x3: number, y3: number) => void) &
+  ((cx: number, cy: number, x3: number, y3: number, z3: number) => void)
+
+type VertexFn =
+  ((x: number, y: number) => void) &
+  ((x: number, y: number, z: number) => void) &
+  ((x: number, y: number, z: number, u: number) => void) &
+  ((x: number, y: number, z: number, u: number, v: number) => void) &
+  ((x: number, y: number, z: number, v: number) => void)
+
 
 
 type LoadImageFn =
