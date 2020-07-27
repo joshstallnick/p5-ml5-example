@@ -1,5 +1,8 @@
 export {P5Image, FilterType, BlendMode} from './p5/p5-image'
+export {P5Element} from './p5/p5-element'
+export {P5MediaElement} from './p5/p5-media-element'
 export {P5Sketch} from './p5/p5-sketch'
 export {P5Color} from './p5/p5-color'
 export {P5Renderer} from './p5/p5-renderer'
 export {P5Vector} from './p5/p5-vector'
+export {P5Geometry} from './p5/p5-geometry'

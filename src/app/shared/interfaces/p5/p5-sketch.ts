@@ -1,10 +1,11 @@
 import {P5Image} from './p5-image'
-import {BooleanSupplier, NumberSupplier, ObjectSupplier, Runnable, StringArraySupplier, StringSupplier} from '../../types'
+import {AnyFunction, BooleanSupplier, NumberSupplier, ObjectSupplier, Runnable, StringArraySupplier, StringSupplier} from '../../types'
 import {P5Color} from './p5-color'
 import {P5Element} from './p5-element'
 import {P5Renderer} from './p5-renderer'
 import {P5Vector} from './p5-vector'
 import {P5Geometry} from './p5-geometry'
+import {P5MediaElement} from './p5-media-element'
 
 /**
  * Structured to the documentation on the site
@@ -133,6 +134,31 @@ export interface P5Sketch {
   pop: Runnable                                                               // https://p5js.org/reference/#/p5/pop
   redraw: RedrawFn                                                            // https://p5js.org/reference/#/p5/redraw
   p5: (sketch: P5Sketch, node: string | Node) => any                          // https://p5js.org/reference/#/p5/p5
+
+
+  // DOM
+  select: SelectFn
+  selectAll: SelectAllFn
+  removeElements: Runnable
+  changed: AnyFunction | boolean
+  input: AnyFunction | boolean
+  createDiv: CreateGenericElementFn
+  createP: CreateGenericElementFn
+  createSpan: CreateGenericElementFn
+  createImg: CreateGenericElementFn
+  createA: CreateGenericElementFn
+  createSlider: CreateSliderFn
+  createButton: CreateButtonFn
+  createCheckbox: CreateCheckboxFn
+  createSelect: CreateSelectFn
+  createRadio: CreateRadioFn
+  createColorPicker: CreateColorPickerFn
+  createInput: CreateInputFn
+  createFileInput: CreateFileInputFn
+  createVideo: CreateVideoFn
+  createAudioFn: CreateAudioFn
+  createCapture: CreateCaptureFn
+  createElement: CreateElementFn
 
 
   // rendering
@@ -647,6 +673,75 @@ type PixelDensityConsumer = ((val: number) => void) & Runnable
 
 // STRUCTURE
 type RedrawFn = ((n: number) => void) & Runnable
+
+
+// DOM
+type SelectFn =
+  ((selectors: string) => P5Element) &
+  ((selectors: string, container: string | P5Element | HTMLElement) => P5Element)
+
+type SelectAllFn =
+  ((selectors: string) => P5Element[]) &
+  ((selectors: string, container: string | P5Element | HTMLElement) => P5Element[])
+
+type CreateGenericElementFn = ((html: string) => P5Element) & (() => P5Element)
+
+type CreateSliderFn =
+  ((min: number, max: number) => P5Element) &
+  ((min: number, max: number, value: number) => P5Element) &
+  ((min: number, max: number, value: number, step: number) => P5Element) &
+  ((min: number, max: number, step: number) => P5Element)
+
+type CreateButtonFn =
+  ((label: string) => P5Element) &
+  ((label: string, value: string) => P5Element)
+
+type CreateCheckboxFn =
+  ((label: string) => P5Element) &
+  ((label: string, value: boolean) => P5Element) &
+  ((value: boolean) => P5Element) &
+  Runnable
+
+type CreateSelectFn =
+  ((existing: any) => P5Element) &
+  ((multiple: boolean) => P5Element) &
+  Runnable
+
+type CreateRadioFn =
+  ((containerElement: any) => P5Element) &
+  ((containerElement: any, name: string) => P5Element) &
+  ((name: string) => P5Element) &
+  Runnable
+
+type CreateColorPickerFn = ((value: string | P5Color) => P5Element) & Runnable
+
+type CreateInputFn =
+  ((value: string) => P5Element) &
+  ((value: string, type: string) => P5Element) &
+  Runnable
+
+type CreateFileInputFn =
+  ((callback: AnyFunction) => P5Element) &
+  ((callback: AnyFunction, multiple: boolean) => P5Element)
+
+type CreateVideoFn =
+  ((src: string | string[]) => P5MediaElement) &
+  ((src: string | string[], callback: AnyFunction) => P5MediaElement)
+
+type CreateAudioFn =
+  ((src: string | string[]) => P5MediaElement) &
+  ((src: string | string[], callback: AnyFunction) => P5MediaElement) &
+  ((callback: AnyFunction) => P5MediaElement) &
+  Runnable
+
+type CreateCaptureFn =
+  ((type: 'VIDEO' | 'AUDIO' | string | any) => P5Element) &
+  ((type: 'VIDEO' | 'AUDIO' | string | any, callback: AnyFunction) => P5Element)
+
+type CreateElementFn =
+  ((tag: string) => P5Element) &
+  ((tag: string, content: string) => P5Element)
+
 
 
 type LoadImageFn =
