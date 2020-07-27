@@ -11,6 +11,18 @@ import {P5Element} from './p5-element'
 export interface P5Sketch {
 
   // color
+  // creating & reading
+  alpha: ColorStandardFn                                                      // https://p5js.org/reference/#/p5/alpha
+  blue: ColorStandardFn                                                       // https://p5js.org/reference/#/p5/blue
+  brightness: ColorStandardFn                                                 // https://p5js.org/reference/#/p5/brightness
+  color: ColorFn                                                              // https://p5js.org/reference/#/p5/color
+  green: ColorStandardFn                                                      // https://p5js.org/reference/#/p5/green
+  hue: ColorStandardFn                                                        // https://p5js.org/reference/#/p5/hue
+  lerpColor: (c1: P5Color, c2: P5Color, amp: number) => P5Color               // https://p5js.org/reference/#/p5/lerpColor
+  lightness: ColorStandardFn                                                  // https://p5js.org/reference/#/p5/lightness
+  red: ColorStandardFn                                                        // https://p5js.org/reference/#/p5/red
+  saturation: ColorStandardFn                                                 // https://p5js.org/reference/#/p5/saturation
+
   // setting
   background: BackgroundFn                                                    // https://p5js.org/reference/#/p5/background
 
@@ -37,6 +49,17 @@ export enum RendererType {
   P2D = 'P2D',
   WEBGL = 'WEBGL'
 }
+
+type ColorStandardFn = (color: P5Color | number[] | string) => number
+
+type ColorFn =
+  ((gray: number) => P5Color) &
+  ((gray: number, alpha: number) => P5Color) &
+  ((v1: number, v2: number, v3: number) => P5Color) &
+  ((v1: number, v2: number, v3: number, alpha: number) => P5Color) &
+  ((value: string) => P5Color) &
+  ((values: number[]) => P5Color) &
+  ((color: P5Color) => P5Color)
 
 type BackgroundFn =
   ((color: P5Color) => void) &
