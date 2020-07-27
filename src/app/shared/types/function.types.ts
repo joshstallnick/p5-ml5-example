@@ -8,6 +8,8 @@ export type AnyFunction = Function<any, any>
 
 export type NumberSupplier = () => number
 
+export type NumberArraySupplier = () => number[]
+
 export type StringSupplier = () => string
 
 export type ObjectSupplier = () => object

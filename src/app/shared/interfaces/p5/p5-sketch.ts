@@ -2,6 +2,7 @@ import {P5Image} from './p5-image'
 import {Runnable} from '../../types'
 import {P5Color} from './p5-color'
 import {P5Element} from './p5-element'
+import {P5Renderer} from './p5-renderer'
 
 /**
  * Structured to the documentation on the site
@@ -10,7 +11,7 @@ import {P5Element} from './p5-element'
  */
 export interface P5Sketch {
 
-  // color
+  // COLOR
   // creating & reading
   alpha: ColorStandardFn                                                      // https://p5js.org/reference/#/p5/alpha
   blue: ColorStandardFn                                                       // https://p5js.org/reference/#/p5/blue
@@ -25,6 +26,24 @@ export interface P5Sketch {
 
   // setting
   background: BackgroundFn                                                    // https://p5js.org/reference/#/p5/background
+  clear: Runnable                                                             // https://p5js.org/reference/#/p5/clear
+  colorMode: ColorModeFn                                                      // https://p5js.org/reference/#/p5/colorMode
+  fill: ColorOptionsFn                                                        // https://p5js.org/reference/#/p5/fill
+  noStroke: Runnable                                                          // https://p5js.org/reference/#/p5/noStroke
+  stroke: ColorOptionsFn                                                      // https://p5js.org/reference/#/p5/stroke
+  erase: EraseFn                                                              // https://p5js.org/reference/#/p5/erase
+  noErase: Runnable                                                           // https://p5js.org/reference/#/p5/noErase
+
+
+  // SHAPE
+  // 2d primitives
+  arc: ArcFn
+  ellipse: EllipseFn                                                          // https://p5js.org/reference/#/p5/ellipse
+  circle: (x: number, y: number, d: number) => void
+  line: LineFn
+
+  rect: RectFn                                                                // https://p5js.org/reference/#/p5/rect
+
 
   // structure
   preload: Runnable                                                           // https://p5js.org/reference/#/p5/preload
@@ -34,10 +53,7 @@ export interface P5Sketch {
   // rendering
   createCanvas: CreateCanvasFn                                                // https://p5js.org/reference/#/p5/createCanvas
 
-  // shape
-  // 2d primitives
-  ellipse: EllipseFn                                                          // https://p5js.org/reference/#/p5/ellipse
-  rect: RectFn                                                                // https://p5js.org/reference/#/p5/rect
+
 
   // image
   // loading & displaying
@@ -50,6 +66,10 @@ export enum RendererType {
   WEBGL = 'WEBGL'
 }
 
+
+// SHAPE
+
+// creating & reading fns
 type ColorStandardFn = (color: P5Color | number[] | string) => number
 
 type ColorFn =
@@ -61,6 +81,8 @@ type ColorFn =
   ((values: number[]) => P5Color) &
   ((color: P5Color) => P5Color)
 
+
+// setting fns
 type BackgroundFn =
   ((color: P5Color) => void) &
   ((colorString: string) => void) & ((colorString: string, a: number) => void) &
@@ -69,13 +91,65 @@ type BackgroundFn =
   ((values: number[]) => void) &
   ((image: P5Image) => void) & ((image: P5Image, a: number) => void)
 
-// returns renderer
-type CreateCanvasFn = ((width: number, height: number) => any) & ((width: number, height: number, renderer: RendererType) => any)
+export enum ColorModeType {
+  RGB = 'RGB',
+  HSB = 'HSB',
+  HSL = 'HSL'
+}
+
+type ColorModeFn =
+  ((mode: ColorModeType) => void) &
+  ((mode: ColorModeType, max: number) => void) &
+  ((mode: ColorModeType, max1: number) => void) &
+  ((mode: ColorModeType, max1: number, max2: number) => void) &
+  ((mode: ColorModeType, max1: number, max2: number, max3: number) => void) &
+  ((mode: ColorModeType, max1: number, max2: number, max3: number, maxA: number) => void)
+
+type ColorOptionsFn =
+  ((v1: number, v2: number, v3: number) => void) &
+  ((v1: number, v2: number, v3: number, alpha: number) => void) &
+  ((value: string) => void) &
+  ((gray: number) => void) &
+  ((gray: number, alpha: number) => void) &
+  ((values: number[]) => void) &
+  ((color: P5Color) => void)
+
+type EraseFn =
+  ((strengthFill: number) => void) &
+  ((strengthFill: number, strengthStroke: number) => void) &
+  ((strengthStroke: number) => void)
+
+
+type CreateCanvasFn = ((width: number, height: number) => any) & ((width: number, height: number, renderer: RendererType) => P5Renderer)
+
+
+// SHAPE
+
+// 2d primitives
+enum ArchMode {
+  CHORD = 'CHORD',
+  PIE = 'PIE',
+  OPEN = 'OPEN'
+}
+
+type ArcFn =
+  ((x: number, y: number, w: number, h: number, start: number, stop: number) => void) &
+  ((x: number, y: number, w: number, h: number, start: number, stop: number, mode: ArchMode) => void) &
+  ((x: number, y: number, w: number, h: number, start: number, stop: number, mode: ArchMode, detail: number) => void) &
+  ((x: number, y: number, w: number, h: number, start: number, stop: number, detail: number) => void)
+
 
 type EllipseFn =
   ((x: number, y: number, w: number) => void) &
   ((x: number, y: number, w: number, h: number) => void) &
   ((x: number, y: number, w: number, h: number, detail: number) => void)
+
+type LineFn =
+  ((x1: number, y1: number, x2: number, y2: number) => void) &
+  ((x1: number, y1: number, z1: number, x2: number, y2: number, z2: number) => void)
+
+// type: PointFn =
+//   ((x: number, y: number))
 
 type RectFn =
   ((x: number, y: number, w: number) => void) &
