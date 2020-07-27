@@ -3,6 +3,7 @@ import {Runnable} from '../../types'
 import {P5Color} from './p5-color'
 import {P5Element} from './p5-element'
 import {P5Renderer} from './p5-renderer'
+import {P5Vector} from './p5-vector'
 
 /**
  * Structured to the documentation on the site
@@ -37,12 +38,17 @@ export interface P5Sketch {
 
   // SHAPE
   // 2d primitives
-  arc: ArcFn
+  arc: ArcFn                                                                  // https://p5js.org/reference/#/p5/arc
   ellipse: EllipseFn                                                          // https://p5js.org/reference/#/p5/ellipse
-  circle: (x: number, y: number, d: number) => void
-  line: LineFn
-
+  circle: (x: number, y: number, d: number) => void                           // https://p5js.org/reference/#/p5/circle
+  line: LineFn                                                                // https://p5js.org/reference/#/p5/line
+  point: PointFn                                                              // https://p5js.org/reference/#/p5/point
+  quad: QuadFn                                                                // https://p5js.org/reference/#/p5/quad
   rect: RectFn                                                                // https://p5js.org/reference/#/p5/rect
+  square: SquareFn                                                            // https://p5js.org/reference/#/p5/square
+  triangle: (x1: number, y1: number,                                          // https://p5js.org/reference/#/p5/triangle
+             x2: number, y2: number,
+             x3: number, y3: number) => void
 
 
   // structure
@@ -148,8 +154,18 @@ type LineFn =
   ((x1: number, y1: number, x2: number, y2: number) => void) &
   ((x1: number, y1: number, z1: number, x2: number, y2: number, z2: number) => void)
 
-// type: PointFn =
-//   ((x: number, y: number))
+type PointFn =
+  ((x: number, y: number) => void) &
+  ((x: number, y: number, z: number) => void) &
+  ((coordinateVector: P5Vector) => void)
+
+type QuadFn =
+  ((x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number) => void) &
+  ((
+    x1: number, y1: number, z1: number,
+    x2: number, y2: number, z2: number,
+    x3: number, y3: number, z3: number,
+    x4: number, y4: number, z4: number) => void)
 
 type RectFn =
   ((x: number, y: number, w: number) => void) &
@@ -186,6 +202,24 @@ type RectFn =
   ((x: number, y: number, w: number, h: number, detailX: number) => void) &
   ((x: number, y: number, w: number, h: number, detailX: number, detailY: number) => void) &
   ((x: number, y: number, w: number, h: number, detailY: number) => void)
+
+type SquareFn =
+  ((x: number, y: number, s: number) => void) &
+  ((x: number, y: number, s: number, tl: number) => void) &
+  ((x: number, y: number, s: number, tl: number, tr: number) => void) &
+  ((x: number, y: number, s: number, tl: number, tr: number, br: number) => void) &
+  ((x: number, y: number, s: number, tl: number, tr: number, br: number, bl: number) => void) &
+  ((x: number, y: number, s: number, tl: number, tr: number, bl: number) => void) &
+  ((x: number, y: number, s: number, tl: number, br: number) => void) &
+  ((x: number, y: number, s: number, tl: number, br: number, bl: number) => void) &
+  ((x: number, y: number, s: number, tl: number, bl: number) => void) &
+  ((x: number, y: number, s: number, tr: number) => void) &
+  ((x: number, y: number, s: number, tr: number, br: number) => void) &
+  ((x: number, y: number, s: number, tr: number, br: number, bl: number) => void) &
+  ((x: number, y: number, s: number, tr: number, bl: number) => void) &
+  ((x: number, y: number, s: number, br: number) => void) &
+  ((x: number, y: number, s: number, br: number, bl: number) => void) &
+  ((x: number, y: number, s: number, bl: number) => void)
 
 
 type LoadImageFn =
