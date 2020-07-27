@@ -43,12 +43,32 @@ export interface P5Sketch {
   circle: (x: number, y: number, d: number) => void                           // https://p5js.org/reference/#/p5/circle
   line: LineFn                                                                // https://p5js.org/reference/#/p5/line
   point: PointFn                                                              // https://p5js.org/reference/#/p5/point
-  quad: QuadFn                                                                // https://p5js.org/reference/#/p5/quad
+  quad: QuadBezierFn                                                                // https://p5js.org/reference/#/p5/quad
   rect: RectFn                                                                // https://p5js.org/reference/#/p5/rect
   square: SquareFn                                                            // https://p5js.org/reference/#/p5/square
   triangle: (x1: number, y1: number,                                          // https://p5js.org/reference/#/p5/triangle
              x2: number, y2: number,
              x3: number, y3: number) => void
+
+  // attributes
+  ellipseMode: (mode: LocationMode) => void                                   // https://p5js.org/reference/#/p5/ellipseMode
+  noSmooth: Runnable                                                          // https://p5js.org/reference/#/p5/noSmooth
+  rectMode: (mode: LocationMode) => void                                      // https://p5js.org/reference/#/p5/rectMode
+  smooth: Runnable                                                            // https://p5js.org/reference/#/p5/smooth
+  strokeCap: (cap: CapType) => void                                           // https://p5js.org/reference/#/p5/strokeCap
+  strokeJoin: (join: JointType) => void                                       // https://p5js.org/reference/#/p5/strokeJoin
+  strokeWeight: (weight: number) => void                                      // https://p5js.org/reference/#/p5/strokeWeight
+
+  // curves
+  bezier: QuadBezierFn                                                        // https://p5js.org/reference/#/p5/bezier
+  bezierDetail: (detail: number) => void                                      // https://p5js.org/reference/#/p5/bezierDetail
+  bezierPoint: BezierOptionsFn                                                // https://p5js.org/reference/#/p5/bezierPoint
+  bezierTangent: BezierOptionsFn                                              // https://p5js.org/reference/#/p5/bezierTangent
+  curve: QuadBezierFn                                                         // https://p5js.org/reference/#/p5/curve
+  curveDetail: (resolution: number) => void                                   // https://p5js.org/reference/#/p5/curveDetail
+  curveTightness: (amount: number) => void                                    // https://p5js.org/reference/#/p5/curveTightness
+  curvePoint: BezierOptionsFn                                                 // https://p5js.org/reference/#/p5/curvePoint
+  curveTangent: BezierOptionsFn                                               // https://p5js.org/reference/#/p5/curveTangent
 
 
   // structure
@@ -72,6 +92,13 @@ export enum RendererType {
   WEBGL = 'WEBGL'
 }
 
+type QuadBezierFn =
+  ((x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number) => void) &
+  ((
+    x1: number, y1: number, z1: number,
+    x2: number, y2: number, z2: number,
+    x3: number, y3: number, z3: number,
+    x4: number, y4: number, z4: number) => void)
 
 // SHAPE
 
@@ -97,19 +124,19 @@ type BackgroundFn =
   ((values: number[]) => void) &
   ((image: P5Image) => void) & ((image: P5Image, a: number) => void)
 
-export enum ColorModeType {
+export enum ColorMode {
   RGB = 'RGB',
   HSB = 'HSB',
   HSL = 'HSL'
 }
 
 type ColorModeFn =
-  ((mode: ColorModeType) => void) &
-  ((mode: ColorModeType, max: number) => void) &
-  ((mode: ColorModeType, max1: number) => void) &
-  ((mode: ColorModeType, max1: number, max2: number) => void) &
-  ((mode: ColorModeType, max1: number, max2: number, max3: number) => void) &
-  ((mode: ColorModeType, max1: number, max2: number, max3: number, maxA: number) => void)
+  ((mode: ColorMode) => void) &
+  ((mode: ColorMode, max: number) => void) &
+  ((mode: ColorMode, max1: number) => void) &
+  ((mode: ColorMode, max1: number, max2: number) => void) &
+  ((mode: ColorMode, max1: number, max2: number, max3: number) => void) &
+  ((mode: ColorMode, max1: number, max2: number, max3: number, maxA: number) => void)
 
 type ColorOptionsFn =
   ((v1: number, v2: number, v3: number) => void) &
@@ -132,7 +159,7 @@ type CreateCanvasFn = ((width: number, height: number) => any) & ((width: number
 // SHAPE
 
 // 2d primitives
-enum ArchMode {
+export enum ArchMode {
   CHORD = 'CHORD',
   PIE = 'PIE',
   OPEN = 'OPEN'
@@ -158,14 +185,6 @@ type PointFn =
   ((x: number, y: number) => void) &
   ((x: number, y: number, z: number) => void) &
   ((coordinateVector: P5Vector) => void)
-
-type QuadFn =
-  ((x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number) => void) &
-  ((
-    x1: number, y1: number, z1: number,
-    x2: number, y2: number, z2: number,
-    x3: number, y3: number, z3: number,
-    x4: number, y4: number, z4: number) => void)
 
 type RectFn =
   ((x: number, y: number, w: number) => void) &
@@ -220,6 +239,29 @@ type SquareFn =
   ((x: number, y: number, s: number, br: number) => void) &
   ((x: number, y: number, s: number, br: number, bl: number) => void) &
   ((x: number, y: number, s: number, bl: number) => void)
+
+// attributes
+export enum LocationMode {
+  CENTER = 'CENTER',
+  RADIUS = 'RADIUS',
+  CORNER = 'CORNER',
+  CORNERS = 'CORNERS'
+}
+
+export enum CapType {
+  ROUND = 'ROUND',
+  SQUARE = 'SQUARE',
+  PROJECT = 'PROJECT'
+}
+
+export enum JointType {
+  MITER = 'MITER',
+  BEVEL = 'BEVEL',
+  ROUND = 'ROUND'
+}
+
+// curves
+type BezierOptionsFn = (a: number, b: number, c: number, d: number, t: number) => number
 
 
 type LoadImageFn =
