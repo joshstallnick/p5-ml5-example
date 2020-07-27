@@ -118,10 +118,22 @@ export interface P5Sketch {
   getURLPath: StringArraySupplier                                             // https://p5js.org/reference/#/p5/getURLPath
   getURLParams: ObjectSupplier                                                // https://p5js.org/reference/#/p5/getURLParams
 
-  // structure
+
+  // STRUCTURE
+  displayFriendlyErrors: boolean                                              // https://p5js.org/reference/#/p5/displayFriendlyErrors
+
   preload: Runnable                                                           // https://p5js.org/reference/#/p5/preload
   setup: Runnable                                                             // https://p5js.org/reference/#/p5/setup
   draw: Runnable                                                              // https://p5js.org/reference/#/p5/draw
+  remove: Runnable                                                            // https://p5js.org/reference/#/p5/remove
+  noLoop: Runnable                                                            // https://p5js.org/reference/#/p5/noLoop
+  loop: Runnable                                                              // https://p5js.org/reference/#/p5/loop
+  isLooping: BooleanSupplier                                                  // https://p5js.org/reference/#/p5/isLooping
+  push: Runnable                                                              // https://p5js.org/reference/#/p5/push
+  pop: Runnable                                                               // https://p5js.org/reference/#/p5/pop
+  redraw: RedrawFn                                                            // https://p5js.org/reference/#/p5/redraw
+  p5: (sketch: P5Sketch, node: string | Node) => any                          // https://p5js.org/reference/#/p5/p5
+
 
   // rendering
   createCanvas: CreateCanvasFn                                                // https://p5js.org/reference/#/p5/createCanvas
@@ -632,6 +644,9 @@ type FullscreenFn = ((val: boolean) => boolean) & BooleanSupplier
 
 type PixelDensityConsumer = ((val: number) => void) & Runnable
 
+
+// STRUCTURE
+type RedrawFn = ((n: number) => void) & Runnable
 
 
 type LoadImageFn =
