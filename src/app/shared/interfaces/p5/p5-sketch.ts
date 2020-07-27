@@ -1,4 +1,4 @@
-import {P5Image} from './p5-image'
+import {BlendMode, P5Image} from './p5-image'
 import {AnyFunction, BooleanSupplier, NumberSupplier, ObjectSupplier, Runnable, StringArraySupplier, StringSupplier} from '../../types'
 import {P5Color} from './p5-color'
 import {P5Element} from './p5-element'
@@ -6,6 +6,7 @@ import {P5Renderer} from './p5-renderer'
 import {P5Vector} from './p5-vector'
 import {P5Geometry} from './p5-geometry'
 import {P5MediaElement} from './p5-media-element'
+import {P5Graphics} from './p5-graphics'
 
 /**
  * Structured to the documentation on the site
@@ -161,9 +162,15 @@ export interface P5Sketch {
   createElement: CreateElementFn
 
 
-  // rendering
-  createCanvas: CreateCanvasFn                                                // https://p5js.org/reference/#/p5/createCanvas
+  // RENDERING
+  drawingContext: any
 
+  createCanvas: CreateCanvasFn                                                // https://p5js.org/reference/#/p5/createCanvas
+  resizeCanvas: ResizeCanvasConsumer
+  noCanvas: Runnable
+  createGraphics: CreateGraphicsFn
+  blendMode: (mode: BlendMode) => void
+  setAttributes: SetAttributeConsumer
 
 
   // image
@@ -236,9 +243,6 @@ type EraseFn =
   ((strengthFill: number) => void) &
   ((strengthFill: number, strengthStroke: number) => void) &
   ((strengthStroke: number) => void)
-
-
-type CreateCanvasFn = ((width: number, height: number) => any) & ((width: number, height: number, renderer: RendererType) => P5Renderer)
 
 
 // SHAPE
@@ -742,6 +746,16 @@ type CreateElementFn =
   ((tag: string) => P5Element) &
   ((tag: string, content: string) => P5Element)
 
+
+// RENDERING
+
+type CreateCanvasFn = ((width: number, height: number) => any) & ((width: number, height: number, renderer: RendererType) => P5Renderer)
+
+type ResizeCanvasConsumer = ((w: number, h: number) => void) & ((w: number, h: number, noRedraw: boolean) => void)
+
+type CreateGraphicsFn = ((w: number, h: number) => P5Graphics) & ((w: number, h: number, renderer: RendererType) => P5Graphics)
+
+type SetAttributeConsumer = ((key: string, value: boolean) => void) & ((obj: object) => void)
 
 
 type LoadImageFn =
