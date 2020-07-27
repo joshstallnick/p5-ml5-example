@@ -80,6 +80,15 @@ export interface P5Sketch {
   quadraticVertex: QuadraticVertexFn                                          // https://p5js.org/reference/#/p5/quadraticVertext
   vertex: VertexFn                                                            // https://p5js.org/reference/#/p5/vertex
 
+  // 3d primitives
+  plane: PlaneConsumer                                                        // https://p5js.org/reference/#/p5/plane
+  box: BoxConsumer                                                            // https://p5js.org/reference/#/p5/box
+  sphere: SphereConsumer                                                      // https://p5js.org/reference/#/p5/sphere
+  cylinder: CylinderConsumer                                                  // https://p5js.org/reference/#/p5/cylinder
+  cone: ConeConsumer                                                          // https://p5js.org/reference/#/p5/cone
+  ellipsoid: EllipsoidConsumer                                                // https://p5js.org/reference/#/p5/ellipsoid
+  torus: TorusConsumer                                                        // https://p5js.org/reference/#/p5/torus
+
 
   // structure
   preload: Runnable                                                           // https://p5js.org/reference/#/p5/preload
@@ -308,6 +317,244 @@ type VertexFn =
   ((x: number, y: number, z: number, u: number, v: number) => void) &
   ((x: number, y: number, z: number, v: number) => void)
 
+
+// 3d primitives
+type PlaneConsumer =
+  ((width: number) => void) &
+  ((width: number, height: number) => void) &
+  ((width: number, height: number, detailX: number) => void) &
+  ((width: number, height: number, detailX: number, detailY: number) => void) &
+  ((width: number, height: number, detailY: number) => void) &
+  ((width: number, detailX: number) => void) &
+  ((width: number, detailX: number, detailY: number) => void) &
+  ((width: number, detailY: number) => void) &
+
+  ((height: number) => void) &
+  ((height: number, detailX: number) => void) &
+  ((height: number, detailX: number, detailY: number) => void) &
+  ((height: number, detailY: number) => void) &
+
+  ((detailX: number) => void) &
+  ((detailX: number, detailY: number) => void) &
+
+  ((detailY: number) => void) &
+  Runnable
+
+type BoxConsumer =
+  ((width: number) => void) &
+  ((width: number, height: number) => void) &
+  ((width: number, height: number, depth: number) => void) &
+  ((width: number, height: number, depth: number, detailX: number) => void) &
+  ((width: number, height: number, depth: number, detailX: number, detailY: number) => void) &
+  ((width: number, height: number, depth: number, detailY: number) => void) &
+  ((width: number, height: number, detailX: number) => void) &
+  ((width: number, height: number, detailX: number, detailY: number) => void) &
+  ((width: number, height: number, detailY: number) => void) &
+
+  ((width: number, depth: number) => void) &
+  ((width: number, depth: number, detailX: number) => void) &
+  ((width: number, depth: number, detailX: number, detailY: number) => void) &
+  ((width: number, depth: number, detailY: number) => void) &
+  ((width: number, detailX: number) => void) &
+  ((width: number, detailX: number, detailY: number) => void) &
+  ((width: number, detailY: number) => void) &
+
+  ((height: number) => void) &
+  ((height: number, depth: number) => void) &
+  ((height: number, depth: number, detailX: number) => void) &
+  ((height: number, depth: number, detailX: number, detailY: number) => void) &
+  ((height: number, depth: number, detailY: number) => void) &
+  ((height: number, detailX: number) => void) &
+  ((height: number, detailX: number, detailY: number) => void) &
+  ((height: number, detailY: number) => void) &
+
+  ((depth: number) => void) &
+  ((depth: number, detailX: number) => void) &
+  ((depth: number, detailX: number, detailY: number) => void) &
+  ((depth: number, detailY: number) => void) &
+
+  ((detailX: number) => void) &
+  ((detailX: number, detailY: number) => void) &
+
+  ((detailY: number) => void) &
+  Runnable
+
+type SphereConsumer =
+  ((radius: number) => void) &
+  ((radius: number, detailX: number) => void) &
+  ((radius: number, detailX: number, detailY: number) => void) &
+  ((radius: number, detailY: number) => void) &
+
+  ((detailX: number) => void) &
+  ((detailX: number, detailY: number) => void) &
+
+  ((detailY: number) => void) &
+  Runnable
+
+type CylinderConsumer =
+  ((radius: number) => void) &
+  ((radius: number, height: number) => void) &
+  ((radius: number, height: number, detailX: number) => void) &
+  ((radius: number, height: number, detailX: number, detailY: number) => void) &
+  ((radius: number, height: number, detailX: number, detailY: number, bottomCap: number) => void) &
+  ((radius: number, height: number, detailX: number, detailY: number, bottomCap: number, topCap: number) => void) &
+  ((radius: number, height: number, detailX: number, detailY: number, topCap: number) => void) &
+  ((radius: number, height: number, detailX: number, bottomCap: number) => void) &
+  ((radius: number, height: number, detailX: number, bottomCap: number, topCap: number) => void) &
+  ((radius: number, height: number, detailX: number, topCap: number) => void) &
+  ((radius: number, height: number, detailY: number) => void) &
+  ((radius: number, height: number, detailY: number, bottomCap: number) => void) &
+  ((radius: number, height: number, detailY: number, bottomCap: number, topCap: number) => void) &
+  ((radius: number, height: number, detailY: number, topCap: number) => void) &
+  ((radius: number, detailX: number) => void) &
+  ((radius: number, detailX: number, detailY: number) => void) &
+  ((radius: number, detailX: number, detailY: number, bottomCap: number) => void) &
+  ((radius: number, detailX: number, detailY: number, bottomCap: number, topCap: number) => void) &
+  ((radius: number, detailX: number, bottomCap: number) => void) &
+  ((radius: number, detailX: number, bottomCap: number, topCap: number) => void) &
+  ((radius: number, detailX: number, topCap: number) => void) &
+  ((radius: number, detailY: number) => void) &
+  ((radius: number, detailY: number, bottomCap: number) => void) &
+  ((radius: number, detailY: number, bottomCap: number, topCap: number) => void) &
+  ((radius: number, detailY: number, topCap: number) => void) &
+  ((radius: number, bottomCap: number) => void) &
+  ((radius: number, bottomCap: number, topCap: number) => void) &
+  ((radius: number, topCap: number) => void) &
+
+  ((height: number) => void) &
+  ((height: number, detailX: number) => void) &
+  ((height: number, detailX: number, detailY: number) => void) &
+  ((height: number, detailX: number, detailY: number, bottomCap: number) => void) &
+  ((height: number, detailX: number, detailY: number, bottomCap: number, topCap: number) => void) &
+  ((height: number, detailX: number, detailY: number, topCap: number) => void) &
+  ((height: number, detailX: number, bottomCap: number) => void) &
+  ((height: number, detailX: number, bottomCap: number, topCap: number) => void) &
+  ((height: number, detailY: number) => void) &
+  ((height: number, detailY: number, bottomCap: number) => void) &
+  ((height: number, detailY: number, bottomCap: number, topCap: number) => void) &
+  ((height: number, detailY: number, topCap: number) => void) &
+  ((height: number, bottomCap: number) => void) &
+  ((height: number, bottomCap: number, topCap: number) => void) &
+  ((height: number, topCap: number) => void) &
+
+  ((detailX: number) => void) &
+  ((detailX: number, detailY: number) => void) &
+  ((detailX: number, detailY: number, bottomCap: number) => void) &
+  ((detailX: number, detailY: number, bottomCap: number, topCap: number) => void) &
+  ((detailX: number, detailY: number, topCap: number) => void) &
+  ((detailX: number, bottomCap: number) => void) &
+  ((detailX: number, bottomCap: number, topCap: number) => void) &
+  ((detailX: number, topCap: number) => void) &
+
+  ((detailY: number) => void) &
+  ((detailY: number, bottomCap: number) => void) &
+  ((detailY: number, bottomCap: number, topCap: number) => void) &
+  ((detailY: number, topCap: number) => void) &
+
+  ((bottomCap: number) => void) &
+  ((bottomCap: number, topCap: number) => void) &
+
+  ((topCap: number) => void) &
+  Runnable
+
+type ConeConsumer =
+  ((radius: number) => void) &
+  ((radius: number, height: number) => void) &
+  ((radius: number, height: number, detailX: number) => void) &
+  ((radius: number, height: number, detailX: number, detailY: number) => void) &
+  ((radius: number, height: number, detailX: number, detailY: number, cap: number) => void) &
+  ((radius: number, height: number, detailX: number, cap: number) => void) &
+  ((radius: number, height: number, detailY: number) => void) &
+  ((radius: number, height: number, detailY: number, cap: number) => void) &
+  ((radius: number, height: number, cap: number) => void) &
+
+  ((radius: number, detailX: number) => void) &
+  ((radius: number, detailX: number, detailY: number) => void) &
+  ((radius: number, detailX: number, detailY: number, cap: number) => void) &
+  ((radius: number, detailX: number, cap: number) => void) &
+  ((radius: number, detailY: number) => void) &
+  ((radius: number, detailY: number, cap: number) => void) &
+  ((radius: number, cap: number) => void) &
+
+  ((height: number) => void) &
+  ((height: number, detailX: number) => void) &
+  ((height: number, detailX: number, detailY: number) => void) &
+  ((height: number, detailX: number, detailY: number, cap: number) => void) &
+  ((height: number, detailX: number, cap: number) => void) &
+  ((height: number, detailY: number) => void) &
+  ((height: number, detailY: number, cap: number) => void) &
+  ((height: number, cap: number) => void) &
+
+  ((detailX: number) => void) &
+  ((detailX: number, detailY: number) => void) &
+  ((detailX: number, detailY: number, cap: number) => void) &
+  ((detailX: number, cap: number) => void) &
+
+  ((detailY: number) => void) &
+  ((detailY: number, cap: number) => void) &
+
+  ((cap: number) => void) &
+  Runnable
+
+type EllipsoidConsumer =
+  ((radiusx: number) => void) &
+  ((radiusx: number, radiusy: number) => void) &
+  ((radiusx: number, radiusy: number, radiusz: number) => void) &
+  ((radiusx: number, radiusy: number, radiusz: number, detailX: number) => void) &
+  ((radiusx: number, radiusy: number, radiusz: number, detailX: number, detailY: number) => void) &
+  ((radiusx: number, radiusy: number, radiusz: number, detailY: number) => void) &
+  ((radiusx: number, radiusy: number, detailX: number) => void) &
+  ((radiusx: number, radiusy: number, detailX: number, detailY: number) => void) &
+  ((radiusx: number, radiusy: number, detailY: number) => void) &
+
+  ((radiusx: number, radiusz: number) => void) &
+  ((radiusx: number, radiusz: number, detailX: number) => void) &
+  ((radiusx: number, radiusz: number, detailX: number, detailY: number) => void) &
+  ((radiusx: number, radiusz: number, detailY: number) => void) &
+  ((radiusx: number, detailX: number) => void) &
+  ((radiusx: number, detailX: number, detailY: number) => void) &
+  ((radiusx: number, detailY: number) => void) &
+
+  ((radiusy: number) => void) &
+  ((radiusy: number, radiusz: number) => void) &
+  ((radiusy: number, radiusz: number, detailX: number) => void) &
+  ((radiusy: number, radiusz: number, detailX: number, detailY: number) => void) &
+  ((radiusy: number, radiusz: number, detailY: number) => void) &
+  ((radiusy: number, detailX: number) => void) &
+  ((radiusy: number, detailX: number, detailY: number) => void) &
+  ((radiusy: number, detailY: number) => void) &
+
+  ((radiusz: number) => void) &
+  ((radiusz: number, detailX: number) => void) &
+  ((radiusz: number, detailX: number, detailY: number) => void) &
+  ((radiusz: number, detailY: number) => void) &
+
+  ((detailX: number) => void) &
+  ((detailX: number, detailY: number) => void) &
+
+  ((detailY: number) => void) &
+  Runnable
+
+type TorusConsumer =
+  ((radius: number) => void) &
+  ((radius: number, tubeRadius: number) => void) &
+  ((radius: number, tubeRadius: number, detailX: number) => void) &
+  ((radius: number, tubeRadius: number, detailX: number, detailY: number) => void) &
+  ((radius: number, tubeRadius: number, detailY: number) => void) &
+  ((radius: number, detailX: number) => void) &
+  ((radius: number, detailX: number, detailY: number) => void) &
+  ((radius: number, detailY: number) => void) &
+
+  ((tubeRadius: number) => void) &
+  ((tubeRadius: number, detailX: number) => void) &
+  ((tubeRadius: number, detailX: number, detailY: number) => void) &
+  ((tubeRadius: number, detailY: number) => void) &
+
+  ((detailX: number) => void) &
+  ((detailX: number, detailY: number) => void) &
+
+  ((detailY: number) => void) &
+  Runnable
 
 
 type LoadImageFn =
