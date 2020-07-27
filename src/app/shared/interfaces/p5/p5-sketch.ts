@@ -4,6 +4,7 @@ import {P5Color} from './p5-color'
 import {P5Element} from './p5-element'
 import {P5Renderer} from './p5-renderer'
 import {P5Vector} from './p5-vector'
+import {P5Geometry} from './p5-geometry'
 
 /**
  * Structured to the documentation on the site
@@ -89,6 +90,9 @@ export interface P5Sketch {
   ellipsoid: EllipsoidConsumer                                                // https://p5js.org/reference/#/p5/ellipsoid
   torus: TorusConsumer                                                        // https://p5js.org/reference/#/p5/torus
 
+  // 3d models
+  loadModel: LoadModelFn                                                      // https://p5js.org/reference/#/p5/loadModel
+  model: (model: P5Geometry) => void                                          // https://p5js.org/reference/#/p5/model
 
   // structure
   preload: Runnable                                                           // https://p5js.org/reference/#/p5/preload
@@ -555,6 +559,32 @@ type TorusConsumer =
 
   ((detailY: number) => void) &
   Runnable
+
+
+// 3d models
+type SuccessCallback = (model: P5Geometry) => any
+type FailureCallback = (event: any) => any
+type ModelFileType = '.stl' | '.obj'
+
+type LoadModelFn =
+  ((path: string, normalize: boolean) => P5Geometry) &
+  ((path: string, normalize: boolean, successCallback: SuccessCallback) => P5Geometry) &
+  ((path: string, normalize: boolean, successCallback: SuccessCallback, failureCallback: FailureCallback) => P5Geometry) &
+  ((path: string, normalize: boolean, successCallback: SuccessCallback, fileType: ModelFileType) => P5Geometry) &
+  ((path: string, normalize: boolean,
+    successCallback: SuccessCallback, failureCallback: FailureCallback, fileType: ModelFileType) => P5Geometry) &
+  ((path: string, normalize: boolean, failureCallback: FailureCallback) => P5Geometry) &
+  ((path: string, normalize: boolean, failureCallback: FailureCallback, fileType: ModelFileType) => P5Geometry) &
+  ((path: string, normalize: boolean, fileType: ModelFileType) => P5Geometry) &
+  ((path: string) => P5Geometry) &
+  ((path: string, successCallback: SuccessCallback) => P5Geometry) &
+  ((path: string, successCallback: SuccessCallback, failureCallback: FailureCallback) => P5Geometry) &
+  ((path: string, successCallback: SuccessCallback, failureCallback: FailureCallback, fileType: ModelFileType) => P5Geometry) &
+  ((path: string, successCallback: SuccessCallback, fileType: ModelFileType) => P5Geometry) &
+  ((path: string, failureCallback: FailureCallback) => P5Geometry) &
+  ((path: string, failureCallback: FailureCallback, fileType: ModelFileType) => P5Geometry) &
+  ((path: string, fileType: ModelFileType) => P5Geometry)
+
 
 
 type LoadImageFn =
