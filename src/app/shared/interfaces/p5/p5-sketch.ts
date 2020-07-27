@@ -1,5 +1,5 @@
 import {P5Image} from './p5-image'
-import {Runnable} from '../../types'
+import {BooleanSupplier, NumberSupplier, ObjectSupplier, Runnable, StringArraySupplier, StringSupplier} from '../../types'
 import {P5Color} from './p5-color'
 import {P5Element} from './p5-element'
 import {P5Renderer} from './p5-renderer'
@@ -93,6 +93,30 @@ export interface P5Sketch {
   // 3d models
   loadModel: LoadModelFn                                                      // https://p5js.org/reference/#/p5/loadModel
   model: (model: P5Geometry) => void                                          // https://p5js.org/reference/#/p5/model
+
+
+  // ENVIRONMENT
+  frameCount: number                                                          // https://p5js.org/reference/#/p5/frameCount
+  deltaTime: number                                                           // https://p5js.org/reference/#/p5/deltaTime
+  focused: boolean                                                            // https://p5js.org/reference/#/p5/focused
+  displayWidth: number                                                        // https://p5js.org/reference/#/p5/displayWidth
+  displayHeight: number                                                       // https://p5js.org/reference/#/p5/displayHeight
+  windowWidth: number                                                         // https://p5js.org/reference/#/p5/windowWidth
+  windowHeight: number                                                        // https://p5js.org/reference/#/p5/windowHeight
+  width: number                                                               // https://p5js.org/reference/#/p5/width
+  height: number                                                              // https://p5js.org/reference/#/p5/height
+
+  print: (contents: any) => void                                              // https://p5js.org/reference/#/p5/print
+  cursor: CursorConsumer                                                      // https://p5js.org/reference/#/p5/cursor
+  frameRate: FrameRateConsumer                                                // https://p5js.org/reference/#/p5/frameRate
+  noCursor: Runnable                                                          // https://p5js.org/reference/#/p5/noCursor
+  windowResized: Runnable                                                     // https://p5js.org/reference/#/p5/windowResized
+  fullscreen: FullscreenFn                                                    // https://p5js.org/reference/#/p5/fullscreen
+  pixelDensity: PixelDensityConsumer                                          // https://p5js.org/reference/#/p5/pixelDensity
+  displayDensity: NumberSupplier                                              // https://p5js.org/reference/#/p5/displayDensity
+  getURL: StringSupplier                                                      // https://p5js.org/reference/#/p5/getURL
+  getURLPath: StringArraySupplier                                             // https://p5js.org/reference/#/p5/getURLPath
+  getURLParams: ObjectSupplier                                                // https://p5js.org/reference/#/p5/getURLParams
 
   // structure
   preload: Runnable                                                           // https://p5js.org/reference/#/p5/preload
@@ -584,6 +608,29 @@ type LoadModelFn =
   ((path: string, failureCallback: FailureCallback) => P5Geometry) &
   ((path: string, failureCallback: FailureCallback, fileType: ModelFileType) => P5Geometry) &
   ((path: string, fileType: ModelFileType) => P5Geometry)
+
+
+// ENVIRONMENT
+export enum CursorType {
+  ARROW = 'ARROW',
+  CROSS = 'CROSS',
+  HAND = 'HAND',
+  MOVE = 'MOVE',
+  TEXT = 'TEXT',
+  WAIT = 'WAIT'
+}
+
+type CursorConsumer =
+  ((type: string | CursorType) => void) &
+  ((type: string | CursorType, x: number) => void) &
+  ((type: string | CursorType, x: number, y: number) => void) &
+  ((type: string | CursorType, y: number) => void)
+
+type FrameRateConsumer = (fps: number) => void & Runnable
+
+type FullscreenFn = ((val: boolean) => boolean) & BooleanSupplier
+
+type PixelDensityConsumer = ((val: number) => void) & Runnable
 
 
 

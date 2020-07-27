@@ -6,12 +6,18 @@ export type Function<T, U> = (T) => U
 
 export type AnyFunction = Function<any, any>
 
+export type ArraySupplier<T> = () => T[]
+
+export type BooleanSupplier = () => boolean
+
 export type NumberSupplier = () => number
 
-export type NumberArraySupplier = () => number[]
+export type NumberArraySupplier = ArraySupplier<number>
 
 export type StringSupplier = () => string
 
+export type StringArraySupplier = ArraySupplier<string>
+
 export type ObjectSupplier = () => object
 
-export type NodeArraySupplier = () => Node[]
+export type NodeArraySupplier = ArraySupplier<Node>
