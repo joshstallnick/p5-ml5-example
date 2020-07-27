@@ -24,6 +24,7 @@ export interface P5Sketch {
 
   // shape
   // 2d primitives
+  ellipse: EllipseFn                                                          // https://p5js.org/reference/#/p5/ellipse
   rect: RectFn                                                                // https://p5js.org/reference/#/p5/rect
 
   // image
@@ -47,6 +48,11 @@ type BackgroundFn =
 
 // returns renderer
 type CreateCanvasFn = ((width: number, height: number) => any) & ((width: number, height: number, renderer: RendererType) => any)
+
+type EllipseFn =
+  ((x: number, y: number, w: number) => void) &
+  ((x: number, y: number, w: number, h: number) => void) &
+  ((x: number, y: number, w: number, h: number, detail: number) => void)
 
 type RectFn =
   ((x: number, y: number, w: number) => void) &

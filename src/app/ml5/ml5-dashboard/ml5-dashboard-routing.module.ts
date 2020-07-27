@@ -6,7 +6,7 @@ import {ML5DashboardComponent} from './ml5-dashboard.component'
 const routes: Routes = [
   {path: '', component: ML5DashboardComponent},
   {
-    path: 'ml5-sandbox',
+    path: 'sandbox',
     loadChildren: () => import('./ml5-sandbox/ml5-sandbox.module').then(m => m.ML5SandboxModule)
   }
 ]

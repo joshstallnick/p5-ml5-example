@@ -10,8 +10,8 @@ export class AppComponent {
   selectedLinkRefs: { link: string, name: string }[]
 
   linkRefs = {
-    p5: [{link: '/p5-dashboard', name: 'Dashboard'}, {link: '/p5-dashboard/p5-example-section', name: 'Example Section'}],
-    ml5: [{link: '/ml5-dashboard', name: 'Dashboard'}, {link: '/ml5-dashboard/ml5-sandbox', name: 'Sandbox'}]
+    p5: [{link: '/p5/dashboard', name: 'Dashboard'}, {link: '/p5/dashboard/examples', name: 'Example Section'}],
+    ml5: [{link: '/ml5/dashboard', name: 'Dashboard'}, {link: '/ml5/dashboard/sandbox', name: 'Sandbox'}]
   }
 
   constructor(private applicationService: ApplicationService) {
