@@ -173,6 +173,20 @@ export interface P5Sketch {
   setAttributes: SetAttributeConsumer
 
 
+  // TRANSFORM
+  applyMatrix: (a: number, b: number, c: number,
+                d: number, e: number, f: number) => void
+  resetMatrix: Runnable
+  rotate: RotateConsumer
+  rotateX: AngleConsumer
+  rotateY: AngleConsumer
+  rotateZ: AngleConsumer
+  scale: ScaleConsumer
+  shearX: AngleConsumer
+  shearY: AngleConsumer
+  translate: TranslateConsumer
+
+
   // image
   // loading & displaying
   loadImage: LoadImageFn                                                      // https://p5js.org/reference/#/p5/loadImage
@@ -748,7 +762,6 @@ type CreateElementFn =
 
 
 // RENDERING
-
 type CreateCanvasFn = ((width: number, height: number) => any) & ((width: number, height: number, renderer: RendererType) => P5Renderer)
 
 type ResizeCanvasConsumer = ((w: number, h: number) => void) & ((w: number, h: number, noRedraw: boolean) => void)
@@ -756,6 +769,25 @@ type ResizeCanvasConsumer = ((w: number, h: number) => void) & ((w: number, h: n
 type CreateGraphicsFn = ((w: number, h: number) => P5Graphics) & ((w: number, h: number, renderer: RendererType) => P5Graphics)
 
 type SetAttributeConsumer = ((key: string, value: boolean) => void) & ((obj: object) => void)
+
+
+// TRANSFORM
+type AngleConsumer = (angle: number) => void
+
+type RotateConsumer = AngleConsumer & ((angle: number, axis: P5Vector | number[]) => void)
+
+type ScaleConsumer =
+  ((s: number | P5Vector | number[]) => void) &
+  ((s: number | P5Vector | number[], y: number) => void) &
+  ((s: number | P5Vector | number[], y: number, z: number) => void) &
+  ((s: number | P5Vector | number[], z: number) => void) &
+  ((scales: P5Vector | number[]) => void)
+
+type TranslateConsumer =
+  ((x: number, y: number) => void) &
+  ((x: number, y: number, z: number) => void) &
+  ((vector: P5Vector) => void)
+
 
 
 type LoadImageFn =
