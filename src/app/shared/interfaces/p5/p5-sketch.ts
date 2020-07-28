@@ -7,6 +7,8 @@ import {P5Vector} from './p5-vector'
 import {P5Geometry} from './p5-geometry'
 import {P5MediaElement} from './p5-media-element'
 import {P5Graphics} from './p5-graphics'
+import {P5StringDict} from './p5-string-dict'
+import {P5NumberDict} from './p5-number-dict'
 
 /**
  * Structured to the documentation on the site
@@ -187,6 +189,47 @@ export interface P5Sketch {
   translate: TranslateConsumer
 
 
+  // DATA
+
+  // local storage
+  storeItem: (key: string, value: LocalStorageItem) => void
+  getItem: (key: string) => LocalStorageItem
+  clearStorage: Runnable
+  removeItem: (key: string) => void
+
+  // dictionary
+  createStringDict: CreateDictFn<string, P5StringDict>
+  createNumberDict: CreateDictFn<number, P5NumberDict>
+
+  // array functions -- leaving out deprecated fns
+  arrayCopy: ArrayCopyConsumer
+  concat: (a: any[], b: any[]) => any[]
+  shuffle: ArrayShuffleFn
+
+  // conversion
+  float: (str: string) => number
+  int: IntConversionFn
+  str: (n: string | boolean | number | any[]) => string
+  boolean: (item: any) => boolean
+  byte: ByteConversionFn
+  char: CharConversionFn
+  unchar: StringNumConversionFn
+  hex: HexConversionFn
+  unhex: StringNumConversionFn
+
+  // string functions
+  join: (list: any[], separator: string) => string
+  match: (str: string, regexp: string) => string[]
+  matchAll: (str: string, regexp: string) => string[]                   // says 2d array so they mean string[][] no?
+  nf: NumberFormatFn
+  nfc: NumberFormatCommaFn
+  nfp: NumberFormatFn
+  nfs: NumberFormatFn
+  split: (value: string, delim: string) => string[]
+  splitTokens: SplitTokensFn
+  trim: TrimFn
+
+
   // image
   // loading & displaying
   loadImage: LoadImageFn                                                      // https://p5js.org/reference/#/p5/loadImage
@@ -197,6 +240,9 @@ export enum RendererType {
   P2D = 'P2D',
   WEBGL = 'WEBGL'
 }
+
+type NumberOrString = number | string
+type ArrayOfNumberOrString = number[] | string[]
 
 type QuadBezierFn =
   ((x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number) => void) &
@@ -787,6 +833,69 @@ type TranslateConsumer =
   ((x: number, y: number) => void) &
   ((x: number, y: number, z: number) => void) &
   ((vector: P5Vector) => void)
+
+// DATA
+
+// local storage
+type LocalStorageItem = string | number | object | boolean | P5Color | P5Vector
+
+// dictionary
+type CreateDictFn<T, R> = ((key: T, value: T) => R) & ((obj: object) => R)
+
+// array functions
+type ArrayCopyConsumer =
+  ((src: any[], srcPosition: number, dst: any[], dstPosition: number, length: number) => void) &
+  ((src: any[], dst: any[]) => void) &
+  ((src: any[], dst: any[], length: number) => void)
+
+type ArrayShuffleFn =
+  ((array: any[]) => any[]) &
+  ((array: any[], bool: boolean) => any[])
+
+// conversion
+type NumberConversionFn = (n: string | boolean | number) => number
+type NumberArrayConversionFn = (ns: string[] | boolean[] | number[]) => number
+
+type IntConversionFn =
+  NumberConversionFn &
+  NumberArrayConversionFn &
+  ((n: string | boolean | number, radix: number) => number)
+
+type ByteConversionFn =
+  NumberConversionFn &
+  NumberArrayConversionFn
+
+type CharConversionFn =
+  ((n: NumberOrString) => string) &
+  ((ns: ArrayOfNumberOrString) => string)
+
+type StringNumConversionFn = ((n: string) => number) & ((ns: string[]) => number)
+
+type HexConversionFn =
+  ((n: number) => string) &
+  ((n: number, digits: number) => string) &
+  ((ns: number[]) => string) &
+  ((ns: number[], digits: number) => string)
+
+// string functions
+type NumberFormatFn =
+  NumberFormatCommaFn &
+  ((num: NumberOrString, left: NumberOrString) => string) &
+  ((num: NumberOrString, left: NumberOrString, right: NumberOrString) => string) &
+  ((nums: ArrayOfNumberOrString, left: NumberOrString) => string) &
+  ((nums: ArrayOfNumberOrString, left: NumberOrString, right: NumberOrString) => string)
+
+type NumberFormatCommaFn =
+  ((num: NumberOrString) => string) &
+  ((num: NumberOrString, right: NumberOrString) => string) &
+  ((nums: ArrayOfNumberOrString) => string) &
+  ((nums: ArrayOfNumberOrString, right: NumberOrString) => string)
+
+type SplitTokensFn =
+  ((value: string) => string[]) &
+  ((value: string, delim: string) => string[])
+
+type TrimFn = ((str: string) => string) & ((strs: string[]) => string)
 
 
 
