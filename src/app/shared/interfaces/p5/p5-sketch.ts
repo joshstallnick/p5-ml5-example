@@ -1,4 +1,4 @@
-import {BlendMode, P5Image} from './p5-image'
+import {BlendMode, FilterType, P5Image} from './p5-image'
 import {AnyFunction, BooleanSupplier, NumberSupplier, ObjectSupplier, Runnable, StringArraySupplier, StringSupplier} from '../../types'
 import {P5Color} from './p5-color'
 import {P5Element} from './p5-element'
@@ -293,10 +293,27 @@ export interface P5Sketch {
   touchEnded: EventConsumer
 
 
-  // image
+  // IMAGE
+  createImage: (width: number, height: number) => P5Image
+  saveCanvas: SaveCanvasConsumer
+  saveFrame: SaveFramesConsumer
+
   // loading & displaying
-  loadImage: LoadImageFn                                                      // https://p5js.org/reference/#/p5/loadImage
-  image: ImageFn                                                              // https://p5js.org/reference/#/p5/image
+  loadImage: LoadImageFn
+  image: ImageConsumer
+  tint: TintConsumer
+  noTint: Runnable
+  imageMode: (mode: ImageMode) => void
+
+  // pixels
+  pixels: any
+  blend: BlendConsumer
+  copy: CopyConsumer
+  filter: FilterConsumer
+  get: ImageGetFn
+  loadPixels: Runnable
+  set: (x: number, y: number, c: number | number[] | P5Color | P5Image) => void
+  updatePixels: UpdatePixelsConsumer
 }
 
 export enum RendererType {
@@ -983,7 +1000,22 @@ export enum KeyCode {
 }
 
 
+// IMAGE
+type SaveCanvasConsumer =
+  ((selectedCanvas: P5Element) => void) &
+  ((selectedCanvas: P5Element, filename: string) => void) &
+  ((selectedCanvas: P5Element, filename: string, extension: string) => void) &
+  ((selectedCanvas: P5Element, extension: string) => void) &
+  ((filename: string) => void) &
+  ((filename: string, extension: string) => void) &
+  ((extension: string) => void) &
+  Runnable
 
+type SaveFramesConsumer =
+  ((filename: string, extension: string, duration: number, framerate: number) => void) &
+  ((filename: string, extension: string, duration: number, framerate: number, callback: AnyFunction) => void)
+
+// loading & display
 type LoadImageFn =
   ((path: string) => P5Image) &
   ((path: string, successCallback: (img: P5Image) => void) => P5Image) &
@@ -993,7 +1025,7 @@ type LoadImageFn =
 
 type Image = P5Image | P5Element
 
-type ImageFn =
+type ImageConsumer =
   ((img: Image, x: number, y: number) => void) &
   ((img: Image, x: number, y: number, width: number) => void) &
   ((img: Image, x: number, y: number, width: number, height: number) => void) &
@@ -1002,3 +1034,58 @@ type ImageFn =
   ((img: Image, dx: number, dy: number, dWidth: number, dHeight: number, sx: number, sy: number, sWidth: number) => void) &
   ((img: Image, dx: number, dy: number, dWidth: number, dHeight: number, sx: number, sy: number, sWidth: number, sHeight: number) => void) &
   ((img: Image, dx: number, dy: number, dWidth: number, dHeight: number, sx: number, sy: number, sHeight: number) => void)
+
+type TintConsumer =
+  ((v1: number, v2: number, v3: number) => void) &
+  ((v1: number, v2: number, v3: number, alpha: number) => void) &
+  ((value: string) => void) &
+  ((gray: number) => void) &
+  ((gray: number, alpha: number) => void) &
+  ((values: number[]) => void) &
+  ((color: P5Color) => void)
+
+export enum ImageMode {
+  CENTER = 'CENTER',
+  CORNER = 'CORNER',
+  CORNERS = 'CORNERS'
+}
+
+// pixels
+type BlendConsumer =
+  ((srcImage: P5Image,
+    sx: number, sy: number, sw: number, sh: number,
+    dx: number, dy: number, dw: number, dh: number, blendMode: BlendMode) => void) &
+  ((sx: number, sy: number, sw: number, sh: number,
+    dx: number, dy: number, dw: number, dh: number, blendMode: BlendMode) => void)
+
+type CopyConsumer =
+  ((srcImage: P5Image, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number) => void) &
+  ((sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number) => void)
+
+type FilterConsumer = ((filterType: FilterType) => void) & ((filterType: FilterType, filterParam: number) => void)
+
+type ImageGetFn =
+  ((x: number, y: number, w: number, h: number) => P5Image) &
+  ((x: number, y: number) => P5Image) &
+  (() => P5Image)
+
+type UpdatePixelsConsumer =
+  ((x: number) => void) &
+  ((x: number, y: number) => void) &
+  ((x: number, y: number, w: number) => void) &
+  ((x: number, y: number, w: number, h: number) => void) &
+  ((x: number, y: number, h: number) => void) &
+  ((x: number, w: number) => void) &
+  ((x: number, w: number, h: number) => void) &
+  ((x: number, h: number) => void) &
+
+  ((y: number) => void) &
+  ((y: number, w: number) => void) &
+  ((y: number, w: number, h: number) => void) &
+  ((y: number, h: number) => void) &
+
+  ((w: number) => void) &
+  ((w: number, h: number) => void) &
+
+  ((h: number) => void) &
+  Runnable
