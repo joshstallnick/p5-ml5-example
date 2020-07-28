@@ -230,6 +230,69 @@ export interface P5Sketch {
   trim: TrimFn
 
 
+  // EVENTS
+  // acceleration
+  deviceOrientation?: 'LANDSCAPE' | 'PORTRAIT'
+  accelerationX: number
+  accelerationY: number
+  accelerationZ: number
+  pAccelerationX: number
+  pAccelerationY: number
+  pAccelerationZ: number
+  rotationX: number
+  rotationY: number
+  rotationZ: number
+  pRotationX: number
+  pRotationY: number
+  pRotationZ: number
+  turnAxis: boolean
+
+  setMoveThreshold: (value: number) => void
+  setShakeThreshold: (value: number) => void
+  deviceMoved: Runnable
+  deviceTurned: Runnable
+  deviceShaken: Runnable
+
+  // keyboard
+  keyIsPressed: boolean
+  key: any
+  keyCode: KeyCode
+
+  keyPressed: Runnable
+  keyReleased: Runnable
+  KeyTyped: Runnable
+  keyIsDown: (code: number | KeyCode) => boolean
+
+  // mouse
+  movedX: number
+  movedY: number
+  mouseX: number
+  mouseY: number
+  pmouseX: number
+  pmouseY: number
+  winMouseX: number
+  winMouseY: number
+  pwinMouseX: number
+  pwinMouseY: number
+  mouseButton: 'LEFT' | 'RIGHT' | 'CENTER'
+  mouseIsPressed: boolean
+  mouseMoved: EventConsumer
+  mouseDragged: EventConsumer
+  mousePressed: EventConsumer
+  mouseReleased: EventConsumer
+  mouseClicked: EventConsumer
+  doubleClicked: EventConsumer
+  mouseWheel: EventConsumer
+  requestPointerLock: Runnable
+  exitPointerLock: Runnable
+
+  // touch
+  touches?: any[]
+  touchStarted: EventConsumer
+  touchMoved: EventConsumer
+  touchEnded: EventConsumer
+
+
   // image
   // loading & displaying
   loadImage: LoadImageFn                                                      // https://p5js.org/reference/#/p5/loadImage
@@ -896,6 +959,28 @@ type SplitTokensFn =
   ((value: string, delim: string) => string[])
 
 type TrimFn = ((str: string) => string) & ((strs: string[]) => string)
+
+
+// EVENTS
+type EventConsumer = ((event: any) => void) & Runnable
+
+// keyboard
+export enum KeyCode {
+  BACKSPACE = 'BACKSPACE',
+  DELETE = 'DELETE',
+  ENTER = 'ENTER',
+  RETURN = 'RETURN',
+  TAB = 'TAB',
+  ESCAPE = 'ESCAPE',
+  SHIFT = 'SHIFT',
+  CONTROL = 'CONTROL',
+  OPTION = 'OPTION',
+  ALT = 'ALT',
+  UP_ARROW = 'UP_ARROW',
+  DOWN_ARROW = 'DOWN_ARROW',
+  LEFT_ARROW = 'LEFT_ARROW',
+  RIGHT_ARROW = 'RIGHT_ARROW'
+}
 
 
 
