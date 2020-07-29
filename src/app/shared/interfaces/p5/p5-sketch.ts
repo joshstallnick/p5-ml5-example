@@ -33,129 +33,131 @@ export interface P5Sketch {
 
   // COLOR
   // creating & reading
-  alpha: ColorStandardFn                                                      // https://p5js.org/reference/#/p5/alpha
-  blue: ColorStandardFn                                                       // https://p5js.org/reference/#/p5/blue
-  brightness: ColorStandardFn                                                 // https://p5js.org/reference/#/p5/brightness
-  color: ColorFn                                                              // https://p5js.org/reference/#/p5/color
-  green: ColorStandardFn                                                      // https://p5js.org/reference/#/p5/green
-  hue: ColorStandardFn                                                        // https://p5js.org/reference/#/p5/hue
-  lerpColor: (c1: P5Color, c2: P5Color, amp: number) => P5Color               // https://p5js.org/reference/#/p5/lerpColor
-  lightness: ColorStandardFn                                                  // https://p5js.org/reference/#/p5/lightness
-  red: ColorStandardFn                                                        // https://p5js.org/reference/#/p5/red
-  saturation: ColorStandardFn                                                 // https://p5js.org/reference/#/p5/saturation
+  alpha: ColorStandardFn
+  blue: ColorStandardFn
+  brightness: ColorStandardFn
+  color: ColorFn
+  green: ColorStandardFn
+  hue: ColorStandardFn
+  lerpColor: (c1: P5Color, c2: P5Color, amp: number) => P5Color
+  lightness: ColorStandardFn
+  red: ColorStandardFn
+  saturation: ColorStandardFn
 
   // setting
-  background: BackgroundFn                                                    // https://p5js.org/reference/#/p5/background
-  clear: Runnable                                                             // https://p5js.org/reference/#/p5/clear
-  colorMode: ColorModeFn                                                      // https://p5js.org/reference/#/p5/colorMode
-  fill: ColorOptionsFn                                                        // https://p5js.org/reference/#/p5/fill
-  noStroke: Runnable                                                          // https://p5js.org/reference/#/p5/noStroke
-  stroke: ColorOptionsFn                                                      // https://p5js.org/reference/#/p5/stroke
-  erase: EraseFn                                                              // https://p5js.org/reference/#/p5/erase
-  noErase: Runnable                                                           // https://p5js.org/reference/#/p5/noErase
+  background: BackgroundFn
+  clear: Runnable
+  colorMode: (mode: ColorMode, max1?: number, max2?: number, max3?: number, maxA?: number) => void
+  fill: ColorOptionsFn
+  noStroke: Runnable
+  stroke: ColorOptionsFn
+  erase: (strengthFill?: number, strengthStroke?: number) => void
+  noErase: Runnable
 
 
   // SHAPE
   // 2d primitives
-  arc: ArcFn                                                                  // https://p5js.org/reference/#/p5/arc
-  ellipse: EllipseFn                                                          // https://p5js.org/reference/#/p5/ellipse
-  circle: (x: number, y: number, d: number) => void                           // https://p5js.org/reference/#/p5/circle
-  line: LineFn                                                                // https://p5js.org/reference/#/p5/line
-  point: PointFn                                                              // https://p5js.org/reference/#/p5/point
-  quad: QuadBezierFn                                                                // https://p5js.org/reference/#/p5/quad
-  rect: RectFn                                                                // https://p5js.org/reference/#/p5/rect
-  square: SquareFn                                                            // https://p5js.org/reference/#/p5/square
-  triangle: (x1: number, y1: number,                                          // https://p5js.org/reference/#/p5/triangle
+  arc: (x: number, y: number, w: number, h: number, start: number, stop: number, mode?: ArchMode, detail?: number) => void
+  ellipse: (x: number, y: number, w: number, h?: number, detail?: number) => void
+  circle: (x: number, y: number, d: number) => void
+  line: (x1: number, y1: number, x2: number, y2: number, z1?: number, z2?: number) => void
+  point: PointFn
+  quad: QuadBezierFn
+  rect: RectFn
+  square: (x: number, y: number, s: number, tl?: number, tr?: number, br?: number, bl?: number) => void
+  triangle: (x1: number, y1: number,
              x2: number, y2: number,
              x3: number, y3: number) => void
 
   // attributes
-  ellipseMode: (mode: LocationMode) => void                                   // https://p5js.org/reference/#/p5/ellipseMode
-  noSmooth: Runnable                                                          // https://p5js.org/reference/#/p5/noSmooth
-  rectMode: (mode: LocationMode) => void                                      // https://p5js.org/reference/#/p5/rectMode
-  smooth: Runnable                                                            // https://p5js.org/reference/#/p5/smooth
-  strokeCap: (cap: CapType) => void                                           // https://p5js.org/reference/#/p5/strokeCap
-  strokeJoin: (join: JointType) => void                                       // https://p5js.org/reference/#/p5/strokeJoin
-  strokeWeight: (weight: number) => void                                      // https://p5js.org/reference/#/p5/strokeWeight
+  ellipseMode: (mode: LocationMode) => void
+  noSmooth: Runnable
+  rectMode: (mode: LocationMode) => void
+  smooth: Runnable
+  strokeCap: (cap: CapType) => void
+  strokeJoin: (join: JointType) => void
+  strokeWeight: (weight: number) => void
 
   // curves
-  bezier: QuadBezierFn                                                        // https://p5js.org/reference/#/p5/bezier
-  bezierDetail: (detail: number) => void                                      // https://p5js.org/reference/#/p5/bezierDetail
-  bezierPoint: BezierOptionsFn                                                // https://p5js.org/reference/#/p5/bezierPoint
-  bezierTangent: BezierOptionsFn                                              // https://p5js.org/reference/#/p5/bezierTangent
-  curve: QuadBezierFn                                                         // https://p5js.org/reference/#/p5/curve
-  curveDetail: (resolution: number) => void                                   // https://p5js.org/reference/#/p5/curveDetail
-  curveTightness: (amount: number) => void                                    // https://p5js.org/reference/#/p5/curveTightness
-  curvePoint: BezierOptionsFn                                                 // https://p5js.org/reference/#/p5/curvePoint
-  curveTangent: BezierOptionsFn                                               // https://p5js.org/reference/#/p5/curveTangent
+  bezier: QuadBezierFn
+  bezierDetail: (detail: number) => void
+  bezierPoint: BezierOptionsFn
+  bezierTangent: BezierOptionsFn
+  curve: QuadBezierFn
+  curveDetail: (resolution: number) => void
+  curveTightness: (amount: number) => void
+  curvePoint: BezierOptionsFn
+  curveTangent: BezierOptionsFn
 
   // vertex
-  beginContour: Runnable                                                      // https://p5js.org/reference/#/p5/beginContour
-  beginShape: BeginShapeFn                                                    // https://p5js.org/reference/#/p5/beginShape
-  bezierVertex: BezierVertexFn                                                // https://p5js.org/reference/#/p5/bezierVertex
-  curveVertexFn: CurveVertexFn                                                // https://p5js.org/reference/#/p5/curveVertex
-  endContour: Runnable                                                        // https://p5js.org/reference/#/p5/endContour
-  endShape: EndShapeFn                                                        // https://p5js.org/reference/#/p5/endShape
-  quadraticVertex: QuadraticVertexFn                                          // https://p5js.org/reference/#/p5/quadraticVertext
-  vertex: VertexFn                                                            // https://p5js.org/reference/#/p5/vertex
+  beginContour: Runnable
+  beginShape: (kind?: ShapeKind) => void
+  bezierVertex: BezierVertexFn
+  curveVertexFn: (x: number, y: number, z?: number) => void
+  endContour: Runnable
+  endShape: (mode?: 'CLOSE') => void
+  quadraticVertex: (cx: number, cy: number, x3: number, y3: number, z3?: number) => void
+  vertex: (x: number, y: number, z?: number, u?: number, v?: number) => void
 
   // 3d primitives
-  plane: PlaneConsumer                                                        // https://p5js.org/reference/#/p5/plane
-  box: BoxConsumer                                                            // https://p5js.org/reference/#/p5/box
-  sphere: SphereConsumer                                                      // https://p5js.org/reference/#/p5/sphere
-  cylinder: HttpDoFn                                                  // https://p5js.org/reference/#/p5/cylinder
-  cone: ConeConsumer                                                          // https://p5js.org/reference/#/p5/cone
-  ellipsoid: EllipsoidConsumer                                                // https://p5js.org/reference/#/p5/ellipsoid
-  torus: TorusConsumer                                                        // https://p5js.org/reference/#/p5/torus
+  plane: (width?: number, height?: number, detailX?: number, detailY?: number) => void
+  box: (width?: number, height?: number, depth?: number, detailX?: number, detailY?: number) => void
+  sphere: (radius?: number, detailX?: number, detailY?: number) => void
+  cylinder: (radius?: number, height?: number, detailX?: number, detailY?: number, bottomCap?: number, topCap?: number) => void
+  cone: (radius?: number, height?: number, detailX?: number, detailY?: number, cap?: number) => void
+  ellipsoid: (radiusx?: number, radiusy?: number, radiusz?: number, detailX?: number, detailY?: number) => void
+  torus: (radius?: number, tubeRadius?: number, detailX?: number, detailY?: number) => void
 
   // 3d models
-  loadModel: LoadModelFn                                                      // https://p5js.org/reference/#/p5/loadModel
-  model: (model: P5Geometry) => void                                          // https://p5js.org/reference/#/p5/model
+  loadModel: (path: string, normalize?: boolean,
+              successCallback?: ModelFn, failureCallback?: (event: any) => any,
+              fileType?: '.stl' | '.obj') => P5Geometry
+  model: ModelFn
 
 
   // ENVIRONMENT
-  frameCount: number                                                          // https://p5js.org/reference/#/p5/frameCount
-  deltaTime: number                                                           // https://p5js.org/reference/#/p5/deltaTime
-  focused: boolean                                                            // https://p5js.org/reference/#/p5/focused
-  displayWidth: number                                                        // https://p5js.org/reference/#/p5/displayWidth
-  displayHeight: number                                                       // https://p5js.org/reference/#/p5/displayHeight
-  windowWidth: number                                                         // https://p5js.org/reference/#/p5/windowWidth
-  windowHeight: number                                                        // https://p5js.org/reference/#/p5/windowHeight
-  width: number                                                               // https://p5js.org/reference/#/p5/width
-  height: number                                                              // https://p5js.org/reference/#/p5/height
+  frameCount: number
+  deltaTime: number
+  focused: boolean
+  displayWidth: number
+  displayHeight: number
+  windowWidth: number
+  windowHeight: number
+  width: number
+  height: number
 
-  print: (contents: any) => void                                              // https://p5js.org/reference/#/p5/print
-  cursor: CursorConsumer                                                      // https://p5js.org/reference/#/p5/cursor
-  frameRate: FrameRateConsumer                                                // https://p5js.org/reference/#/p5/frameRate
-  noCursor: Runnable                                                          // https://p5js.org/reference/#/p5/noCursor
-  windowResized: Runnable                                                     // https://p5js.org/reference/#/p5/windowResized
-  fullscreen: FullscreenFn                                                    // https://p5js.org/reference/#/p5/fullscreen
-  pixelDensity: PixelDensityConsumer                                          // https://p5js.org/reference/#/p5/pixelDensity
-  displayDensity: NumberSupplier                                              // https://p5js.org/reference/#/p5/displayDensity
-  getURL: StringSupplier                                                      // https://p5js.org/reference/#/p5/getURL
-  getURLPath: StringArraySupplier                                             // https://p5js.org/reference/#/p5/getURLPath
-  getURLParams: ObjectSupplier                                                // https://p5js.org/reference/#/p5/getURLParams
+  print: (contents: any) => void
+  cursor: (type: string | CursorType, x?: number, y?: number) => void
+  frameRate: (fps?: number) => void
+  noCursor: Runnable
+  windowResized: Runnable
+  fullscreen: (val?: boolean) => boolean
+  pixelDensity: (val?: number) => void
+  displayDensity: NumberSupplier
+  getURL: StringSupplier
+  getURLPath: StringArraySupplier
+  getURLParams: ObjectSupplier
 
 
   // STRUCTURE
-  displayFriendlyErrors: boolean                                              // https://p5js.org/reference/#/p5/displayFriendlyErrors
+  displayFriendlyErrors: boolean
 
-  preload: Runnable                                                           // https://p5js.org/reference/#/p5/preload
-  setup: Runnable                                                             // https://p5js.org/reference/#/p5/setup
-  draw: Runnable                                                              // https://p5js.org/reference/#/p5/draw
-  remove: Runnable                                                            // https://p5js.org/reference/#/p5/remove
-  noLoop: Runnable                                                            // https://p5js.org/reference/#/p5/noLoop
-  loop: Runnable                                                              // https://p5js.org/reference/#/p5/loop
-  isLooping: BooleanSupplier                                                  // https://p5js.org/reference/#/p5/isLooping
-  push: Runnable                                                              // https://p5js.org/reference/#/p5/push
-  pop: Runnable                                                               // https://p5js.org/reference/#/p5/pop
-  redraw: RedrawFn                                                            // https://p5js.org/reference/#/p5/redraw
-  p5: (sketch: P5Sketch, node: string | Node) => any                          // https://p5js.org/reference/#/p5/p5
+  preload: Runnable
+  setup: Runnable
+  draw: Runnable
+  remove: Runnable
+  noLoop: Runnable
+  loop: Runnable
+  isLooping: BooleanSupplier
+  push: Runnable
+  pop: Runnable
+  redraw: (n?: number) => void
+  p5: (sketch: P5Sketch, node: string | Node) => any
 
 
   // DOM
-  select: SelectFn
-  selectAll: SelectAllFn
+  select: (selectors: string, container: string | P5Element | HTMLElement) => P5Element
+  selectAll: (selectors: string, container: string | P5Element | HTMLElement) => P5Element[]
   removeElements: Runnable
   changed: AnyFunction | boolean
   input: AnyFunction | boolean
@@ -164,27 +166,27 @@ export interface P5Sketch {
   createSpan: CreateGenericElementFn
   createImg: CreateGenericElementFn
   createA: CreateGenericElementFn
-  createSlider: CreateSliderFn
-  createButton: CreateButtonFn
-  createCheckbox: CreateCheckboxFn
+  createSlider: (min: number, max: number, value?: number, step?: number) => P5Element
+  createButton: (label: string, value?: string) => P5Element
+  createCheckbox: (label?: string, value?: boolean) => P5Element
   createSelect: CreateSelectFn
-  createRadio: CreateRadioFn
-  createColorPicker: CreateColorPickerFn
-  createInput: CreateInputFn
-  createFileInput: CreateFileInputFn
-  createVideo: CreateVideoFn
-  createAudioFn: CreateAudioFn
-  createCapture: CreateCaptureFn
-  createElement: CreateElementFn
+  createRadio: (containerElement?: any, name?: string) => P5Element
+  createColorPicker: (value?: string | P5Color) => P5Element
+  createInput: (value: string, type?: string) => P5Element
+  createFileInput: (callback: AnyFunction, multiple?: boolean) => P5Element
+  createVideo: (src: string | string[], callback?: AnyFunction) => P5MediaElement
+  createAudioFn: (src?: string | string[], callback?: AnyFunction) => P5MediaElement
+  createCapture: (type: 'VIDEO' | 'AUDIO' | string | any, callback?: AnyFunction) => P5Element
+  createElement: (tag: string, content?: string) => P5Element
 
 
   // RENDERING
   drawingContext: any
 
-  createCanvas: CreateCanvasFn                                                // https://p5js.org/reference/#/p5/createCanvas
-  resizeCanvas: ResizeCanvasConsumer
+  createCanvas: (width: number, height: number, renderer?: RendererType) => P5Renderer
+  resizeCanvas: (w: number, h: number, noRedraw?: boolean) => void
   noCanvas: Runnable
-  createGraphics: CreateGraphicsFn
+  createGraphics: (w: number, h: number, renderer?: RendererType) => P5Graphics
   blendMode: (mode: BlendMode) => void
   setAttributes: SetAttributeConsumer
 
@@ -193,7 +195,7 @@ export interface P5Sketch {
   applyMatrix: (a: number, b: number, c: number,
                 d: number, e: number, f: number) => void
   resetMatrix: Runnable
-  rotate: RotateConsumer
+  rotate: AngleConsumer & ((angle: number, axis: P5Vector | number[]) => void)
   rotateX: AngleConsumer
   rotateY: AngleConsumer
   rotateZ: AngleConsumer
@@ -218,7 +220,7 @@ export interface P5Sketch {
   // array functions -- leaving out deprecated fns
   arrayCopy: ArrayCopyConsumer
   concat: (a: any[], b: any[]) => any[]
-  shuffle: ArrayShuffleFn
+  shuffle: (array: any[], bool?: boolean) => any[]
 
   // conversion
   float: (str: string) => number
@@ -240,7 +242,7 @@ export interface P5Sketch {
   nfp: NumberFormatFn
   nfs: NumberFormatFn
   split: (value: string, delim: string) => string[]
-  splitTokens: SplitTokensFn
+  splitTokens: (value: string, delim?: string) => string[]
   trim: TrimFn
 
 
@@ -261,8 +263,8 @@ export interface P5Sketch {
   pRotationZ: number
   turnAxis: boolean
 
-  setMoveThreshold: (value: number) => void
-  setShakeThreshold: (value: number) => void
+  setMoveThreshold: ValueConsumer
+  setShakeThreshold: ValueConsumer
   deviceMoved: Runnable
   deviceTurned: Runnable
   deviceShaken: Runnable
@@ -310,10 +312,10 @@ export interface P5Sketch {
   // IMAGE
   createImage: (width: number, height: number) => P5Image
   saveCanvas: SaveCanvasConsumer
-  saveFrame: SaveFramesConsumer
+  saveFrame: (filename: string, extension: string, duration: number, framerate: number, callback?: AnyFunction) => void
 
   // loading & displaying
-  loadImage: LoadImageFn
+  loadImage: (path: string, successCallback?: (img: P5Image) => void, failureCallback?: (event: Event) => void) => P5Image
   image: ImageConsumer
   tint: TintConsumer
   noTint: Runnable
@@ -321,32 +323,34 @@ export interface P5Sketch {
 
   // pixels
   pixels: any
-  blend: BlendConsumer
-  copy: CopyConsumer
-  filter: FilterConsumer
+  blend: (sx: number, sy: number, sw: number, sh: number,
+          dx: number, dy: number, dw: number, dh: number,
+          blendMode: BlendMode, srcImage?: P5Image) => void
+  copy: (sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number, srcImage: P5Image) => void
+  filter: (filterType: FilterType, filterParam?: number) => void
   get: ImageGetFn
   loadPixels: Runnable
   set: (x: number, y: number, c: number | number[] | P5Color | P5Image) => void
-  updatePixels: UpdatePixelsConsumer
+  updatePixels: (x?: number, y?: number, w?: number, h?: number) => void
 
 
   // IO
   // input
-  loadJSON: LoadJsonFn
-  loadStrings: LoadStringsFn
-  loadTable: LoadTableFn
-  loadXML: LoadXmlFn
-  loadBytes: LoadBytesFn
+  loadJSON: (path: string, jsonOptions?: object, datatype?: 'json' | 'jsonp', callback?: AnyFunction, errorCallback?: AnyFunction) => any
+  loadStrings: (filename: string, callback?: AnyFunction, errorCallback?: AnyFunction) => string[]
+  loadTable: (filename: string, width?: number, height?: number, detailX?: number, detailY?: number) => P5Table
+  loadXML: (filename: string, callback?: AnyFunction, errorCallback?: AnyFunction) => XMLDocument
+  loadBytes: (file: string, callback?: AnyFunction, errorCallback?: AnyFunction) => object
   httpGet: HttpFn
   httpPost: HttpFn
   httpDo: HttpDoFn
 
   // output
-  createWriter: CreateWriterFn
-  save: OutputSaveConsumer
-  saveJSON: SaveJSONConsumer
-  saveString: SaveStringConsumer
-  saveTable: SaveTableConsumer
+  createWriter: (name: string, extension?: string) => P5PrintWriter
+  save: (objectOrFilename?: object | string, filename?: string, options?: boolean | string) => void
+  saveJSON: (json: any[] | object, filename: string, optimize?: boolean) => void
+  saveString: (list: string[], filename: string, extension?: string, isCRLF?: boolean) => void
+  saveTable: (table: P5Table, filename: string, options?: 'tsv' | 'csv' | 'html') => void
 
   // time & date
   day: NumberSupplier
@@ -368,20 +372,20 @@ export interface P5Sketch {
   lerp: (start: number, stop: number, amt: number) => number
   log: NumberFn
   mag: (a: number, b: number) => number
-  map: MathMapFn
+  map: (value: number, start1: number, stop1: number, start2: number, stop2: number, withinBounds?: boolean) => number
   max: MathMinMaxFn
   norm: (value: number, start: number, stop: number) => number
   pow: (n: number, e: number) => number
-  round: MathRoundFn
+  round: (n: number, decimals?: number) => number
   sq: NumberFn
   sqrt: NumberFn
   fract: NumberFn
 
   // vector
-  createVector: CreateVectorFn
+  createVector: (x?: number, y?: number, z?: number) => P5Vector
 
   // noise
-  noise: NoiseFn
+  noise: (x: number, y?: number, z?: number) => number
   noiseDetail: ((lod: number, falloff: number) => void)
   noiseSeed: (seed: number) => void
 
@@ -404,17 +408,17 @@ export interface P5Sketch {
 
   // TYPOGRAPHY
   // attributes
-  textAlign: TextAlignConsumer
-  textLeading: TextLeadingConsumer
-  textSize: TextSizeConsumer
-  textStyle: TextStyleConsumer
+  textAlign: (horizAlign: HorizAlign, vertAlign?: VertAlign) => void
+  textLeading: (leading?: number) => void
+  textSize: (theSize?: number) => void
+  textStyle: (theStyle?: TextStyle) => void
   textWidth: (theText: string) => number
   textAscent: NumberSupplier
   textDescent: NumberSupplier
 
   // loading & displaying
   loadFont: (path: string, callback?: AnyFunction, onError?: AnyFunction) => P5Font
-  text: (str: FontTextString, x: number, y: number, x2?: number, y2?: number) => void
+  text: (str: string | object | any[] | number | boolean, x: number, y: number, x2?: number, y2?: number) => void
   textFont: (font?: object | string, size?: number) => object
 
   // LIGHTS, CAMERA
@@ -477,10 +481,8 @@ type QuadBezierFn =
 type ColorStandardFn = (color: P5Color | number[] | string) => number
 
 type ColorFn =
-  ((gray: number) => P5Color) &
-  ((gray: number, alpha: number) => P5Color) &
-  ((v1: number, v2: number, v3: number) => P5Color) &
-  ((v1: number, v2: number, v3: number, alpha: number) => P5Color) &
+  ((gray: number, alpha?: number) => P5Color) &
+  ((v1: number, v2: number, v3: number, alpha?: number) => P5Color) &
   ((value: string) => P5Color) &
   ((values: number[]) => P5Color) &
   ((color: P5Color) => P5Color)
@@ -489,11 +491,11 @@ type ColorFn =
 // setting fns
 type BackgroundFn =
   ((color: P5Color) => void) &
-  ((colorString: string) => void) & ((colorString: string, a: number) => void) &
-  ((gray: number) => void) & ((gray: number, a: number) => void) &
-  ((v1: number, v2: number, v3: number) => void) & ((v1: number, v2: number, v3: number, a: number) => void) &
+  ((colorString: string, a?: number) => void) &
+  ((gray: number, a?: number) => void) &
+  ((v1: number, v2: number, v3: number, a?: number) => void) &
   ((values: number[]) => void) &
-  ((image: P5Image) => void) & ((image: P5Image, a: number) => void)
+  ((image: P5Image, a?: number) => void)
 
 export enum ColorMode {
   RGB = 'RGB',
@@ -501,27 +503,12 @@ export enum ColorMode {
   HSL = 'HSL'
 }
 
-type ColorModeFn =
-  ((mode: ColorMode) => void) &
-  ((mode: ColorMode, max: number) => void) &
-  ((mode: ColorMode, max1: number) => void) &
-  ((mode: ColorMode, max1: number, max2: number) => void) &
-  ((mode: ColorMode, max1: number, max2: number, max3: number) => void) &
-  ((mode: ColorMode, max1: number, max2: number, max3: number, maxA: number) => void)
-
 type ColorOptionsFn =
-  ((v1: number, v2: number, v3: number) => void) &
-  ((v1: number, v2: number, v3: number, alpha: number) => void) &
+  ((v1: number, v2: number, v3: number, alpha?: number) => void) &
   ((value: string) => void) &
-  ((gray: number) => void) &
-  ((gray: number, alpha: number) => void) &
+  ((gray: number, alpha?: number) => void) &
   ((values: number[]) => void) &
   ((color: P5Color) => void)
-
-type EraseFn =
-  ((strengthFill: number) => void) &
-  ((strengthFill: number, strengthStroke: number) => void) &
-  ((strengthStroke: number) => void)
 
 
 // SHAPE
@@ -533,80 +520,13 @@ export enum ArchMode {
   OPEN = 'OPEN'
 }
 
-type ArcFn =
-  ((x: number, y: number, w: number, h: number, start: number, stop: number) => void) &
-  ((x: number, y: number, w: number, h: number, start: number, stop: number, mode: ArchMode) => void) &
-  ((x: number, y: number, w: number, h: number, start: number, stop: number, mode: ArchMode, detail: number) => void) &
-  ((x: number, y: number, w: number, h: number, start: number, stop: number, detail: number) => void)
-
-
-type EllipseFn =
-  ((x: number, y: number, w: number) => void) &
-  ((x: number, y: number, w: number, h: number) => void) &
-  ((x: number, y: number, w: number, h: number, detail: number) => void)
-
-type LineFn =
-  ((x1: number, y1: number, x2: number, y2: number) => void) &
-  ((x1: number, y1: number, z1: number, x2: number, y2: number, z2: number) => void)
-
 type PointFn =
-  ((x: number, y: number) => void) &
-  ((x: number, y: number, z: number) => void) &
+  ((x: number, y: number, z?: number) => void) &
   ((coordinateVector: P5Vector) => void)
 
 type RectFn =
-  ((x: number, y: number, w: number) => void) &
-  ((x: number, y: number, w: number, h: number) => void) &
-  ((x: number, y: number, w: number, h: number, tl: number) => void) &
-  ((x: number, y: number, w: number, h: number, tl: number, tr: number) => void) &
-  ((x: number, y: number, w: number, h: number, tl: number, tr: number, br: number) => void) &
-  ((x: number, y: number, w: number, h: number, tl: number, tr: number, br: number, bl: number) => void) &
-  ((x: number, y: number, w: number, h: number, tl: number, tr: number, bl: number) => void) &
-  ((x: number, y: number, w: number, h: number, tl: number, br: number) => void) &
-  ((x: number, y: number, w: number, h: number, tl: number, br: number, bl: number) => void) &
-  ((x: number, y: number, w: number, h: number, tl: number, bl: number) => void) &
-  ((x: number, y: number, w: number, h: number, tr: number) => void) &
-  ((x: number, y: number, w: number, h: number, tr: number, br: number) => void) &
-  ((x: number, y: number, w: number, h: number, tr: number, br: number, bl: number) => void) &
-  ((x: number, y: number, w: number, h: number, tr: number, bl: number) => void) &
-  ((x: number, y: number, w: number, h: number, br: number) => void) &
-  ((x: number, y: number, w: number, h: number, br: number, bl: number) => void) &
-  ((x: number, y: number, w: number, h: number, bl: number) => void) &
-  ((x: number, y: number, w: number, tl: number) => void) &
-  ((x: number, y: number, w: number, tl: number, tr: number) => void) &
-  ((x: number, y: number, w: number, tl: number, tr: number, br: number) => void) &
-  ((x: number, y: number, w: number, tl: number, tr: number, br: number, bl: number) => void) &
-  ((x: number, y: number, w: number, tl: number, tr: number, bl: number) => void) &
-  ((x: number, y: number, w: number, tl: number, br: number) => void) &
-  ((x: number, y: number, w: number, tl: number, br: number, bl: number) => void) &
-  ((x: number, y: number, w: number, tl: number, bl: number) => void) &
-  ((x: number, y: number, w: number, tr: number, br: number) => void) &
-  ((x: number, y: number, w: number, tr: number, br: number, bl: number) => void) &
-  ((x: number, y: number, w: number, tr: number, bl: number) => void) &
-  ((x: number, y: number, w: number, br: number) => void) &
-  ((x: number, y: number, w: number, br: number, bl: number) => void) &
-  ((x: number, y: number, w: number, bl: number) => void) &
-  ((x: number, y: number, w: number, h: number, detailX: number) => void) &
-  ((x: number, y: number, w: number, h: number, detailX: number, detailY: number) => void) &
-  ((x: number, y: number, w: number, h: number, detailY: number) => void)
-
-type SquareFn =
-  ((x: number, y: number, s: number) => void) &
-  ((x: number, y: number, s: number, tl: number) => void) &
-  ((x: number, y: number, s: number, tl: number, tr: number) => void) &
-  ((x: number, y: number, s: number, tl: number, tr: number, br: number) => void) &
-  ((x: number, y: number, s: number, tl: number, tr: number, br: number, bl: number) => void) &
-  ((x: number, y: number, s: number, tl: number, tr: number, bl: number) => void) &
-  ((x: number, y: number, s: number, tl: number, br: number) => void) &
-  ((x: number, y: number, s: number, tl: number, br: number, bl: number) => void) &
-  ((x: number, y: number, s: number, tl: number, bl: number) => void) &
-  ((x: number, y: number, s: number, tr: number) => void) &
-  ((x: number, y: number, s: number, tr: number, br: number) => void) &
-  ((x: number, y: number, s: number, tr: number, br: number, bl: number) => void) &
-  ((x: number, y: number, s: number, tr: number, bl: number) => void) &
-  ((x: number, y: number, s: number, br: number) => void) &
-  ((x: number, y: number, s: number, br: number, bl: number) => void) &
-  ((x: number, y: number, s: number, bl: number) => void)
+  ((x: number, y: number, w: number, h?: number, tl?: number, tr?: number, br?: number, bl?: number) => void) &
+  ((x: number, y: number, w: number, h: number, detailX?: number, detailY?: number) => void)
 
 // attributes
 export enum LocationMode {
@@ -643,292 +563,12 @@ export enum ShapeKind {
   TESS = 'TESS'
 }
 
-type BeginShapeFn = ((kind: ShapeKind) => void) & Runnable
-
 type BezierVertexFn =
   ((x2: number, y2: number, x3: number, y3: number, x4: number, y4: number) => void) &
   ((x2: number, y2: number, z2: number, x3: number, y3: number, z3: number, x4: number, y4: number, z4: number) => void)
 
-type CurveVertexFn =
-  ((x: number, y: number) => void) &
-  ((x: number, y: number, z: number) => void)
-
-type EndShapeFn = ((mode: 'CLOSE') => void) & Runnable
-
-type QuadraticVertexFn =
-  ((cx: number, cy: number, x3: number, y3: number) => void) &
-  ((cx: number, cy: number, x3: number, y3: number, z3: number) => void)
-
-type VertexFn =
-  ((x: number, y: number) => void) &
-  ((x: number, y: number, z: number) => void) &
-  ((x: number, y: number, z: number, u: number) => void) &
-  ((x: number, y: number, z: number, u: number, v: number) => void) &
-  ((x: number, y: number, z: number, v: number) => void)
-
-
-// 3d primitives
-type PlaneConsumer =
-  ((width: number) => void) &
-  ((width: number, height: number) => void) &
-  ((width: number, height: number, detailX: number) => void) &
-  ((width: number, height: number, detailX: number, detailY: number) => void) &
-  ((width: number, height: number, detailY: number) => void) &
-  ((width: number, detailX: number) => void) &
-  ((width: number, detailX: number, detailY: number) => void) &
-  ((width: number, detailY: number) => void) &
-
-  ((height: number) => void) &
-  ((height: number, detailX: number) => void) &
-  ((height: number, detailX: number, detailY: number) => void) &
-  ((height: number, detailY: number) => void) &
-
-  ((detailX: number) => void) &
-  ((detailX: number, detailY: number) => void) &
-
-  ((detailY: number) => void) &
-  Runnable
-
-type BoxConsumer =
-  ((width: number) => void) &
-  ((width: number, height: number) => void) &
-  ((width: number, height: number, depth: number) => void) &
-  ((width: number, height: number, depth: number, detailX: number) => void) &
-  ((width: number, height: number, depth: number, detailX: number, detailY: number) => void) &
-  ((width: number, height: number, depth: number, detailY: number) => void) &
-  ((width: number, height: number, detailX: number) => void) &
-  ((width: number, height: number, detailX: number, detailY: number) => void) &
-  ((width: number, height: number, detailY: number) => void) &
-
-  ((width: number, depth: number) => void) &
-  ((width: number, depth: number, detailX: number) => void) &
-  ((width: number, depth: number, detailX: number, detailY: number) => void) &
-  ((width: number, depth: number, detailY: number) => void) &
-  ((width: number, detailX: number) => void) &
-  ((width: number, detailX: number, detailY: number) => void) &
-  ((width: number, detailY: number) => void) &
-
-  ((height: number) => void) &
-  ((height: number, depth: number) => void) &
-  ((height: number, depth: number, detailX: number) => void) &
-  ((height: number, depth: number, detailX: number, detailY: number) => void) &
-  ((height: number, depth: number, detailY: number) => void) &
-  ((height: number, detailX: number) => void) &
-  ((height: number, detailX: number, detailY: number) => void) &
-  ((height: number, detailY: number) => void) &
-
-  ((depth: number) => void) &
-  ((depth: number, detailX: number) => void) &
-  ((depth: number, detailX: number, detailY: number) => void) &
-  ((depth: number, detailY: number) => void) &
-
-  ((detailX: number) => void) &
-  ((detailX: number, detailY: number) => void) &
-
-  ((detailY: number) => void) &
-  Runnable
-
-type SphereConsumer =
-  ((radius: number) => void) &
-  ((radius: number, detailX: number) => void) &
-  ((radius: number, detailX: number, detailY: number) => void) &
-  ((radius: number, detailY: number) => void) &
-
-  ((detailX: number) => void) &
-  ((detailX: number, detailY: number) => void) &
-
-  ((detailY: number) => void) &
-  Runnable
-
-type CylinderConsumer =
-  ((radius: number) => void) &
-  ((radius: number, height: number) => void) &
-  ((radius: number, height: number, detailX: number) => void) &
-  ((radius: number, height: number, detailX: number, detailY: number) => void) &
-  ((radius: number, height: number, detailX: number, detailY: number, bottomCap: number) => void) &
-  ((radius: number, height: number, detailX: number, detailY: number, bottomCap: number, topCap: number) => void) &
-  ((radius: number, height: number, detailX: number, detailY: number, topCap: number) => void) &
-  ((radius: number, height: number, detailX: number, bottomCap: number) => void) &
-  ((radius: number, height: number, detailX: number, bottomCap: number, topCap: number) => void) &
-  ((radius: number, height: number, detailX: number, topCap: number) => void) &
-  ((radius: number, height: number, detailY: number) => void) &
-  ((radius: number, height: number, detailY: number, bottomCap: number) => void) &
-  ((radius: number, height: number, detailY: number, bottomCap: number, topCap: number) => void) &
-  ((radius: number, height: number, detailY: number, topCap: number) => void) &
-  ((radius: number, detailX: number) => void) &
-  ((radius: number, detailX: number, detailY: number) => void) &
-  ((radius: number, detailX: number, detailY: number, bottomCap: number) => void) &
-  ((radius: number, detailX: number, detailY: number, bottomCap: number, topCap: number) => void) &
-  ((radius: number, detailX: number, bottomCap: number) => void) &
-  ((radius: number, detailX: number, bottomCap: number, topCap: number) => void) &
-  ((radius: number, detailX: number, topCap: number) => void) &
-  ((radius: number, detailY: number) => void) &
-  ((radius: number, detailY: number, bottomCap: number) => void) &
-  ((radius: number, detailY: number, bottomCap: number, topCap: number) => void) &
-  ((radius: number, detailY: number, topCap: number) => void) &
-  ((radius: number, bottomCap: number) => void) &
-  ((radius: number, bottomCap: number, topCap: number) => void) &
-  ((radius: number, topCap: number) => void) &
-
-  ((height: number) => void) &
-  ((height: number, detailX: number) => void) &
-  ((height: number, detailX: number, detailY: number) => void) &
-  ((height: number, detailX: number, detailY: number, bottomCap: number) => void) &
-  ((height: number, detailX: number, detailY: number, bottomCap: number, topCap: number) => void) &
-  ((height: number, detailX: number, detailY: number, topCap: number) => void) &
-  ((height: number, detailX: number, bottomCap: number) => void) &
-  ((height: number, detailX: number, bottomCap: number, topCap: number) => void) &
-  ((height: number, detailY: number) => void) &
-  ((height: number, detailY: number, bottomCap: number) => void) &
-  ((height: number, detailY: number, bottomCap: number, topCap: number) => void) &
-  ((height: number, detailY: number, topCap: number) => void) &
-  ((height: number, bottomCap: number) => void) &
-  ((height: number, bottomCap: number, topCap: number) => void) &
-  ((height: number, topCap: number) => void) &
-
-  ((detailX: number) => void) &
-  ((detailX: number, detailY: number) => void) &
-  ((detailX: number, detailY: number, bottomCap: number) => void) &
-  ((detailX: number, detailY: number, bottomCap: number, topCap: number) => void) &
-  ((detailX: number, detailY: number, topCap: number) => void) &
-  ((detailX: number, bottomCap: number) => void) &
-  ((detailX: number, bottomCap: number, topCap: number) => void) &
-  ((detailX: number, topCap: number) => void) &
-
-  ((detailY: number) => void) &
-  ((detailY: number, bottomCap: number) => void) &
-  ((detailY: number, bottomCap: number, topCap: number) => void) &
-  ((detailY: number, topCap: number) => void) &
-
-  ((bottomCap: number) => void) &
-  ((bottomCap: number, topCap: number) => void) &
-
-  ((topCap: number) => void) &
-  Runnable
-
-type ConeConsumer =
-  ((radius: number) => void) &
-  ((radius: number, height: number) => void) &
-  ((radius: number, height: number, detailX: number) => void) &
-  ((radius: number, height: number, detailX: number, detailY: number) => void) &
-  ((radius: number, height: number, detailX: number, detailY: number, cap: number) => void) &
-  ((radius: number, height: number, detailX: number, cap: number) => void) &
-  ((radius: number, height: number, detailY: number) => void) &
-  ((radius: number, height: number, detailY: number, cap: number) => void) &
-  ((radius: number, height: number, cap: number) => void) &
-
-  ((radius: number, detailX: number) => void) &
-  ((radius: number, detailX: number, detailY: number) => void) &
-  ((radius: number, detailX: number, detailY: number, cap: number) => void) &
-  ((radius: number, detailX: number, cap: number) => void) &
-  ((radius: number, detailY: number) => void) &
-  ((radius: number, detailY: number, cap: number) => void) &
-  ((radius: number, cap: number) => void) &
-
-  ((height: number) => void) &
-  ((height: number, detailX: number) => void) &
-  ((height: number, detailX: number, detailY: number) => void) &
-  ((height: number, detailX: number, detailY: number, cap: number) => void) &
-  ((height: number, detailX: number, cap: number) => void) &
-  ((height: number, detailY: number) => void) &
-  ((height: number, detailY: number, cap: number) => void) &
-  ((height: number, cap: number) => void) &
-
-  ((detailX: number) => void) &
-  ((detailX: number, detailY: number) => void) &
-  ((detailX: number, detailY: number, cap: number) => void) &
-  ((detailX: number, cap: number) => void) &
-
-  ((detailY: number) => void) &
-  ((detailY: number, cap: number) => void) &
-
-  ((cap: number) => void) &
-  Runnable
-
-type EllipsoidConsumer =
-  ((radiusx: number) => void) &
-  ((radiusx: number, radiusy: number) => void) &
-  ((radiusx: number, radiusy: number, radiusz: number) => void) &
-  ((radiusx: number, radiusy: number, radiusz: number, detailX: number) => void) &
-  ((radiusx: number, radiusy: number, radiusz: number, detailX: number, detailY: number) => void) &
-  ((radiusx: number, radiusy: number, radiusz: number, detailY: number) => void) &
-  ((radiusx: number, radiusy: number, detailX: number) => void) &
-  ((radiusx: number, radiusy: number, detailX: number, detailY: number) => void) &
-  ((radiusx: number, radiusy: number, detailY: number) => void) &
-
-  ((radiusx: number, radiusz: number) => void) &
-  ((radiusx: number, radiusz: number, detailX: number) => void) &
-  ((radiusx: number, radiusz: number, detailX: number, detailY: number) => void) &
-  ((radiusx: number, radiusz: number, detailY: number) => void) &
-  ((radiusx: number, detailX: number) => void) &
-  ((radiusx: number, detailX: number, detailY: number) => void) &
-  ((radiusx: number, detailY: number) => void) &
-
-  ((radiusy: number) => void) &
-  ((radiusy: number, radiusz: number) => void) &
-  ((radiusy: number, radiusz: number, detailX: number) => void) &
-  ((radiusy: number, radiusz: number, detailX: number, detailY: number) => void) &
-  ((radiusy: number, radiusz: number, detailY: number) => void) &
-  ((radiusy: number, detailX: number) => void) &
-  ((radiusy: number, detailX: number, detailY: number) => void) &
-  ((radiusy: number, detailY: number) => void) &
-
-  ((radiusz: number) => void) &
-  ((radiusz: number, detailX: number) => void) &
-  ((radiusz: number, detailX: number, detailY: number) => void) &
-  ((radiusz: number, detailY: number) => void) &
-
-  ((detailX: number) => void) &
-  ((detailX: number, detailY: number) => void) &
-
-  ((detailY: number) => void) &
-  Runnable
-
-type TorusConsumer =
-  ((radius: number) => void) &
-  ((radius: number, tubeRadius: number) => void) &
-  ((radius: number, tubeRadius: number, detailX: number) => void) &
-  ((radius: number, tubeRadius: number, detailX: number, detailY: number) => void) &
-  ((radius: number, tubeRadius: number, detailY: number) => void) &
-  ((radius: number, detailX: number) => void) &
-  ((radius: number, detailX: number, detailY: number) => void) &
-  ((radius: number, detailY: number) => void) &
-
-  ((tubeRadius: number) => void) &
-  ((tubeRadius: number, detailX: number) => void) &
-  ((tubeRadius: number, detailX: number, detailY: number) => void) &
-  ((tubeRadius: number, detailY: number) => void) &
-
-  ((detailX: number) => void) &
-  ((detailX: number, detailY: number) => void) &
-
-  ((detailY: number) => void) &
-  Runnable
-
-
 // 3d models
-type SuccessCallback = (model: P5Geometry) => any
-type FailureCallback = (event: any) => any
-type ModelFileType = '.stl' | '.obj'
-
-type LoadModelFn =
-  ((path: string, normalize: boolean) => P5Geometry) &
-  ((path: string, normalize: boolean, successCallback: SuccessCallback) => P5Geometry) &
-  ((path: string, normalize: boolean, successCallback: SuccessCallback, failureCallback: FailureCallback) => P5Geometry) &
-  ((path: string, normalize: boolean, successCallback: SuccessCallback, fileType: ModelFileType) => P5Geometry) &
-  ((path: string, normalize: boolean,
-    successCallback: SuccessCallback, failureCallback: FailureCallback, fileType: ModelFileType) => P5Geometry) &
-  ((path: string, normalize: boolean, failureCallback: FailureCallback) => P5Geometry) &
-  ((path: string, normalize: boolean, failureCallback: FailureCallback, fileType: ModelFileType) => P5Geometry) &
-  ((path: string, normalize: boolean, fileType: ModelFileType) => P5Geometry) &
-  ((path: string) => P5Geometry) &
-  ((path: string, successCallback: SuccessCallback) => P5Geometry) &
-  ((path: string, successCallback: SuccessCallback, failureCallback: FailureCallback) => P5Geometry) &
-  ((path: string, successCallback: SuccessCallback, failureCallback: FailureCallback, fileType: ModelFileType) => P5Geometry) &
-  ((path: string, successCallback: SuccessCallback, fileType: ModelFileType) => P5Geometry) &
-  ((path: string, failureCallback: FailureCallback) => P5Geometry) &
-  ((path: string, failureCallback: FailureCallback, fileType: ModelFileType) => P5Geometry) &
-  ((path: string, fileType: ModelFileType) => P5Geometry)
+type ModelFn = (model: P5Geometry) => any
 
 
 // ENVIRONMENT
@@ -941,120 +581,32 @@ export enum CursorType {
   WAIT = 'WAIT'
 }
 
-type CursorConsumer =
-  ((type: string | CursorType) => void) &
-  ((type: string | CursorType, x: number) => void) &
-  ((type: string | CursorType, x: number, y: number) => void) &
-  ((type: string | CursorType, y: number) => void)
-
-type FrameRateConsumer = (fps: number) => void & Runnable
-
-type FullscreenFn = ((val: boolean) => boolean) & BooleanSupplier
-
-type PixelDensityConsumer = ((val: number) => void) & Runnable
-
-
-// STRUCTURE
-type RedrawFn = ((n: number) => void) & Runnable
-
 
 // DOM
-type SelectFn =
-  ((selectors: string) => P5Element) &
-  ((selectors: string, container: string | P5Element | HTMLElement) => P5Element)
-
-type SelectAllFn =
-  ((selectors: string) => P5Element[]) &
-  ((selectors: string, container: string | P5Element | HTMLElement) => P5Element[])
-
-type CreateGenericElementFn = ((html: string) => P5Element) & (() => P5Element)
-
-type CreateSliderFn =
-  ((min: number, max: number) => P5Element) &
-  ((min: number, max: number, value: number) => P5Element) &
-  ((min: number, max: number, value: number, step: number) => P5Element) &
-  ((min: number, max: number, step: number) => P5Element)
-
-type CreateButtonFn =
-  ((label: string) => P5Element) &
-  ((label: string, value: string) => P5Element)
-
-type CreateCheckboxFn =
-  ((label: string) => P5Element) &
-  ((label: string, value: boolean) => P5Element) &
-  ((value: boolean) => P5Element) &
-  Runnable
+type CreateGenericElementFn = (html?: string) => P5Element
 
 type CreateSelectFn =
   ((existing: any) => P5Element) &
-  ((multiple: boolean) => P5Element) &
-  Runnable
-
-type CreateRadioFn =
-  ((containerElement: any) => P5Element) &
-  ((containerElement: any, name: string) => P5Element) &
-  ((name: string) => P5Element) &
-  Runnable
-
-type CreateColorPickerFn = ((value: string | P5Color) => P5Element) & Runnable
-
-type CreateInputFn =
-  ((value: string) => P5Element) &
-  ((value: string, type: string) => P5Element) &
-  Runnable
-
-type CreateFileInputFn =
-  ((callback: AnyFunction) => P5Element) &
-  ((callback: AnyFunction, multiple: boolean) => P5Element)
-
-type CreateVideoFn =
-  ((src: string | string[]) => P5MediaElement) &
-  ((src: string | string[], callback: AnyFunction) => P5MediaElement)
-
-type CreateAudioFn =
-  ((src: string | string[]) => P5MediaElement) &
-  ((src: string | string[], callback: AnyFunction) => P5MediaElement) &
-  ((callback: AnyFunction) => P5MediaElement) &
-  Runnable
-
-type CreateCaptureFn =
-  ((type: 'VIDEO' | 'AUDIO' | string | any) => P5Element) &
-  ((type: 'VIDEO' | 'AUDIO' | string | any, callback: AnyFunction) => P5Element)
-
-type CreateElementFn =
-  ((tag: string) => P5Element) &
-  ((tag: string, content: string) => P5Element)
+  ((multiple?: boolean) => P5Element)
 
 
 // RENDERING
-type CreateCanvasFn = ((width: number, height: number) => any) & ((width: number, height: number, renderer: RendererType) => P5Renderer)
-
-type ResizeCanvasConsumer = ((w: number, h: number) => void) & ((w: number, h: number, noRedraw: boolean) => void)
-
-type CreateGraphicsFn = ((w: number, h: number) => P5Graphics) & ((w: number, h: number, renderer: RendererType) => P5Graphics)
-
 type SetAttributeConsumer = ((key: string, value: boolean) => void) & ((obj: object) => void)
 
 
 // TRANSFORM
 type AngleConsumer = (angle: number) => void
 
-type RotateConsumer = AngleConsumer & ((angle: number, axis: P5Vector | number[]) => void)
-
 type ScaleConsumer =
-  ((s: number | P5Vector | number[]) => void) &
-  ((s: number | P5Vector | number[], y: number) => void) &
-  ((s: number | P5Vector | number[], y: number, z: number) => void) &
-  ((s: number | P5Vector | number[], z: number) => void) &
+  ((s: number | P5Vector | number[], y?: number, z?: number) => void) &
   ((scales: P5Vector | number[]) => void)
 
 type TranslateConsumer =
-  ((x: number, y: number) => void) &
-  ((x: number, y: number, z: number) => void) &
+  ((x: number, y: number, z?: number) => void) &
   ((vector: P5Vector) => void)
 
-// DATA
 
+// DATA
 // local storage
 type LocalStorageItem = string | number | object | boolean | P5Color | P5Vector
 
@@ -1064,12 +616,7 @@ type CreateDictFn<T, R> = ((key: T, value: T) => R) & ((obj: object) => R)
 // array functions
 type ArrayCopyConsumer =
   ((src: any[], srcPosition: number, dst: any[], dstPosition: number, length: number) => void) &
-  ((src: any[], dst: any[]) => void) &
-  ((src: any[], dst: any[], length: number) => void)
-
-type ArrayShuffleFn =
-  ((array: any[]) => any[]) &
-  ((array: any[], bool: boolean) => any[])
+  ((src: any[], dst: any[], length?: number) => void)
 
 // conversion
 type NumberConversionFn = (n: string | boolean | number) => number
@@ -1091,34 +638,27 @@ type CharConversionFn =
 type StringNumConversionFn = ((n: string) => number) & ((ns: string[]) => number)
 
 type HexConversionFn =
-  ((n: number) => string) &
-  ((n: number, digits: number) => string) &
-  ((ns: number[]) => string) &
-  ((ns: number[], digits: number) => string)
+  ((n: number, digits?: number) => string) &
+  ((ns: number[], digits?: number) => string)
 
 // string functions
 type NumberFormatFn =
   NumberFormatCommaFn &
-  ((num: NumberOrString, left: NumberOrString) => string) &
-  ((num: NumberOrString, left: NumberOrString, right: NumberOrString) => string) &
-  ((nums: ArrayOfNumberOrString, left: NumberOrString) => string) &
-  ((nums: ArrayOfNumberOrString, left: NumberOrString, right: NumberOrString) => string)
+  ((num: NumberOrString, left: NumberOrString, right?: NumberOrString) => string) &
+  ((nums: ArrayOfNumberOrString, left: NumberOrString, right?: NumberOrString) => string)
 
 type NumberFormatCommaFn =
-  ((num: NumberOrString) => string) &
-  ((num: NumberOrString, right: NumberOrString) => string) &
-  ((nums: ArrayOfNumberOrString) => string) &
-  ((nums: ArrayOfNumberOrString, right: NumberOrString) => string)
-
-type SplitTokensFn =
-  ((value: string) => string[]) &
-  ((value: string, delim: string) => string[])
+  ((num: NumberOrString, right?: NumberOrString) => string) &
+  ((nums: ArrayOfNumberOrString, right?: NumberOrString) => string)
 
 type TrimFn = ((str: string) => string) & ((strs: string[]) => string)
 
 
 // EVENTS
-type EventConsumer = ((event: any) => void) & Runnable
+type EventConsumer = (event?: any) => void
+
+// acceleration
+type ValueConsumer = (value: number) => void
 
 // keyboard
 export enum KeyCode {
@@ -1141,45 +681,23 @@ export enum KeyCode {
 
 // IMAGE
 type SaveCanvasConsumer =
-  ((selectedCanvas: P5Element) => void) &
-  ((selectedCanvas: P5Element, filename: string) => void) &
-  ((selectedCanvas: P5Element, filename: string, extension: string) => void) &
-  ((selectedCanvas: P5Element, extension: string) => void) &
-  ((filename: string) => void) &
-  ((filename: string, extension: string) => void) &
-  ((extension: string) => void) &
-  Runnable
-
-type SaveFramesConsumer =
-  ((filename: string, extension: string, duration: number, framerate: number) => void) &
-  ((filename: string, extension: string, duration: number, framerate: number, callback: AnyFunction) => void)
+  ((selectedCanvas: P5Element, filename?: string, extension?: string) => void) &
+  ((filename?: string, extension?: string) => void)
 
 // loading & display
-type LoadImageFn =
-  ((path: string) => P5Image) &
-  ((path: string, successCallback: (img: P5Image) => void) => P5Image) &
-  ((path: string, successCallback: (img: P5Image) => void, failureCallback: (event: Event) => void) => P5Image) &
-  ((path: string, failureCallback: (event: Event) => void) => P5Image)
-
 
 type Image = P5Image | P5Element
 
 type ImageConsumer =
-  ((img: Image, x: number, y: number) => void) &
-  ((img: Image, x: number, y: number, width: number) => void) &
-  ((img: Image, x: number, y: number, width: number, height: number) => void) &
-  ((img: Image, x: number, y: number, height: number) => void) &
-  ((img: Image, dx: number, dy: number, dWidth: number, dHeight: number, sx: number, sy: number) => void) &
-  ((img: Image, dx: number, dy: number, dWidth: number, dHeight: number, sx: number, sy: number, sWidth: number) => void) &
-  ((img: Image, dx: number, dy: number, dWidth: number, dHeight: number, sx: number, sy: number, sWidth: number, sHeight: number) => void) &
-  ((img: Image, dx: number, dy: number, dWidth: number, dHeight: number, sx: number, sy: number, sHeight: number) => void)
+  ((img: Image, x: number, y: number, width?: number, height?: number) => void) &
+  ((img: Image,
+    dx: number, dy: number, dWidth: number, dHeight: number,
+    sx: number, sy: number, sWidth?: number, sHeight?: number) => void)
 
 type TintConsumer =
-  ((v1: number, v2: number, v3: number) => void) &
-  ((v1: number, v2: number, v3: number, alpha: number) => void) &
+  ((v1: number, v2: number, v3: number, alpha?: number) => void) &
   ((value: string) => void) &
-  ((gray: number) => void) &
-  ((gray: number, alpha: number) => void) &
+  ((gray: number, alpha?: number) => void) &
   ((values: number[]) => void) &
   ((color: P5Color) => void)
 
@@ -1190,122 +708,15 @@ export enum ImageMode {
 }
 
 // pixels
-type BlendConsumer =
-  ((srcImage: P5Image,
-    sx: number, sy: number, sw: number, sh: number,
-    dx: number, dy: number, dw: number, dh: number, blendMode: BlendMode) => void) &
-  ((sx: number, sy: number, sw: number, sh: number,
-    dx: number, dy: number, dw: number, dh: number, blendMode: BlendMode) => void)
-
-type CopyConsumer =
-  ((srcImage: P5Image, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number) => void) &
-  ((sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number) => void)
-
-type FilterConsumer = ((filterType: FilterType) => void) & ((filterType: FilterType, filterParam: number) => void)
-
 type ImageGetFn =
-  ((x: number, y: number, w: number, h: number) => P5Image) &
-  ((x: number, y: number) => P5Image) &
+  ((x: number, y: number, w?: number, h?: number) => P5Image) &
   (() => P5Image)
-
-type UpdatePixelsConsumer =
-  ((x: number) => void) &
-  ((x: number, y: number) => void) &
-  ((x: number, y: number, w: number) => void) &
-  ((x: number, y: number, w: number, h: number) => void) &
-  ((x: number, y: number, h: number) => void) &
-  ((x: number, w: number) => void) &
-  ((x: number, w: number, h: number) => void) &
-  ((x: number, h: number) => void) &
-
-  ((y: number) => void) &
-  ((y: number, w: number) => void) &
-  ((y: number, w: number, h: number) => void) &
-  ((y: number, h: number) => void) &
-
-  ((w: number) => void) &
-  ((w: number, h: number) => void) &
-
-  ((h: number) => void) &
-  Runnable
 
 
 // IO
 // input
-type LoadJsonFn =
-  ((path: string) => any) &
-  ((path: string, jsonOptions: object) => any) &
-  ((path: string, jsonOptions: object, datatype: 'json' | 'jsonp') => any) &
-  ((path: string, jsonOptions: object, datatype: 'json' | 'jsonp', callback: AnyFunction) => any) &
-  ((path: string, jsonOptions: object, datatype: 'json' | 'jsonp', callback: AnyFunction, errorCallback: AnyFunction) => any) &
-  ((path: string, jsonOptions: object, datatype: 'json' | 'jsonp', errorCallback: AnyFunction) => any) &
-  ((path: string, jsonOptions: object, callback: AnyFunction) => any) &
-  ((path: string, jsonOptions: object, callback: AnyFunction, errorCallback: AnyFunction) => any) &
-  ((path: string, datatype: 'json' | 'jsonp') => any) &
-  ((path: string, datatype: 'json' | 'jsonp', callback: AnyFunction) => any) &
-  ((path: string, datatype: 'json' | 'jsonp', callback: AnyFunction, errorCallback: AnyFunction) => any) &
-  ((path: string, datatype: 'json' | 'jsonp', errorCallback: AnyFunction) => any) &
-  ((path: string, callback: AnyFunction) => any) &
-  ((path: string, callback: AnyFunction, errorCallback: AnyFunction) => any) &
-  ((path: string, errorCallback: AnyFunction) => any)
-
-type LoadStringsFn =
-  ((filename: string) => string[]) &
-  ((filename: string, callback: AnyFunction) => string[]) &
-  ((filename: string, callback: AnyFunction, errorCallback: AnyFunction) => string[]) &
-  ((filename: string, errorCallback: AnyFunction) => string[])
-
-type LoadTableFn =
-  ((filename: string, width: number) => P5Table) &
-  ((filename: string, width: number, height: number) => P5Table) &
-  ((filename: string, width: number, height: number, detailX: number) => P5Table) &
-  ((filename: string, width: number, height: number, detailX: number, detailY: number) => P5Table) &
-  ((filename: string, width: number, height: number, detailY: number) => P5Table) &
-  ((filename: string, width: number, detailX: number) => P5Table) &
-  ((filename: string, width: number, detailX: number, detailY: number) => P5Table) &
-  ((filename: string, width: number, detailY: number) => P5Table) &
-
-  ((filename: string, height: number) => P5Table) &
-  ((filename: string, height: number, detailX: number) => P5Table) &
-  ((filename: string, height: number, detailX: number, detailY: number) => P5Table) &
-  ((filename: string, height: number, detailY: number) => P5Table) &
-
-  ((filename: string, detailX: number) => P5Table) &
-  ((filename: string, detailX: number, detailY: number) => P5Table) &
-
-  ((filename: string, detailY: number) => P5Table) &
-  ((filename: string) => P5Table)
-
-type LoadXmlFn =
-  ((filename: string) => XMLDocument) &
-  ((filename: string, callback: AnyFunction) => XMLDocument) &
-  ((filename: string, callback: AnyFunction, errorCallback: AnyFunction) => XMLDocument) &
-  ((filename: string, errorCallback: AnyFunction) => XMLDocument)
-
-type LoadBytesFn =
-  ((file: string) => object) &
-  ((file: string, callback: AnyFunction) => object) &
-  ((file: string, callback: AnyFunction, errorCallback: AnyFunction) => object) &
-  ((file: string, errorCallback: AnyFunction) => object)
-
 type HttpFn =
-  ((path: string) => Promise<any>) &
-  ((path: string, datatype: string) => Promise<any>) &
-  ((path: string, datatype: string, data: object | boolean) => Promise<any>) &
-  ((path: string, datatype: string, data: object | boolean, callback: AnyFunction) => Promise<any>) &
-  ((path: string, datatype: string, data: object | boolean, callback: AnyFunction, errorCallback: AnyFunction) => Promise<any>) &
-  ((path: string, datatype: string, data: object | boolean, errorCallback: AnyFunction) => Promise<any>) &
-  ((path: string, datatype: string, callback: AnyFunction) => Promise<any>) &
-  ((path: string, datatype: string, callback: AnyFunction, errorCallback: AnyFunction) => Promise<any>) &
-  ((path: string, datatype: string, errorCallback: AnyFunction) => Promise<any>) &
-
-  ((path: string, data: object | boolean) => Promise<any>) &
-  ((path: string, data: object | boolean, callback: AnyFunction) => Promise<any>) &
-  ((path: string, data: object | boolean, callback: AnyFunction, errorCallback: AnyFunction) => Promise<any>) &
-  ((path: string, data: object | boolean, errorCallback: AnyFunction) => Promise<any>) &
-  ((path: string, callback: AnyFunction) => Promise<any>) &
-  ((path: string, callback: AnyFunction, errorCallback: AnyFunction) => Promise<any>) &
-  ((path: string, errorCallback: AnyFunction) => Promise<any>)
+  ((path: string, datatype?: string, data?: object | boolean, callback?: AnyFunction, errorCallback?: AnyFunction) => Promise<any>)
 
 export enum HttpMethod {
   GET = 'GET',
@@ -1316,69 +727,10 @@ export enum HttpMethod {
 type HttpDataType = 'json' | 'jsonp' | 'xml' | 'text'
 
 type HttpDoFn =
-  ((path: string) => Promise<any>) &
-  ((path: string, method: HttpMethod) => Promise<any>) &
-  ((path: string, method: HttpMethod, datatype: HttpDataType) => Promise<any>) &
-  ((path: string, method: HttpMethod, datatype: HttpDataType, data: object) => Promise<any>) &
-  ((path: string, method: HttpMethod, datatype: HttpDataType, data: object, callback: AnyFunction) => Promise<any>) &
   ((path: string,
-    method: HttpMethod, datatype: HttpDataType, data: object,
-    callback: AnyFunction, errorCallback: AnyFunction) => Promise<any>) &
-  ((path: string, method: HttpMethod, datatype: HttpDataType, data: object, errorCallback: AnyFunction) => Promise<any>) &
-  ((path: string, method: HttpMethod, datatype: HttpDataType, callback: AnyFunction) => Promise<any>) &
-  ((path: string, method: HttpMethod, datatype: HttpDataType, callback: AnyFunction, errorCallback: AnyFunction) => Promise<any>) &
-  ((path: string, method: HttpMethod, datatype: HttpDataType, errorCallback: AnyFunction) => Promise<any>) &
-  ((path: string, method: HttpMethod, data: object) => Promise<any>) &
-  ((path: string, method: HttpMethod, data: object, callback: AnyFunction) => Promise<any>) &
-  ((path: string, method: HttpMethod, data: object, callback: AnyFunction, errorCallback: AnyFunction) => Promise<any>) &
-  ((path: string, method: HttpMethod, data: object, errorCallback: AnyFunction) => Promise<any>) &
-  ((path: string, datatype: HttpDataType) => Promise<any>) &
-  ((path: string, datatype: HttpDataType, data: object) => Promise<any>) &
-  ((path: string, datatype: HttpDataType, data: object, callback: AnyFunction) => Promise<any>) &
-  ((path: string, datatype: HttpDataType, data: object, callback: AnyFunction, errorCallback: AnyFunction) => Promise<any>) &
-  ((path: string, datatype: HttpDataType, callback: AnyFunction) => Promise<any>) &
-  ((path: string, datatype: HttpDataType, callback: AnyFunction, errorCallback: AnyFunction) => Promise<any>) &
-  ((path: string, datatype: HttpDataType, errorCallback: AnyFunction) => Promise<any>) &
-  ((path: string, data: object) => Promise<any>) &
-  ((path: string, data: object, callback: AnyFunction) => Promise<any>) &
-  ((path: string, data: object, callback: AnyFunction, errorCallback: AnyFunction) => Promise<any>) &
-  ((path: string, data: object, errorCallback: AnyFunction) => Promise<any>) &
-  ((path: string, callback: AnyFunction) => Promise<any>) &
-  ((path: string, callback: AnyFunction, errorCallback: AnyFunction) => Promise<any>) &
-  ((path: string, errorCallback: AnyFunction) => Promise<any>)&
-
-  ((path: string, options: object) => Promise<any>) &
-  ((path: string, options: object, callback: AnyFunction) => Promise<any>) &
-  ((path: string, options: object, callback: AnyFunction, errorCallback: AnyFunction) => Promise<any>) &
-  ((path: string, options: object, errorCallback: AnyFunction) => Promise<any>)
-
-type CreateWriterFn = ((name: string) => P5PrintWriter) & ((name: string, extension: string) => P5PrintWriter)
-
-type OutputSaveConsumer =
-  ((objectOrFilename: object | string) => void) &
-  ((objectOrFilename: object | string, filename: string) => void) &
-  ((objectOrFilename: object | string, filename: string, options: boolean | string) => void) &
-  ((objectOrFilename: object | string, options: boolean | string) => void) &
-
-  ((filename: string) => void) &
-  ((filename: string, options: boolean | string) => void) &
-
-  ((options: boolean | string) => void) &
-  Runnable
-
-type SaveJSONConsumer =
-  ((json: any[] | object, filename: string) => void) &
-  ((json: any[] | object, filename: string, optimize: boolean) => void)
-
-type SaveStringConsumer =
-  ((list: string[], filename: string) => void) &
-  ((list: string[], filename: string, extension: string) => void) &
-  ((list: string[], filename: string, extension: string, isCRLF: boolean) => void) &
-  ((list: string[], filename: string, isCRLF: boolean) => void)
-
-type SaveTableConsumer =
-  ((table: P5Table, filename: string) => void) &
-  ((table: P5Table, filename: string, options: 'tsv' | 'csv' | 'html') => void)
+    method: HttpMethod, datatype?: HttpDataType, data?: object,
+    callback?: AnyFunction, errorCallback?: AnyFunction) => Promise<any>) &
+  ((path: string, options: object, callback?: AnyFunction, errorCallback?: AnyFunction) => Promise<any>)
 
 
 // MATH
@@ -1389,40 +741,11 @@ type MathDistFn =
   ((x1: number, y1: number, x2: number, y2: number) => number) &
   ((x1: number, y1: number, z1: number, x2: number, y2: number, z2: number) => number)
 
-type MathMapFn =
-  ((value: number, start1: number, stop1: number, start2: number, stop2: number) => number) &
-  ((value: number, start1: number, stop1: number, start2: number, stop2: number, withinBounds: boolean) => number)
-
 type MathMinMaxFn = ((n0: number, n1: number) => number) & ((nums: number[]) => number)
-
-type MathRoundFn = ((n: number) => number) & ((n: number, decimals: number) => number)
-
-// vector
-type CreateVectorFn =
-  ((x: number) => P5Vector) &
-  ((x: number, y: number) => P5Vector) &
-  ((x: number, y: number, z: number) => P5Vector) &
-  ((x: number, z: number) => P5Vector) &
-
-  ((y: number) => P5Vector) &
-  ((y: number, z: number) => P5Vector) &
-
-  ((z: number) => P5Vector) &
-  Runnable
-
-// noise
-type NoiseFn =
-  ((x: number) => number) &
-  ((x: number, y: number) => number) &
-  ((x: number, y: number, z: number) => number) &
-  ((x: number, z: number) => number)
 
 // random
 type RandomFn =
-  ((min: number) => number) &
-  ((min: number, max: number) => number) &
-  ((max: number) => number) &
-  NumberSupplier &
+  ((min?: number, max?: number) => number) &
   ((choices: any[]) => number)
 
 // trigonometry
@@ -1450,22 +773,12 @@ export enum VertAlign {
   BASELINE = 'BASELINE'
 }
 
-type TextAlignConsumer = ((horizAlign: HorizAlign) => void) & ((horizAlign: HorizAlign, vertAlign: VertAlign) => void)
-
-type TextLeadingConsumer = ((leading: number) => void) & Runnable
-
-type TextSizeConsumer = ((theSize: number) => void) & Runnable
-
 export enum TextStyle {
   NORMAL = 'NORMAL',
   ITALIC = 'ITALIC',
   BOLD = 'BOLD',
   BOLDITALIC = 'BOLDITALIC'
 }
-
-type TextStyleConsumer = ((theStyle: TextStyle) => void) & Runnable
-
-type FontTextString = string | object | any[] | number | boolean
 
 
 // LIGHTS, CAMERA
