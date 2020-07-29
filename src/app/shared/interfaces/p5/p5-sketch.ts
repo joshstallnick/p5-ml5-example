@@ -353,6 +353,51 @@ export interface P5Sketch {
   month: NumberSupplier
   second: NumberSupplier
   year: NumberSupplier
+
+  // MATH
+  // calculation
+  abs: NumberFn
+  ceil: NumberFn
+  constrain: (n: number, low: number, high: number) => number
+  dist: MathDistFn
+  exp: NumberFn
+  floor: NumberFn
+  lerp: (start: number, stop: number, amt: number) => number
+  log: NumberFn
+  mag: (a: number, b: number) => number
+  map: MathMapFn
+  max: MathMinMaxFn
+  norm: (value: number, start: number, stop: number) => number
+  pow: (n: number, e: number) => number
+  round: MathRoundFn
+  sq: NumberFn
+  sqrt: NumberFn
+  fract: NumberFn
+
+  // vector
+  createVector: CreateVectorFn
+
+  // noise
+  noise: NoiseFn
+  noiseDetail: ((lod: number, falloff: number) => void)
+  noiseSeed: (seed: number) => void
+
+  // random
+  randomSeed: (seed: number) => void
+  random: RandomFn
+  randomGaussian: (mean: number, sd: number) => number
+
+  // trigonometry
+  acos: TrigABaseFn
+  asin: TrigABaseFn
+  atan: TrigABaseFn
+  atan2: (y: number, x: number) => number
+  cos: TrigBaseFn
+  sin: TrigBaseFn
+  tan: TrigBaseFn
+  degrees: (radians: number) => number
+  radians: (degrees: number) => number
+  angleMode: (mode: AngleMode) => void
 }
 
 export enum RendererType {
@@ -1276,3 +1321,57 @@ type SaveStringConsumer =
 type SaveTableConsumer =
   ((table: P5Table, filename: string) => void) &
   ((table: P5Table, filename: string, options: 'tsv' | 'csv' | 'html') => void)
+
+
+// MATH
+// calculation
+type NumberFn = (n: number) => number
+
+type MathDistFn =
+  ((x1: number, y1: number, x2: number, y2: number) => number) &
+  ((x1: number, y1: number, z1: number, x2: number, y2: number, z2: number) => number)
+
+type MathMapFn =
+  ((value: number, start1: number, stop1: number, start2: number, stop2: number) => number) &
+  ((value: number, start1: number, stop1: number, start2: number, stop2: number, withinBounds: boolean) => number)
+
+type MathMinMaxFn = ((n0: number, n1: number) => number) & ((nums: number[]) => number)
+
+type MathRoundFn = ((n: number) => number) & ((n: number, decimals: number) => number)
+
+// vector
+type CreateVectorFn =
+  ((x: number) => P5Vector) &
+  ((x: number, y: number) => P5Vector) &
+  ((x: number, y: number, z: number) => P5Vector) &
+  ((x: number, z: number) => P5Vector) &
+
+  ((y: number) => P5Vector) &
+  ((y: number, z: number) => P5Vector) &
+
+  ((z: number) => P5Vector) &
+  Runnable
+
+// noise
+type NoiseFn =
+  ((x: number) => number) &
+  ((x: number, y: number) => number) &
+  ((x: number, y: number, z: number) => number) &
+  ((x: number, z: number) => number)
+
+// random
+type RandomFn =
+  ((min: number) => number) &
+  ((min: number, max: number) => number) &
+  ((max: number) => number) &
+  NumberSupplier &
+  ((choices: any[]) => number)
+
+// trigonometry
+export enum AngleMode {
+  RADIANS = 'RADIANS',
+  DEGREES = 'DEGREES'
+}
+
+type TrigABaseFn = (value: number) => number
+type TrigBaseFn = (angle: number) => number
