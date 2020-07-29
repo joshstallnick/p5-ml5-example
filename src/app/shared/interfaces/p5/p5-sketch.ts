@@ -1,6 +1,7 @@
 import {BlendMode, FilterType, P5Image} from './p5-image'
 import {
-  AnyFunction, ArrayOfNumberOrString,
+  AnyFunction,
+  ArrayOfNumberOrString,
   BooleanSupplier,
   NumberOrString,
   NumberSupplier,

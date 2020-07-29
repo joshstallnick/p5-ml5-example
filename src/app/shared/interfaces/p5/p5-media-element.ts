@@ -20,13 +20,9 @@ export interface P5MediaElement extends P5Element {
   disconnect: Runnable
   showControls: Runnable
   hideControls: Runnable
-  addCue: AddCueFn
+  addCue: (time: number, callback: AnyFunction, value?: any) => number
   removeCue: CueIdFn
   clearCues: CueIdFn
 }
-
-type AddCueFn =
-  ((time: number, callback: AnyFunction) => number) &
-  ((time: number, callback: AnyFunction, value: any) => number)
 
 type CueIdFn = (id: number) => void

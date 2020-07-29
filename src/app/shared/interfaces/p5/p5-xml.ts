@@ -6,25 +6,19 @@ export interface P5XML {
   setName: (the: string) => void
   hasChildren: BooleanSupplier
   listChildren: StringArraySupplier
-  getChildren: GetChildrenFn
+  getChildren: (name?: string) => P5XML[]
   getChild: (name: NumberOrString) => P5XML
   addChild: (node: P5XML) => void
   removeChild: (name: NumberOrString) => void
   getAttributeCount: NumberSupplier
   listAttributes: StringArraySupplier
   hasAttribute: (the: string) => boolean
-  getNum: GetNumFn
-  getString: GetStringFn
+  getNum: GetFn<number>
+  getString: GetFn<string>
   setAttribute: (name: string, value: number | string | boolean) => void
-  getContent: GetContentFn
+  getContent: (defaultValue?: string) => string
   setContent: (text: string) => void
   serialize: StringSupplier
 }
 
-type GetChildrenFn = ((name: string) => P5XML[]) & (() => P5XML[])
-
-type GetNumFn = ((name: string) => number) & ((name: string, defaultValue: number) => number)
-
-type GetStringFn = ((name: string) => string) & ((name: string, defaultValue: number) => string)
-
-type GetContentFn = ((defaultValue: string) => string) & StringSupplier
+type GetFn<T> = (name: string, defaultValue?: number) => T

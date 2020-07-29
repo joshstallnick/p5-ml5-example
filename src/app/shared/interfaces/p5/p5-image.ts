@@ -18,23 +18,24 @@ export interface P5Image {
   _pixelsState: any
 
   // fns
-  loadPixels: Runnable                                                              // https://p5js.org/reference/#/p5.Image/loadPixels
-  updatePixels: UpdatePixelsFn                                                      // https://p5js.org/reference/#/p5.Image/updatePixels
-  get: GetFn                                                                        // https://p5js.org/reference/#/p5.Image/get
-  set: (x: number, y: number, a: Alpha) => void                                     // https://p5js.org/reference/#/p5.Image/set
-  resize: (width: number, height: number) => void                                   // https://p5js.org/reference/#/p5.Image/resize
-  copy: CopyFn                                                                      // https://p5js.org/reference/#/p5.Image/copy
-  mask: (srcImage: P5Image) => void                                                 // https://p5js.org/reference/#/p5.Image/mask
-  filter: FilterFn                                                                  // https://p5js.org/reference/#/p5.Image/filter (EOP)
-  blend: BlendFn                                                                    // https://p5js.org/reference/#/p5.Image/blend
+  loadPixels: Runnable
+  updatePixels: UpdatePixelsFn
+  get: GetFn
+  set: (x: number, y: number, a: Alpha) => void
+  resize: (width: number, height: number) => void
+  copy: CopyFn
+  mask: (srcImage: P5Image) => void
+  filter: (filterType: FilterType, filterParam?: number) => void                    // https://p5js.org/reference/#/p5.Image/filter (EOP)
+  blend: (sx: number, sy: number, sw: number, sh: number,
+          dx: number, dy: number, dw: number, dh: number, blendMode: BlendMode, srcImage?: P5Image) => void
   save: (filename: string, extension: 'png' | 'jpg' | 'gif') => void                // https://p5js.org/reference/#/p5.Image/save (EOP)
-  reset: Runnable                                                                   // https://p5js.org/reference/#/p5.Image/reset
-  getCurrentFrame: NumberSupplier                                                   // https://p5js.org/reference/#/p5.Image/getCurrentFrame
-  setFrame: (index: number) => void                                                 // https://p5js.org/reference/#/p5.Image/setFrame
-  numFrames: NumberSupplier                                                         // https://p5js.org/reference/#/p5.Image/numFrames
-  play: Runnable                                                                    // https://p5js.org/reference/#/p5.Image/play
-  pause: Runnable                                                                   // https://p5js.org/reference/#/p5.Image/pause
-  delay: DelayFn                                                                    // https://p5js.org/reference/#/p5.Image/delay
+  reset: Runnable
+  getCurrentFrame: NumberSupplier
+  setFrame: (index: number) => void
+  numFrames: NumberSupplier
+  play: Runnable
+  pause: Runnable
+  delay: (d: number, index?: number) => void
 }
 
 export enum FilterType {
@@ -77,12 +78,3 @@ type GetFn = ((x: number, y: number, w: number, h: number) => P5Image) &
 // srcImage = p5.Image | p5.Element
 type CopyFn = ((srcImage: any, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number) => void) &
   ((sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number) => void)
-
-type FilterFn = ((filterType: FilterType) => void) & ((filterType: FilterType, filterParam: number) => void)
-
-type BlendFn =
-  ((srcImage: P5Image,
-    sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number, blendMode: BlendMode) => void) &
-  ((sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number, blendMode: BlendMode) => void)
-
-type DelayFn = ((d: number) => void) & ((d: number, index: number) => void)
