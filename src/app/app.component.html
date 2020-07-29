@@ -8,12 +8,12 @@
     </div>
 
     <div class="header-nav">
-      <a routerLink="/p5-dashboard"
+      <a routerLink="/p5/dashboard"
          routerLinkActive="active"
          class="nav-link nav-text"
          (click)="selectDashboard('p5')">P5 Dashboard</a>
 
-      <a routerLink="/ml5-dashboard"
+      <a routerLink="/ml5/dashboard"
          routerLinkActive="active"
          class="nav-link nav-text"
          (click)="selectDashboard('ml5')">ML5 Dashboard</a>
@@ -34,8 +34,19 @@
   </nav>
 
   <div class="content-container">
+    <clr-vertical-nav *ngIf="vertNav.length > 0">
+      <a clrVerticalNavLink *ngFor="let nav of vertNav" [routerLink]="nav.link" routerLinkActive="active">
+        <clr-icon clrVerticalNavIcon [attr.shape]="nav.icon"></clr-icon>
+        {{nav.name}}
+      </a>
+    </clr-vertical-nav>
+
     <div class="content-area">
       <router-outlet></router-outlet>
+
+      <div style="margin-bottom: 40px"></div>
+
+      <router-outlet name="exampleDisplay"></router-outlet>
     </div>
   </div>
 

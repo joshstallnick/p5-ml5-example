@@ -1,6 +1,6 @@
 import {Component} from '@angular/core'
-import {ApplicationService} from './services/application-service/application.service'
-import {DebugMode, DebugModeConsumer} from './shared/interfaces/p5/p5-sketch'
+import {ApplicationService, SideNavItem} from './services/application-service/application.service'
+import {combineLatest} from 'rxjs'
 
 @Component({
   selector: 'app-root',
@@ -15,15 +15,29 @@ export class AppComponent {
     ml5: [{link: '/ml5/dashboard', name: 'Dashboard'}, {link: '/ml5/dashboard/sandbox', name: 'Sandbox'}]
   }
 
+  vertNav: SideNavItem[] = []
+
   constructor(private applicationService: ApplicationService) {
-    applicationService.selectedDashboard$.subscribe(choice => {
-      if (choice) {
-        this.selectedLinkRefs = this.linkRefs[choice]
+    combineLatest([applicationService.selectedDashboard$, applicationService.subNav$]).subscribe((parts) => {
+      const dashboard = parts[0]
+      const sub = parts[1]
+
+      if (dashboard) {
+        this.selectedLinkRefs = this.linkRefs[dashboard]
+
+        if (sub) {
+          const section = applicationService.verticalNavOptions[dashboard]
+          const subSection = section[sub]
+
+          this.vertNav = subSection.items
+        }
       }
     })
+
   }
 
   selectDashboard(choice: 'p5' | 'ml5') {
     this.applicationService.selectedDashboard$.next(choice)
+    this.applicationService.subNav$.next('dashboard')
   }
 }
