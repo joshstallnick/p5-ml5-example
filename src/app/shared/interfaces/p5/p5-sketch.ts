@@ -21,6 +21,8 @@ import {P5NumberDict} from './p5-number-dict'
 import {P5Table} from './p5-table'
 import {P5PrintWriter} from './p5-print-writer'
 import {P5Font} from './p5-font'
+import {P5Shader} from './p5-shader'
+import {P5Camera} from './p5-camera'
 
 /**
  * Structured to the documentation on the site
@@ -411,9 +413,49 @@ export interface P5Sketch {
   textDescent: NumberSupplier
 
   // loading & displaying
-  loadFont: LoadFontFn
-  text: DrawTextConsumer
-  textFont: TextFontFn
+  loadFont: (path: string, callback?: AnyFunction, onError?: AnyFunction) => P5Font
+  text: (str: FontTextString, x: number, y: number, x2?: number, y2?: number) => void
+  textFont: (font?: object | string, size?: number) => object
+
+  // LIGHTS, CAMERA
+  // interaction
+  orbitControl: OrbitControlConsumer
+  debugMode: DebugModeConsumer
+  noDebugMode: Runnable
+
+  // lights
+  ambientLight: AmbientLightConsumer
+  specularColor: SpecularColorConsumer
+  directionalLight: DirectionalPointLightConsumer
+  lights: Runnable
+  lightsFalloff: (constant: number, linear: number, quadratic: number) => void
+  spotLight: SpotLightConsumer
+  noLights: Runnable
+
+  // material
+  loadShader: (vertFilename: string, fragFilename: string, callback?: AnyFunction, errorCallback?: AnyFunction) => P5Shader
+  createShader: (vertSrc: string, fragSrc: string) => P5Shader
+  shader: (s?: P5Shader) => void
+  resetShader: Runnable
+  normalMaterial: Runnable
+  texture: (tex: P5Image | P5MediaElement | P5Graphics) => void
+  textureMode: (mode: TextureMode) => void
+  textureWrap: (wrapX: TextureWrapType, wrapY?: TextureWrapType) => void
+  ambientMaterial: AmbientMaterialConsumer
+  emissiveMaterial: EmissiveMaterialConsumer
+  specularMaterial: SpecularMaterialConsumer
+  shininess: (shine: number) => void
+
+  // camera
+  camera:
+    (x?: number, y?: number, z?: number,
+     centerX?: number, centerY?: number, centerZ?: number,
+     upX?: number, upY?: number, upZ?: number) => void
+  perspective: (fovy?: number, aspect?: number, near?: number, far?: number) => void
+  ortho: CameraFormConsumer
+  frustum: CameraFormConsumer
+  createCamera: () => P5Camera
+  setCamera: (cam: P5Camera) => void
 }
 
 export enum RendererType {
@@ -1423,21 +1465,89 @@ export enum TextStyle {
 
 type TextStyleConsumer = ((theStyle: TextStyle) => void) & Runnable
 
-type LoadFontFn =
-  ((path: string) => P5Font) &
-  ((path: string, callback: AnyFunction) => P5Font) &
-  ((path: string, callback: AnyFunction, onError: AnyFunction) => P5Font) &
-  ((path: string, onError: AnyFunction) => P5Font)
-
 type FontTextString = string | object | any[] | number | boolean
 
-type DrawTextConsumer =
-  ((str: FontTextString, x: number, y: number) => void) &
-  ((str: FontTextString, x: number, y: number, x2: number) => void) &
-  ((str: FontTextString, x: number, y: number, x2: number, y2: number) => void) &
-  ((str: FontTextString, x: number, y: number, y2: number) => void)
 
-type TextFontFn =
-  ((font: object | string) => object) &
-  ((font: object | string, size: number) => object) &
-  Runnable
+// LIGHTS, CAMERA
+// interaction
+type OrbitControlConsumer =
+  ((sensitivityX: number, sensitivityY?: number, sensitivityZ?: number) => void) &
+  ((sensitivityX: number, sensitivityZ?: number) => void) &
+  ((sensitivityZ: number) => void)
+
+export enum DebugMode {
+  GRID = 'GRID',
+  AXES = 'AXES'
+}
+
+type DebugModeConsumer =
+  (debugMode?: DebugMode,
+   gridSize?: number, gridDivisions?: number, axesSize?: number,
+   xOff?: number, yOff?: number, zOff?: number,
+   gridXOff?: number, gridYOff?: number, gridZOff?: number,
+   axesXOff?: number, axesYOff?: number, axesZOff?: number) => void
+
+// lights
+type LightConsumer =
+  ((value: string) => void) &
+  ((values: number[]) => void) &
+  ((color: P5Color) => void)
+
+type AmbientLightConsumer =
+  ((v1: number, v2: number, v3: number, alpha?: number) => void) &
+  ((gray: number, alpha?: number) => void) &
+  LightConsumer
+
+type SpecularColorConsumer =
+  ((v1: number, v2: number, v3: number) => void) &
+  ((gray: number) => void) &
+  LightConsumer
+
+type LightColor = number[] | string | P5Color
+
+type DirectionalPointLightConsumer =
+  ((v1: number, v2: number, v3: number, position: P5Vector) => void) &
+  ((v1: number, v2: number, v3: number, x: number, y: number, z: number) => void) &
+  ((color: LightColor, x: number, y: number, z: number) => void) &
+  ((color: LightColor, position: P5Vector) => void)
+
+type SpotLightConsumer =
+  ((v1: number, v2: number, v3: number,
+    x: number, y: number, z: number,
+    rx: number, ry: number, rz: number, angle?: number, conc?: number) => void) &
+  ((color: P5Color, position: P5Vector, direction: P5Vector, angle?: number, conc?: number) => void) &
+  ((v1: number, v2: number, v3: number, position: P5Vector, direction: P5Vector, angle?: number, conc?: number) => void) &
+  ((color: P5Color, x: number, y: number, z: number, direction: P5Vector, angle?: number, conc?: number) => void) &
+  ((color: P5Color, position: P5Vector, rx: number, ry: number, rz: number, angle?: number, conc?: number) => void) &
+  ((v1: number, v2: number, v3: number, x: number, y: number, z: number, direction: P5Vector, angle?: number, conc?: number) => void) &
+  ((v1: number, v2: number, v3: number, position: P5Vector, rx: number, ry: number, rz: number, angle?: number, conc?: number) => void) &
+  ((color: P5Color, x: number, y: number, z: number, rx: number, ry: number, rz: number, angle?: number, conc?: number) => void)
+
+// material
+export enum TextureMode {
+  IMAGE = 'IMAGE',
+  NORMAL = 'NORMAL'
+}
+
+export enum TextureWrapType {
+  CLAMP = 'CLAMP',
+  REPEAT = 'REPEAT',
+  MIRROR = 'MIRROR'
+}
+
+type MaterialColorConsumer = ((color: number[] | string | P5Color) => void)
+
+type AmbientMaterialConsumer =
+  ((v1: number, v2?: number, v3?: number) => void) &
+  MaterialColorConsumer
+
+type EmissiveMaterialConsumer =
+  ((v1: number, v2?: number, v3?: number, a?: number) => void) &
+  MaterialColorConsumer
+
+type SpecularMaterialConsumer =
+  ((gray: number, alpha?: number) => void) &
+  EmissiveMaterialConsumer
+
+// camera
+type CameraFormConsumer = (left?: number, right?: number, bottom?: number, top?: number, near?: number, far?: number) => void

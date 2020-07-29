@@ -1,5 +1,6 @@
 import {Component} from '@angular/core'
 import {ApplicationService} from './services/application-service/application.service'
+import {DebugMode, DebugModeConsumer} from './shared/interfaces/p5/p5-sketch'
 
 @Component({
   selector: 'app-root',
