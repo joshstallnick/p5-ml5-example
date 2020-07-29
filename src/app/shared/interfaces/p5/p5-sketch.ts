@@ -1,5 +1,14 @@
 import {BlendMode, FilterType, P5Image} from './p5-image'
-import {AnyFunction, BooleanSupplier, NumberSupplier, ObjectSupplier, Runnable, StringArraySupplier, StringSupplier} from '../../types'
+import {
+  AnyFunction, ArrayOfNumberOrString,
+  BooleanSupplier,
+  NumberOrString,
+  NumberSupplier,
+  ObjectSupplier,
+  Runnable,
+  StringArraySupplier,
+  StringSupplier
+} from '../../types'
 import {P5Color} from './p5-color'
 import {P5Element} from './p5-element'
 import {P5Renderer} from './p5-renderer'
@@ -9,6 +18,8 @@ import {P5MediaElement} from './p5-media-element'
 import {P5Graphics} from './p5-graphics'
 import {P5StringDict} from './p5-string-dict'
 import {P5NumberDict} from './p5-number-dict'
+import {P5Table} from './p5-table'
+import {P5PrintWriter} from './p5-print-writer'
 
 /**
  * Structured to the documentation on the site
@@ -89,7 +100,7 @@ export interface P5Sketch {
   plane: PlaneConsumer                                                        // https://p5js.org/reference/#/p5/plane
   box: BoxConsumer                                                            // https://p5js.org/reference/#/p5/box
   sphere: SphereConsumer                                                      // https://p5js.org/reference/#/p5/sphere
-  cylinder: CylinderConsumer                                                  // https://p5js.org/reference/#/p5/cylinder
+  cylinder: HttpDoFn                                                  // https://p5js.org/reference/#/p5/cylinder
   cone: ConeConsumer                                                          // https://p5js.org/reference/#/p5/cone
   ellipsoid: EllipsoidConsumer                                                // https://p5js.org/reference/#/p5/ellipsoid
   torus: TorusConsumer                                                        // https://p5js.org/reference/#/p5/torus
@@ -314,15 +325,40 @@ export interface P5Sketch {
   loadPixels: Runnable
   set: (x: number, y: number, c: number | number[] | P5Color | P5Image) => void
   updatePixels: UpdatePixelsConsumer
+
+
+  // IO
+  // input
+  loadJSON: LoadJsonFn
+  loadStrings: LoadStringsFn
+  loadTable: LoadTableFn
+  loadXML: LoadXmlFn
+  loadBytes: LoadBytesFn
+  httpGet: HttpFn
+  httpPost: HttpFn
+  httpDo: HttpDoFn
+
+  // output
+  createWriter: CreateWriterFn
+  save: OutputSaveConsumer
+  saveJSON: SaveJSONConsumer
+  saveString: SaveStringConsumer
+  saveTable: SaveTableConsumer
+
+  // time & date
+  day: NumberSupplier
+  hour: NumberSupplier
+  minute: NumberSupplier
+  millis: NumberSupplier
+  month: NumberSupplier
+  second: NumberSupplier
+  year: NumberSupplier
 }
 
 export enum RendererType {
   P2D = 'P2D',
   WEBGL = 'WEBGL'
 }
-
-type NumberOrString = number | string
-type ArrayOfNumberOrString = number[] | string[]
 
 type QuadBezierFn =
   ((x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number) => void) &
@@ -1089,3 +1125,154 @@ type UpdatePixelsConsumer =
 
   ((h: number) => void) &
   Runnable
+
+
+// IO
+// input
+type LoadJsonFn =
+  ((path: string) => any) &
+  ((path: string, jsonOptions: object) => any) &
+  ((path: string, jsonOptions: object, datatype: 'json' | 'jsonp') => any) &
+  ((path: string, jsonOptions: object, datatype: 'json' | 'jsonp', callback: AnyFunction) => any) &
+  ((path: string, jsonOptions: object, datatype: 'json' | 'jsonp', callback: AnyFunction, errorCallback: AnyFunction) => any) &
+  ((path: string, jsonOptions: object, datatype: 'json' | 'jsonp', errorCallback: AnyFunction) => any) &
+  ((path: string, jsonOptions: object, callback: AnyFunction) => any) &
+  ((path: string, jsonOptions: object, callback: AnyFunction, errorCallback: AnyFunction) => any) &
+  ((path: string, datatype: 'json' | 'jsonp') => any) &
+  ((path: string, datatype: 'json' | 'jsonp', callback: AnyFunction) => any) &
+  ((path: string, datatype: 'json' | 'jsonp', callback: AnyFunction, errorCallback: AnyFunction) => any) &
+  ((path: string, datatype: 'json' | 'jsonp', errorCallback: AnyFunction) => any) &
+  ((path: string, callback: AnyFunction) => any) &
+  ((path: string, callback: AnyFunction, errorCallback: AnyFunction) => any) &
+  ((path: string, errorCallback: AnyFunction) => any)
+
+type LoadStringsFn =
+  ((filename: string) => string[]) &
+  ((filename: string, callback: AnyFunction) => string[]) &
+  ((filename: string, callback: AnyFunction, errorCallback: AnyFunction) => string[]) &
+  ((filename: string, errorCallback: AnyFunction) => string[])
+
+type LoadTableFn =
+  ((filename: string, width: number) => P5Table) &
+  ((filename: string, width: number, height: number) => P5Table) &
+  ((filename: string, width: number, height: number, detailX: number) => P5Table) &
+  ((filename: string, width: number, height: number, detailX: number, detailY: number) => P5Table) &
+  ((filename: string, width: number, height: number, detailY: number) => P5Table) &
+  ((filename: string, width: number, detailX: number) => P5Table) &
+  ((filename: string, width: number, detailX: number, detailY: number) => P5Table) &
+  ((filename: string, width: number, detailY: number) => P5Table) &
+
+  ((filename: string, height: number) => P5Table) &
+  ((filename: string, height: number, detailX: number) => P5Table) &
+  ((filename: string, height: number, detailX: number, detailY: number) => P5Table) &
+  ((filename: string, height: number, detailY: number) => P5Table) &
+
+  ((filename: string, detailX: number) => P5Table) &
+  ((filename: string, detailX: number, detailY: number) => P5Table) &
+
+  ((filename: string, detailY: number) => P5Table) &
+  ((filename: string) => P5Table)
+
+type LoadXmlFn =
+  ((filename: string) => XMLDocument) &
+  ((filename: string, callback: AnyFunction) => XMLDocument) &
+  ((filename: string, callback: AnyFunction, errorCallback: AnyFunction) => XMLDocument) &
+  ((filename: string, errorCallback: AnyFunction) => XMLDocument)
+
+type LoadBytesFn =
+  ((file: string) => object) &
+  ((file: string, callback: AnyFunction) => object) &
+  ((file: string, callback: AnyFunction, errorCallback: AnyFunction) => object) &
+  ((file: string, errorCallback: AnyFunction) => object)
+
+type HttpFn =
+  ((path: string) => Promise<any>) &
+  ((path: string, datatype: string) => Promise<any>) &
+  ((path: string, datatype: string, data: object | boolean) => Promise<any>) &
+  ((path: string, datatype: string, data: object | boolean, callback: AnyFunction) => Promise<any>) &
+  ((path: string, datatype: string, data: object | boolean, callback: AnyFunction, errorCallback: AnyFunction) => Promise<any>) &
+  ((path: string, datatype: string, data: object | boolean, errorCallback: AnyFunction) => Promise<any>) &
+  ((path: string, datatype: string, callback: AnyFunction) => Promise<any>) &
+  ((path: string, datatype: string, callback: AnyFunction, errorCallback: AnyFunction) => Promise<any>) &
+  ((path: string, datatype: string, errorCallback: AnyFunction) => Promise<any>) &
+
+  ((path: string, data: object | boolean) => Promise<any>) &
+  ((path: string, data: object | boolean, callback: AnyFunction) => Promise<any>) &
+  ((path: string, data: object | boolean, callback: AnyFunction, errorCallback: AnyFunction) => Promise<any>) &
+  ((path: string, data: object | boolean, errorCallback: AnyFunction) => Promise<any>) &
+  ((path: string, callback: AnyFunction) => Promise<any>) &
+  ((path: string, callback: AnyFunction, errorCallback: AnyFunction) => Promise<any>) &
+  ((path: string, errorCallback: AnyFunction) => Promise<any>)
+
+export enum HttpMethod {
+  GET = 'GET',
+  POST = 'POST',
+  PUT = 'PUT'
+}
+
+type HttpDataType = 'json' | 'jsonp' | 'xml' | 'text'
+
+type HttpDoFn =
+  ((path: string) => Promise<any>) &
+  ((path: string, method: HttpMethod) => Promise<any>) &
+  ((path: string, method: HttpMethod, datatype: HttpDataType) => Promise<any>) &
+  ((path: string, method: HttpMethod, datatype: HttpDataType, data: object) => Promise<any>) &
+  ((path: string, method: HttpMethod, datatype: HttpDataType, data: object, callback: AnyFunction) => Promise<any>) &
+  ((path: string,
+    method: HttpMethod, datatype: HttpDataType, data: object,
+    callback: AnyFunction, errorCallback: AnyFunction) => Promise<any>) &
+  ((path: string, method: HttpMethod, datatype: HttpDataType, data: object, errorCallback: AnyFunction) => Promise<any>) &
+  ((path: string, method: HttpMethod, datatype: HttpDataType, callback: AnyFunction) => Promise<any>) &
+  ((path: string, method: HttpMethod, datatype: HttpDataType, callback: AnyFunction, errorCallback: AnyFunction) => Promise<any>) &
+  ((path: string, method: HttpMethod, datatype: HttpDataType, errorCallback: AnyFunction) => Promise<any>) &
+  ((path: string, method: HttpMethod, data: object) => Promise<any>) &
+  ((path: string, method: HttpMethod, data: object, callback: AnyFunction) => Promise<any>) &
+  ((path: string, method: HttpMethod, data: object, callback: AnyFunction, errorCallback: AnyFunction) => Promise<any>) &
+  ((path: string, method: HttpMethod, data: object, errorCallback: AnyFunction) => Promise<any>) &
+  ((path: string, datatype: HttpDataType) => Promise<any>) &
+  ((path: string, datatype: HttpDataType, data: object) => Promise<any>) &
+  ((path: string, datatype: HttpDataType, data: object, callback: AnyFunction) => Promise<any>) &
+  ((path: string, datatype: HttpDataType, data: object, callback: AnyFunction, errorCallback: AnyFunction) => Promise<any>) &
+  ((path: string, datatype: HttpDataType, callback: AnyFunction) => Promise<any>) &
+  ((path: string, datatype: HttpDataType, callback: AnyFunction, errorCallback: AnyFunction) => Promise<any>) &
+  ((path: string, datatype: HttpDataType, errorCallback: AnyFunction) => Promise<any>) &
+  ((path: string, data: object) => Promise<any>) &
+  ((path: string, data: object, callback: AnyFunction) => Promise<any>) &
+  ((path: string, data: object, callback: AnyFunction, errorCallback: AnyFunction) => Promise<any>) &
+  ((path: string, data: object, errorCallback: AnyFunction) => Promise<any>) &
+  ((path: string, callback: AnyFunction) => Promise<any>) &
+  ((path: string, callback: AnyFunction, errorCallback: AnyFunction) => Promise<any>) &
+  ((path: string, errorCallback: AnyFunction) => Promise<any>)&
+
+  ((path: string, options: object) => Promise<any>) &
+  ((path: string, options: object, callback: AnyFunction) => Promise<any>) &
+  ((path: string, options: object, callback: AnyFunction, errorCallback: AnyFunction) => Promise<any>) &
+  ((path: string, options: object, errorCallback: AnyFunction) => Promise<any>)
+
+type CreateWriterFn = ((name: string) => P5PrintWriter) & ((name: string, extension: string) => P5PrintWriter)
+
+type OutputSaveConsumer =
+  ((objectOrFilename: object | string) => void) &
+  ((objectOrFilename: object | string, filename: string) => void) &
+  ((objectOrFilename: object | string, filename: string, options: boolean | string) => void) &
+  ((objectOrFilename: object | string, options: boolean | string) => void) &
+
+  ((filename: string) => void) &
+  ((filename: string, options: boolean | string) => void) &
+
+  ((options: boolean | string) => void) &
+  Runnable
+
+type SaveJSONConsumer =
+  ((json: any[] | object, filename: string) => void) &
+  ((json: any[] | object, filename: string, optimize: boolean) => void)
+
+type SaveStringConsumer =
+  ((list: string[], filename: string) => void) &
+  ((list: string[], filename: string, extension: string) => void) &
+  ((list: string[], filename: string, extension: string, isCRLF: boolean) => void) &
+  ((list: string[], filename: string, isCRLF: boolean) => void)
+
+type SaveTableConsumer =
+  ((table: P5Table, filename: string) => void) &
+  ((table: P5Table, filename: string, options: 'tsv' | 'csv' | 'html') => void)
