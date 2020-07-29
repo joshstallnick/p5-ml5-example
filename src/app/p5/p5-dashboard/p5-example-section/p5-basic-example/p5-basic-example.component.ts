@@ -8,36 +8,39 @@ import {P5Sketch} from '../../../../shared/interfaces'
   styleUrls: ['./p5-basic-example.component.sass']
 })
 export class P5BasicExampleComponent {
-  canvasContainer = 'example-canvas'
 
-  container: P5Container = new P5Container(_ => {
-  })
+  circleContainer: P5Container = new P5Container(_ => {})
+
+  mouseMoveContainer: P5Container = new P5Container(_ => {})
+
   canvas
 
   constructor() {
+    this.basicCircleSketch()
+    this.mouseMoveSketch()
   }
 
   basicCircleSketch() {
-    this.container.tearDown()
+    this.circleContainer.tearDown()
 
-    this.container = new P5Container((sketch: P5Sketch) => {
+    this.circleContainer = new P5Container((sketch: P5Sketch) => {
       sketch.setup = () => sketch.createCanvas(400, 400)
       sketch.draw = () => {
         sketch.background(200)
         sketch.ellipse(50, 50, 80, 80)
       }
-    }, 'example-canvas')
+    }, 'basic-circle')
   }
 
-  mousePushSketch() {
-    this.container.tearDown()
+  mouseMoveSketch() {
+    this.mouseMoveContainer.tearDown()
 
-    this.container = new P5Container((sketch: P5Sketch) => {
+    this.mouseMoveContainer = new P5Container((sketch: P5Sketch) => {
       sketch.setup = () => sketch.createCanvas(400, 400)
       sketch.draw = () => {
         sketch.fill(sketch.mouseIsPressed ? 0 : 255)
         sketch.ellipse(sketch.mouseX, sketch.mouseY, 80, 80)
       }
-    }, this.canvasContainer)
+    }, 'mouse-track-circles')
   }
 }

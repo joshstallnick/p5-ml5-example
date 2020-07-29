@@ -21,7 +21,8 @@ export class ApplicationService {
       },
       examples: {
         items: [
-          {link: [{ outlets: { exampleDisplay: 'p5/examples/basic' } }], icon: 'new', name: 'Basic'}
+          {link: [{ outlets: { exampleDisplay: 'p5/examples/basic' } }], icon: 'new', name: 'Basic'},
+          {link: [{ outlets: { exampleDisplay: 'p5/examples/structure' } }], icon: 'grid-chart', name: 'Structure'},
         ]
       }
     },

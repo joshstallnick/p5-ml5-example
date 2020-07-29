@@ -4,11 +4,12 @@ import {CommonModule} from '@angular/common'
 import {P5ExampleSectionRoutingModule} from './p5-example-section-routing.module'
 import {P5ExampleSectionComponent} from './p5-example-section.component'
 import {ClarityModule} from '@clr/angular';
-import { P5BasicExampleComponent } from './p5-basic-example/p5-basic-example.component'
+import { P5BasicExampleComponent } from './p5-basic-example/p5-basic-example.component';
+import { P5StructureExampleComponent } from './p5-structure-example/p5-structure-example.component'
 
 
 @NgModule({
-  declarations: [P5ExampleSectionComponent, P5BasicExampleComponent],
+  declarations: [P5ExampleSectionComponent, P5BasicExampleComponent, P5StructureExampleComponent],
   imports: [
     CommonModule,
     P5ExampleSectionRoutingModule,
