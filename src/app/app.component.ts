@@ -8,6 +8,8 @@ import {combineLatest} from 'rxjs'
   styleUrls: ['./app.component.sass']
 })
 export class AppComponent {
+  collapsed = true
+
   selectedLinkRefs: { link: string, name: string }[]
 
   linkRefs = {
