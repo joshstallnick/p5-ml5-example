@@ -20,6 +20,7 @@ import {P5StringDict} from './p5-string-dict'
 import {P5NumberDict} from './p5-number-dict'
 import {P5Table} from './p5-table'
 import {P5PrintWriter} from './p5-print-writer'
+import {P5Font} from './p5-font'
 
 /**
  * Structured to the documentation on the site
@@ -398,6 +399,21 @@ export interface P5Sketch {
   degrees: (radians: number) => number
   radians: (degrees: number) => number
   angleMode: (mode: AngleMode) => void
+
+  // TYPOGRAPHY
+  // attributes
+  textAlign: TextAlignConsumer
+  textLeading: TextLeadingConsumer
+  textSize: TextSizeConsumer
+  textStyle: TextStyleConsumer
+  textWidth: (theText: string) => number
+  textAscent: NumberSupplier
+  textDescent: NumberSupplier
+
+  // loading & displaying
+  loadFont: LoadFontFn
+  text: DrawTextConsumer
+  textFont: TextFontFn
 }
 
 export enum RendererType {
@@ -1375,3 +1391,53 @@ export enum AngleMode {
 
 type TrigABaseFn = (value: number) => number
 type TrigBaseFn = (angle: number) => number
+
+
+// TYPOGRAPHY
+// attributes
+export enum HorizAlign {
+  LEFT = 'LEFT',
+  CENTER = 'CENTER',
+  RIGHT = 'RIGHT'
+}
+
+export enum VertAlign {
+  TOP = 'TOP',
+  BOTTOM = 'BOTTOM',
+  CENTER = 'CENTER',
+  BASELINE = 'BASELINE'
+}
+
+type TextAlignConsumer = ((horizAlign: HorizAlign) => void) & ((horizAlign: HorizAlign, vertAlign: VertAlign) => void)
+
+type TextLeadingConsumer = ((leading: number) => void) & Runnable
+
+type TextSizeConsumer = ((theSize: number) => void) & Runnable
+
+export enum TextStyle {
+  NORMAL = 'NORMAL',
+  ITALIC = 'ITALIC',
+  BOLD = 'BOLD',
+  BOLDITALIC = 'BOLDITALIC'
+}
+
+type TextStyleConsumer = ((theStyle: TextStyle) => void) & Runnable
+
+type LoadFontFn =
+  ((path: string) => P5Font) &
+  ((path: string, callback: AnyFunction) => P5Font) &
+  ((path: string, callback: AnyFunction, onError: AnyFunction) => P5Font) &
+  ((path: string, onError: AnyFunction) => P5Font)
+
+type FontTextString = string | object | any[] | number | boolean
+
+type DrawTextConsumer =
+  ((str: FontTextString, x: number, y: number) => void) &
+  ((str: FontTextString, x: number, y: number, x2: number) => void) &
+  ((str: FontTextString, x: number, y: number, x2: number, y2: number) => void) &
+  ((str: FontTextString, x: number, y: number, y2: number) => void)
+
+type TextFontFn =
+  ((font: object | string) => object) &
+  ((font: object | string, size: number) => object) &
+  Runnable
