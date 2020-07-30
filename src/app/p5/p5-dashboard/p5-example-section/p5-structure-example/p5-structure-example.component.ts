@@ -10,18 +10,21 @@ import {Runnable} from '../../../../shared/types'
 })
 export class P5StructureExampleComponent implements OnInit {
 
-  ids = ['coordinates', 'width-and-height', 'setup-and-draw', 'no-loop', 'loop', 'redraw', 'functions', 'recursion', 'create-graphics']
+  constructor() {
+    this.container.tearDown()
+    this.displayMap[2]()
+    this.createWidthAndHeightExample()
+  }
 
-  coordinateContainer = P5Container.default()
-  widthAndHeightContainer = P5Container.default()
+  container = P5Container.default()
+
+  displayMap = {
+    1: this.createCoordinateExample,
+    2: this.createWidthAndHeightExample
+  }
 
   canvas720x400Consumer = (s: P5Sketch) => s.createCanvas(720, 400)
   createHeading = (s: P5Sketch, title: string) =>  s.createElement('h3', title)
-
-  constructor() {
-    this.createCoordinateExample()
-    this.createWidthAndHeightExample()
-  }
 
   ngOnInit(): void {
   }
@@ -30,7 +33,9 @@ export class P5StructureExampleComponent implements OnInit {
       https://p5js.org/examples/structure-coordinates.html
    */
   createCoordinateExample() {
-    this.coordinateContainer = new P5Container(s => {
+    this.container.tearDown()
+
+    this.container = new P5Container(s => {
       s.setup = this.setup1(s, 'Coordinates')
 
       s.draw = () => {
@@ -52,14 +57,16 @@ export class P5StructureExampleComponent implements OnInit {
         s.rect(width * 0.25, height * 0.1, width * 0.5, height * 0.8)
       }
 
-    }, 'coordinates')
+    }, 'structure-example')
   }
 
   /*
       https://p5js.org/examples/structure-width-and-height.html
    */
   createWidthAndHeightExample() {
-    this.widthAndHeightContainer = new P5Container(s => {
+    this.container.tearDown()
+
+    this.container = new P5Container(s => {
       s.setup = this.setup1(s, 'Width & Height')
 
       s.draw = () => {
@@ -73,7 +80,7 @@ export class P5StructureExampleComponent implements OnInit {
           s.rect(i, 0, 10, s.height)
         }
       }
-    }, 'width-and-height')
+    }, 'structure-example')
   }
 
 

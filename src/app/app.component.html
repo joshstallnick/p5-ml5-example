@@ -33,7 +33,7 @@
     </ul>
   </nav>
 
-  <div class="content-container">
+  <div class="content-container" style="height: 100%">
     <clr-vertical-nav *ngIf="vertNav.length > 0"
                       [clrVerticalNavCollapsible]="true"
                       [(clrVerticalNavCollapsed)]="collapsed">
@@ -48,7 +48,7 @@
 
       <div style="margin-bottom: 40px"></div>
 
-      <router-outlet name="exampleDisplay"></router-outlet>
+<!--      <router-outlet name="exampleDisplay"></router-outlet>-->
     </div>
   </div>
 
