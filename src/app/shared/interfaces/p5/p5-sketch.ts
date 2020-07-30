@@ -50,6 +50,7 @@ export interface P5Sketch {
   clear: Runnable
   colorMode: (mode: ColorMode, max1?: number, max2?: number, max3?: number, maxA?: number) => void
   fill: ColorOptionsFn
+  noFill: Runnable
   noStroke: Runnable
   stroke: ColorOptionsFn
   erase: (strengthFill?: number, strengthStroke?: number) => void
