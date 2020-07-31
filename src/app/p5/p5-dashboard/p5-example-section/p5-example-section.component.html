@@ -1,2 +1,10 @@
 
-<h1>Example Section</h1>
+<h1>{{(exampleService.main$ | async)?.name}}</h1>
+
+<div>
+  <button class="btn btn-primary"
+          *ngFor="let button of (exampleService.main$ | async)?.buttons"
+          (click)="exampleService.getExample(button.link)">{{button.name}}</button>
+</div>
+
+<div id="example-display"></div>

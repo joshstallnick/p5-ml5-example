@@ -1,8 +1,16 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from 'rxjs'
+import {examples} from '../example-service/examples'
+import {ExampleService} from '../example-service/example.service'
+import {AnyFunction} from '../../shared/types'
 
-export interface SideNavItem {
-  link: string | {outlets: {[name: string]: string[]}}
+export interface SubSection {
+  linkCall: AnyFunction,
+  items: SubSectionItem[]
+}
+
+export interface SubSectionItem {
+  link: string[] | string
   icon?: string
   name: string
 }
@@ -20,9 +28,10 @@ export class ApplicationService {
         items: []
       },
       examples: {
+        linkCall: (link: string[]) =>  this.exampleService.getExample(link),
         items: [
-          {link: [{ outlets: { exampleDisplay: 'p5/examples/basic' } }], icon: 'new', name: 'Basic'},
-          {link: [{ outlets: { exampleDisplay: 'p5/examples/structure' } }], icon: 'grid-chart', name: 'Structure'},
+          {link: ['basic', 'circle'], icon: 'new', name: 'Basic'},
+          {link: ['structure', 'coordinates'], icon: 'grid-chart', name: 'Structure'},
         ]
       }
     },
@@ -36,5 +45,5 @@ export class ApplicationService {
     }
   }
 
-  constructor() { }
+  constructor(private exampleService: ExampleService) { }
 }

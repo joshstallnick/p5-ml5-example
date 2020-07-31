@@ -1,6 +1,7 @@
 import {Component} from '@angular/core'
 import 'p5/lib/addons/p5.sound'
 import {ApplicationService} from '../../../services/application-service/application.service'
+import {ExampleService} from '../../../services/example-service/example.service'
 
 @Component({
   selector: 'app-p5-example-section',
@@ -10,8 +11,9 @@ import {ApplicationService} from '../../../services/application-service/applicat
 export class P5ExampleSectionComponent {
   canvas
 
-  constructor(private applicationService: ApplicationService) {
+  constructor(private applicationService: ApplicationService, public exampleService: ExampleService) {
     applicationService.selectedDashboard$.next('p5')
     applicationService.subNav$.next('examples')
+
   }
 }

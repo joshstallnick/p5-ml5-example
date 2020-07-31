@@ -34,10 +34,10 @@
   </nav>
 
   <div class="content-container" style="height: 100%">
-    <clr-vertical-nav *ngIf="vertNav.length > 0"
-                      [clrVerticalNavCollapsible]="true"
-                      [(clrVerticalNavCollapsed)]="collapsed">
-      <a clrVerticalNavLink *ngFor="let nav of vertNav" [routerLink]="nav.link" routerLinkActive="active">
+    <clr-vertical-nav *ngIf="vertNav.length > 0">
+<!--                      [clrVerticalNavCollapsible]="true"-->
+<!--                      [(clrVerticalNavCollapsed)]="collapsed">-->
+      <a clrVerticalNavLink *ngFor="let nav of vertNav" (click)="subSection.linkCall(nav.link)" routerLinkActive="active">
         <clr-icon clrVerticalNavIcon [attr.shape]="nav.icon"></clr-icon>
         {{nav.name}}
       </a>

@@ -1,5 +1,5 @@
 import {Component} from '@angular/core'
-import {ApplicationService, SideNavItem} from './services/application-service/application.service'
+import {ApplicationService, SubSection, SubSectionItem} from './services/application-service/application.service'
 import {combineLatest} from 'rxjs'
 
 @Component({
@@ -17,7 +17,8 @@ export class AppComponent {
     ml5: [{link: '/ml5/dashboard', name: 'Dashboard'}, {link: '/ml5/dashboard/sandbox', name: 'Sandbox'}]
   }
 
-  vertNav: SideNavItem[] = []
+  subSection: SubSection
+  vertNav: SubSectionItem[] = []
 
   constructor(private applicationService: ApplicationService) {
     combineLatest([applicationService.selectedDashboard$, applicationService.subNav$]).subscribe((parts) => {
@@ -29,9 +30,9 @@ export class AppComponent {
 
         if (sub) {
           const section = applicationService.verticalNavOptions[dashboard]
-          const subSection = section[sub]
+          this.subSection = section[sub]
 
-          this.vertNav = subSection.items
+          this.vertNav = this.subSection.items
         }
       }
     })
