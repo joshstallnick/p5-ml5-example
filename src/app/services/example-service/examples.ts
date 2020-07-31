@@ -1,7 +1,7 @@
 import {P5Sketch} from '../../shared/interfaces'
 import {Runnable} from '../../shared/types'
 import {P5Boid, P5Container, P5Flock, P5Liquid, P5Mover, P5ParticleSystem} from '../../shared/classes'
-import {CursorType, HorizAlign, LocationMode} from '../../shared/interfaces/p5/p5-sketch'
+import {HorizAlign, LocationMode} from '../../shared/interfaces/p5/p5-sketch'
 import {π, τ} from '../../shared/constants/p5.constants'
 
 // example object called by the example service
@@ -230,7 +230,8 @@ export const examples = {
         {link: ['simulate', 'multipleParticleSystems'], icon: 'new', name: 'Multiple Particle Systems'},
         {link: ['simulate', 'spirograph'], icon: 'new', name: 'Spirograph'},
         {link: ['simulate', 'lSystems'], icon: 'new', name: 'L-Systems'},
-        {link: ['simulate', 'spring'], icon: 'new', name: 'Spring'}
+        {link: ['simulate', 'spring'], icon: 'new', name: 'Spring'},
+        {link: ['simulate', 'recursiveTree'], icon: 'new', name: 'Recursive Tree'}
       ]
     },
     forces: () => new P5Container((s: P5Sketch) => {
@@ -781,8 +782,53 @@ export const examples = {
         }
       }
 
-      console.log(left, right)
+    }, 'example-display'),
+    recursiveTree: () => new P5Container((s: P5Sketch) => {
+      let theta: number
 
+      s.setup = () => setupCanvas(s, 'Recursive Tree', 710, 400)
+
+      s.draw = () => {
+        s.background(0)
+        s.frameRate(30)
+        s.stroke(255)
+
+        // let's pick an angle - to 90 degrees based on the mouse position
+        const a = (s.mouseX / s.width) * 90
+        // convert it to radians
+        theta = s.radians(a)
+        // start the tree from the bottom of the screen
+        s.translate(s.width / 2, s.height)
+        // draw a line 120 pixels
+        s.line(0, 0, 0, -120)
+        // move to the end of that line
+        s.translate(0, -120)
+        // start the recursion
+        branch(120)
+      }
+
+      const branch = (h: number) => {
+        // each branch will be 2/3rds the size of the previous one
+        h *= 0.66
+
+        const buildBranch = (t: number) => {
+          s.push()                          // save the current state of transformation
+          s.rotate(t)
+          s.line(0, 0, 0, -h)   // draw branch
+          s.translate(0, -h)                // move to the end of the branch
+          branch(h)                         // recursive call 2 more branches
+          s.pop()                           // returns up the stack
+        }
+
+        // all recursive functions must have an exit condition!!
+        // here, ours is when the length of the branch is 2 pixels or less
+        if (h > 2) {
+          // right branch
+          buildBranch(theta)
+          // left branch
+          buildBranch(-theta)
+        }
+      }
     }, 'example-display'),
     template: () => new P5Container((s: P5Sketch) => {
     }, 'example-display')
