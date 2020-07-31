@@ -224,6 +224,7 @@ export const examples = {
         {link: ['simulate', 'particleSystem'], icon: 'new', name: 'Particle System'},
         {link: ['simulate', 'flock'], icon: 'new', name: 'Flock'},
         {link: ['simulate', 'wolframCA'], icon: 'new', name: 'Wolfram CA'},
+        {link: ['simulate', 'gameOfLife'], icon: 'new', name: 'Game of Life'},
       ]
     },
     forces: () => new P5Container((s: P5Sketch) => {
@@ -232,6 +233,7 @@ export const examples = {
       let liquid
 
       s.setup = () => {
+        setupCanvas(s, 'Forces', 640, 360)
         s.createCanvas(640, 360)
         s.reset()
         liquid = new P5Liquid(s, 0, s.height / 2, s.width, s.height / 2, 0.1)
@@ -278,7 +280,7 @@ export const examples = {
       let system: P5ParticleSystem
 
       s.setup = () => {
-        s.createCanvas(720, 400)
+        setupCanvas(s, 'Particle System', 720, 400)
         system = new P5ParticleSystem(s, s.createVector(s.width / 2, 50))
       }
 
@@ -292,8 +294,8 @@ export const examples = {
       let flock: P5Flock
 
       s.setup = () => {
-        s.createElement('h1', 'Flock')
-        s.createCanvas(640, 360)
+        setupCanvas(s, 'Flock', 640, 360)
+
         s.createP('Drag the mouse to generate new boids.')
 
         flock = new P5Flock()
@@ -326,7 +328,8 @@ export const examples = {
       const ruleset = [0, 1, 0, 1, 1, 0, 1, 0]
 
       s.setup = () => {
-        s.createCanvas(640, 400)
+        setupCanvas(s, 'Wolfram CA', 640, 400)
+
         cells = Array(s.floor(s.width / w))
 
         for (let i = 0; i < cells.length; i++) {
@@ -384,6 +387,103 @@ export const examples = {
                boolCheck(0, 0, 0) ? ruleset[7] : 0
       }
     }, 'example-display'),
+    gameOfLife: () => new P5Container((s: P5Sketch) => {
+      let w
+      let columns
+      let rows
+      let board
+      let next
+
+      s.setup = () => {
+        setupCanvas(s, 'Game of Life', 720, 400)
+        w = 20
+
+        columns = s.floor(s.width / w)
+        rows = s.floor(s.height / w)
+
+        board = new Array(columns)
+
+        for (let i = 0; i < columns; i++) {
+          board[i] = new Array(rows)
+        }
+
+        // going to use multiple 2D arrays and swap them
+        next = new Array(columns)
+        for (let i = 0; i < columns; i++) {
+          next[i] = new Array(rows)
+        }
+
+        init()
+      }
+
+      s.draw = () => {
+        s.background(255)
+        generate()
+
+        for (let i = 0; i < columns; i++) {
+          for (let j = 0; j < rows; j++) {
+            const position = board[i][j]
+
+            s.fill(position === 1 ? 0 : 255)
+
+            s.stroke(0)
+            s.rect(i * w, j * w, w - 1, w - 1)
+          }
+        }
+      }
+
+      s.mousePressed = () => {
+        init()
+      }
+
+      // fill board randomly
+      const init = () => {
+        for (let i = 0; i < columns; i++) {
+          for (let j = 0; j < rows; j++) {
+            // line the edges with 0s else fill it randomly
+            const val = (i * j === 0 || i === columns - 1 || j === rows - 1) ? 0 : s.floor(s.random(2))
+
+            board[i][j] = val
+
+            next[i][j] = 0
+          }
+        }
+      }
+
+      // the process of creating the new generation
+      const generate = () => {
+        // loop through every spot in our 2D array and check spots neighbors
+        for (let x = 1; x < columns - 1; x++) {
+          for (let y = 1; y < rows - 1; y++) {
+            // add up all the states in a 3x3 surrounding grid
+            let neighbors = 0
+
+            for (let i = -1; i <= 1; i++) {
+              for (let j = -1; j <= 1; j++) {
+                neighbors += board[x + i][y + j]
+              }
+            }
+
+            // a little trick to subtract the current cell's state since we added it in the above loop
+            neighbors -= board[x][y]
+
+            // rules of life
+            const position = board[x][y]
+
+            // loneliness | overpopulation | reproduction | statis
+            next[x][y] = (position === 1 && neighbors < 2)   ? 0 :
+                         (position === 1 && neighbors > 3)   ? 0 :
+                         (position === 0 && neighbors === 3) ? 1 : board[x][y]
+          }
+        }
+
+        // swap
+        const temp = board
+        board = next
+        next = temp
+      }
+
+    }, 'example-display'),
     template: () => new P5Container((s: P5Sketch) => {}, 'example-display')
   }
 }
@@ -397,6 +497,11 @@ function setupBasic(s: P5Sketch, title: string): Runnable {
 }
 
 function setupStructure(s: P5Sketch, title: string) {
+  s.createElement('h3', title)
+  s.createCanvas(720, 400)
+}
+
+function setupCanvas(s: P5Sketch, title: string, width: number, height: number) {
   s.createElement('h3', title)
   s.createCanvas(720, 400)
 }
