@@ -1,7 +1,7 @@
 import {P5Sketch} from '../../shared/interfaces'
 import {Runnable} from '../../shared/types'
 import {P5Boid, P5Container, P5Flock, P5Liquid, P5Mover, P5ParticleSystem} from '../../shared/classes'
-import {HorizAlign} from '../../shared/interfaces/p5/p5-sketch'
+import {CursorType, HorizAlign, LocationMode} from '../../shared/interfaces/p5/p5-sketch'
 import {π, τ} from '../../shared/constants/p5.constants'
 
 // example object called by the example service
@@ -230,6 +230,7 @@ export const examples = {
         {link: ['simulate', 'multipleParticleSystems'], icon: 'new', name: 'Multiple Particle Systems'},
         {link: ['simulate', 'spirograph'], icon: 'new', name: 'Spirograph'},
         {link: ['simulate', 'lSystems'], icon: 'new', name: 'L-Systems'},
+        {link: ['simulate', 'spring'], icon: 'new', name: 'Spring'}
       ]
     },
     forces: () => new P5Container((s: P5Sketch) => {
@@ -367,9 +368,9 @@ export const examples = {
         // for every spot, determine new state by examining the current state and neighbor states
         // ignore edges that only have one neighbor
         for (let i = 1; i < cells.length - 1; i++) {
-          const left =    cells[i - 1]    // left neighbor state
+          const left = cells[i - 1]    // left neighbor state
           const current = cells[i]        // current state
-          const right =   cells[i + 1]    // right neighbor state
+          const right = cells[i + 1]    // right neighbor state
 
           nextGen[i] = rules(left, current, right)  // compute the next generation state based on ruleset
         }
@@ -383,13 +384,13 @@ export const examples = {
         const boolCheck = (ea: number, eb: number, ec: number) => a === ea && b === eb && c === ec
 
         return boolCheck(1, 1, 1) ? ruleset[0] :
-               boolCheck(1, 1, 0) ? ruleset[1] :
-               boolCheck(1, 0, 1) ? ruleset[2] :
-               boolCheck(1, 0, 0) ? ruleset[3] :
-               boolCheck(0, 1, 1) ? ruleset[4] :
-               boolCheck(0, 1, 0) ? ruleset[5] :
-               boolCheck(0, 0, 1) ? ruleset[6] :
-               boolCheck(0, 0, 0) ? ruleset[7] : 0
+          boolCheck(1, 1, 0) ? ruleset[1] :
+            boolCheck(1, 0, 1) ? ruleset[2] :
+              boolCheck(1, 0, 0) ? ruleset[3] :
+                boolCheck(0, 1, 1) ? ruleset[4] :
+                  boolCheck(0, 1, 0) ? ruleset[5] :
+                    boolCheck(0, 0, 1) ? ruleset[6] :
+                      boolCheck(0, 0, 0) ? ruleset[7] : 0
       }
     }, 'example-display'),
     gameOfLife: () => new P5Container((s: P5Sketch) => {
@@ -474,9 +475,9 @@ export const examples = {
             const position = board[x][y]
 
             // loneliness | overpopulation | reproduction | statis
-            next[x][y] = (position === 1 && neighbors < 2)   ? 0 :
-                         (position === 1 && neighbors > 3)   ? 0 :
-                         (position === 0 && neighbors === 3) ? 1 : board[x][y]
+            next[x][y] = (position === 1 && neighbors < 2) ? 0 :
+              (position === 1 && neighbors > 3) ? 0 :
+                (position === 0 && neighbors === 3) ? 1 : board[x][y]
           }
         }
 
@@ -570,9 +571,13 @@ export const examples = {
           s.push() // go up one level
           s.translate(0, radius) // move to sine edge
 
-          if (!trace) { s.ellipse(0, 0, 5, 5) }
+          if (!trace) {
+            s.ellipse(0, 0, 5, 5)
+          }
 
-          if (trace) { s.ellipse(0, 0, eRad, eRad) }
+          if (trace) {
+            s.ellipse(0, 0, eRad, eRad)
+          }
 
           s.pop() // go down one level
           s.translate(0, radius) // move into position for next sine
@@ -646,7 +651,7 @@ export const examples = {
             if (char === rule[0]) {
               outputString += rule[1]       // write substitution
               isMatch = 1                   // we have a match, so don't copy over the symbol
-              break;
+              break
             }
           }
 
@@ -690,7 +695,97 @@ export const examples = {
         s.ellipse(x, y, radius, radius)
       }
     }, 'example-display'),
-    template: () => new P5Container((s: P5Sketch) => {}, 'example-display')
+    spring: () => new P5Container((s: P5Sketch) => {
+      const springHeight = 32
+      const maxHeight = 200
+      const minHeight = 100
+
+      let left
+      let right
+
+      let over = false
+      let move = false
+
+      const mass = 0.8
+      const constant = 0.2
+      const damping = 0.92
+      const rest = 150
+
+      let position = rest
+      let velocity = 0.0
+      let acceleration = 0
+      let force = 0
+
+      s.setup = () => {
+        setupCanvas(s, 'Spring', 710, 400)
+        s.rectMode(LocationMode.CORNERS)
+        s.noStroke()
+
+        console.log(s.width)
+
+        left = s.width / 2 - 100
+        right = s.width / 2 + 100
+      }
+
+      s.draw = () => {
+        s.background(102)
+        updateSpring()
+        drawSpring()
+      }
+
+      s.mousePressed = () => {
+        if (over) {
+          move = true
+        }
+      }
+
+      s.mouseReleased = () => {
+        move = false
+      }
+
+      const drawSpring = () => {
+        const positionAndHeight = position + springHeight
+
+        // draw base
+        s.fill(0.2)
+        const baseWidth = 0.5 * position - 8
+        s.rect(s.width / 2 - baseWidth, positionAndHeight, s.width / 2 + baseWidth, s.height)
+
+        // set color and draw top bar
+        const sub = (over || move) as unknown as number * 51
+
+        s.fill(255 - sub)
+
+        s.rect(left, position, right, positionAndHeight)
+      }
+
+      const updateSpring = () => {
+        if (!move) {
+          force = -constant * (position - rest)   // f=-ky
+          acceleration = force / mass                    // f=ma == a=f/m
+          velocity = damping * (velocity + acceleration)
+          position += velocity
+        }
+
+        if (s.abs(velocity) < 0.1) {
+          velocity = 0.0
+        }
+
+        // test if mouse if over the top bar
+        over = s.mouseX > left && s.mouseX < right && s.mouseY > position && s.mouseY < position + springHeight
+
+        // set and constrain the position of top bar
+        if (move) {
+          position = s.mouseY - springHeight / 2
+          position = s.constrain(position, minHeight, maxHeight)
+        }
+      }
+
+      console.log(left, right)
+
+    }, 'example-display'),
+    template: () => new P5Container((s: P5Sketch) => {
+    }, 'example-display')
   }
 }
 

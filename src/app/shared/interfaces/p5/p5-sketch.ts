@@ -532,22 +532,22 @@ type RectFn =
 
 // attributes
 export enum LocationMode {
-  CENTER = 'CENTER',
-  RADIUS = 'RADIUS',
-  CORNER = 'CORNER',
-  CORNERS = 'CORNERS'
+  CENTER = 'center',
+  RADIUS = 'radius',
+  CORNER = 'corner',
+  CORNERS = 'corners'
 }
 
 export enum CapType {
-  ROUND = 'ROUND',
-  SQUARE = 'SQUARE',
-  PROJECT = 'PROJECT'
+  ROUND = 'round',
+  SQUARE = 'square',
+  PROJECT = 'project'
 }
 
 export enum JointType {
-  MITER = 'MITER',
-  BEVEL = 'BEVEL',
-  ROUND = 'ROUND'
+  MITER = 'miter',
+  BEVEL = 'bevel',
+  ROUND = 'round'
 }
 
 // curves
@@ -555,14 +555,14 @@ type BezierOptionsFn = (a: number, b: number, c: number, d: number, t: number) =
 
 // vertex
 export enum ShapeKind {
-  POINTS = 'POINTS',
-  LINES = 'LINES',
-  TRIANGLES = 'TRIANGLES',
-  TRIANGLE_FAN = 'TRIANGLE_FAN',
-  TRIANGLE_STRIP = 'TRIANGLE_STRIP',
-  QUADS = 'QUADS',
-  QUAD_STRIP = 'QUAD_STRIP',
-  TESS = 'TESS'
+  POINTS = 'points',
+  LINES = 'lines',
+  TRIANGLES = 'triangles',
+  TRIANGLE_FAN = 'triangle_fan',
+  TRIANGLE_STRIP = 'triangle_strip',
+  QUADS = 'quads',
+  QUAD_STRIP = 'quad_strip',
+  TESS = 'tess'
 }
 
 type BezierVertexFn =
@@ -575,12 +575,12 @@ type ModelFn = (model: P5Geometry) => any
 
 // ENVIRONMENT
 export enum CursorType {
-  ARROW = 'ARROW',
-  CROSS = 'CROSS',
-  HAND = 'HAND',
-  MOVE = 'MOVE',
-  TEXT = 'TEXT',
-  WAIT = 'WAIT'
+  ARROW = 'arrow',
+  CROSS = 'cross',
+  HAND = 'hand',
+  MOVE = 'move',
+  TEXT = 'text',
+  WAIT = 'wait'
 }
 
 
