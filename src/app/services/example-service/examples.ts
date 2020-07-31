@@ -233,6 +233,9 @@ export const examples = {
         s.createCanvas(640, 360)
         s.reset()
         liquid = new P5Liquid(s, 0, s.height / 2, s.width, s.height / 2, 0.1)
+        console.groupCollapsed('new liquid')
+        console.log(liquid)
+        console.groupEnd()
       }
 
       s.draw = () => {
@@ -263,6 +266,9 @@ export const examples = {
         for (let i = 0; i < 9; i++) {
           movers[i] = new P5Mover(s, s.random(0.5, 3), 40 + i * 70, 0)
         }
+        console.groupCollapsed('movers')
+        console.log(movers)
+        console.groupEnd()
       }
 
     }, 'example-display'),

@@ -59,7 +59,7 @@ type SubFn =
   ((value: P5Vector | number[]) => P5Vector) &
   ((v1: P5Vector, v2: P5Vector, target?: P5Vector) => P5Vector)
 
-type MutliDivFn =
+export type MutliDivFn =
   ((n: number) => P5Vector) &
   ((arr: number[]) => P5Vector) &
   ((v: P5Vector) => P5Vector) &
