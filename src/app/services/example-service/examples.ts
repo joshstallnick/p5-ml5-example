@@ -229,6 +229,7 @@ export const examples = {
         {link: ['simulate', 'gameOfLife'], icon: 'new', name: 'Game of Life'},
         {link: ['simulate', 'multipleParticleSystems'], icon: 'new', name: 'Multiple Particle Systems'},
         {link: ['simulate', 'spirograph'], icon: 'new', name: 'Spirograph'},
+        {link: ['simulate', 'lSystems'], icon: 'new', name: 'L-Systems'},
       ]
     },
     forces: () => new P5Container((s: P5Sketch) => {
@@ -589,6 +590,105 @@ export const examples = {
         }
       }
 
+    }, 'example-display'),
+    lSystems: () => new P5Container((s: P5Sketch) => {
+      // TURTLE STUFF
+      let x                 // turtle x position
+      let y                 // turtle y position
+      let currentAngle = 0  // which way turtle is pointed
+      const step = 20       // how much the turtle moves with each 'F'
+      const angle = 90      // how much the turtle turns with a '-' or '+'
+
+      // LINDENMAYER STUFF (L-SYSTEMS)
+      let theString = 'A'   // "axiom" or start of the string
+      const numLoops = 5    // how many iterations to pre-compute
+      const rules = [
+        ['A', '-BF+AFA+FB-'],
+        ['B', '+AF-BFB-FA+']
+      ]
+
+      let whereInString = 0 // where in the L-system are we?
+
+      s.setup = () => {
+        setupCanvas(s, 'L-Systems', 710, 400)
+        s.background(255)
+        s.stroke(0, 0, 0, 255)
+
+        // start the x and y position at lower-left corner
+        x = 0
+        y = s.height - 1
+
+        // compute the L-system
+        for (let i = 0; i < numLoops; i++) {
+          theString = lindenMayer(theString)
+        }
+      }
+
+      s.draw = () => {
+        // draw the current character in the string
+        drawTurtle(theString[whereInString])
+
+        // increment the point for where we're reading the string
+        // wrap around at the end
+        whereInString++
+        if (whereInString > theString.length - 1) {
+          whereInString = 0
+        }
+      }
+
+      const lindenMayer = (str: string) => {
+        let outputString = ''
+
+        for (const char of str) {
+          let isMatch = 0
+
+          for (const rule of rules) {
+            if (char === rule[0]) {
+              outputString += rule[1]       // write substitution
+              isMatch = 1                   // we have a match, so don't copy over the symbol
+              break;
+            }
+          }
+
+          // if nothing matches, just copy the symbol over
+          if (isMatch === 0) {
+            outputString += char
+          }
+        }
+
+        return outputString
+      }
+
+      const drawTurtle = (key: string) => {
+        // F = forward | + = left | - = right
+        if (key === 'F') {
+          // polar to cartesian based on step and current angle
+          const x1 = x + step * s.cos(s.radians(currentAngle))
+          const y1 = y + step * s.sin(s.radians(currentAngle))
+          s.line(x, y, x1, y1)
+
+          // update turtle's position
+          x = x1
+          y = y1
+        } else if (key === '+') {
+          currentAngle += angle
+        } else if (key === '-') {
+          currentAngle -= angle
+        }
+
+        // give me some random color values
+        const r = s.random(128, 255)
+        const g = s.random(0, 192)
+        const b = s.random(0, 50)
+        const a = s.random(50, 100)
+
+        // pick a gaussian (D&D) distribution for the radius
+        const radius = (s.random(0, 15) + s.random(0, 15) + s.random(0, 15)) / 3
+
+        // draw the stuff
+        s.fill(r, g, b, a)
+        s.ellipse(x, y, radius, radius)
+      }
     }, 'example-display'),
     template: () => new P5Container((s: P5Sketch) => {}, 'example-display')
   }
