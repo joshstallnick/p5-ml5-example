@@ -1,84 +1,86 @@
 import {P5Container} from '../../shared/classes/p5-container'
-import {P5Graphics, P5Sketch} from '../../shared/interfaces'
+import {P5Sketch} from '../../shared/interfaces'
 import {Runnable} from '../../shared/types'
+import {P5Liquid} from '../../shared/classes/p5-liquid'
+import {P5Mover} from '../../shared/classes/p5-mover'
 
 export const examples = {
   basic: {
     main: {
       name: 'Basic',
       buttons: [
-        { link: ['basic', 'circle'], icon: 'new', name: 'Circle' },
-        { link: ['basic', 'mouseMoveCircle'], icon: 'new', name: 'Mouse Move Circle' },
+        {link: ['basic', 'circle'], icon: 'new', name: 'Circle'},
+        {link: ['basic', 'mouseMoveCircle'], icon: 'new', name: 'Mouse Move Circle'}
       ]
     },
     circle: () => new P5Container((s: P5Sketch) => {
-        s.setup = setupBasic(s, 'Circle')
-        s.draw = () => {
-          s.background(200)
-          s.ellipse(50, 50, 80, 80)
-        }
-      }, 'example-display'),
-    mouseMoveCircle:  () => new P5Container((s: P5Sketch) => {
-        s.setup = setupBasic(s, 'Mouse Move Circle')
-        s.draw = () => {
-          s.fill(s.mouseIsPressed ? 0 : 255)
-          s.ellipse(s.mouseX, s.mouseY, 80, 80)
-        }
-      }, 'example-display')
+      s.setup = setupBasic(s, 'Circle')
+      s.draw = () => {
+        s.background(200)
+        s.ellipse(50, 50, 80, 80)
+      }
+    }, 'example-display'),
+    mouseMoveCircle: () => new P5Container((s: P5Sketch) => {
+      s.setup = setupBasic(s, 'Mouse Move Circle')
+      s.draw = () => {
+        s.fill(s.mouseIsPressed ? 0 : 255)
+        s.ellipse(s.mouseX, s.mouseY, 80, 80)
+      }
+    }, 'example-display')
   },
   structure: {
     main: {
       name: 'Structure',
       buttons: [
-        { link: ['structure', 'coordinates'], icon: 'new', name: 'Coordinates' },
-        { link: ['structure', 'widthAndHeight'], icon: 'new', name: 'Width & Height' },
-        { link: ['structure', 'setupAndDraw'], icon: 'new', name: 'Setup & Draw' },
-        { link: ['structure', 'noLoop'], icon: 'new', name: 'No Loop' },
-        { link: ['structure', 'loop'], icon: 'new', name: 'Loop' },
-        { link: ['structure', 'redraw'], icon: 'new', name: 'Redraw' },
-        { link: ['structure', 'functions'], icon: 'new', name: 'Functions' },
-        { link: ['structure', 'recursion'], icon: 'new', name: 'Recursion' },
-        { link: ['structure', 'createGraphics'], icon: 'new', name: 'Create Graphics' }
+        {link: ['structure', 'coordinates'], icon: 'new', name: 'Coordinates'},
+        {link: ['structure', 'widthAndHeight'], icon: 'new', name: 'Width & Height'},
+        {link: ['structure', 'setupAndDraw'], icon: 'new', name: 'Setup & Draw'},
+        {link: ['structure', 'noLoop'], icon: 'new', name: 'No Loop'},
+        {link: ['structure', 'loop'], icon: 'new', name: 'Loop'},
+        {link: ['structure', 'redraw'], icon: 'new', name: 'Redraw'},
+        {link: ['structure', 'functions'], icon: 'new', name: 'Functions'},
+        {link: ['structure', 'recursion'], icon: 'new', name: 'Recursion'},
+        {link: ['structure', 'createGraphics'], icon: 'new', name: 'Create Graphics'}
       ]
     },
     coordinates: () => new P5Container((s: P5Sketch) => {
-        s.setup = () => setupStructure(s, 'Coordinates')
+      s.setup = () => setupStructure(s, 'Coordinates')
 
-        s.draw = () => {
-          const {width, height} = s
+      s.draw = () => {
+        const {width, height} = s
 
-          s.background(0)
-          s.noFill()
+        s.background(0)
+        s.noFill()
 
-          s.stroke(255)
-          s.strokeWeight(5)
-          s.point(width * 0.5, height * 0.5)
-          s.point(width * 0.5, height * 0.25)
+        s.stroke(255)
+        s.strokeWeight(5)
+        s.point(width * 0.5, height * 0.5)
+        s.point(width * 0.5, height * 0.25)
 
-          s.strokeWeight(1)
-          s.stroke(0, 153, 255)
-          s.line(0, height * 0.33, width, height * 0.33)
+        s.strokeWeight(1)
+        s.stroke(0, 153, 255)
+        s.line(0, height * 0.33, width, height * 0.33)
 
-          s.stroke(255, 153, 0)
-          s.rect(width * 0.25, height * 0.1, width * 0.5, height * 0.8)
-        }
+        s.stroke(255, 153, 0)
+        s.rect(width * 0.25, height * 0.1, width * 0.5, height * 0.8)
+      }
 
-      }, 'example-display'),
+    }, 'example-display'),
     widthAndHeight: () => new P5Container((s: P5Sketch) => {
-        s.setup = () => setupStructure(s, 'Width & Height')
+      s.setup = () => setupStructure(s, 'Width & Height')
 
-        s.draw = () => {
-          s.background(127)
-          s.noStroke()
+      s.draw = () => {
+        s.background(127)
+        s.noStroke()
 
-          for (let i = 0; i < s.height; i += 20) {
-            s.fill(129, 206, 15)
-            s.rect(0, i, s.width, 10)
-            s.fill(255)
-            s.rect(i, 0, 10, s.height)
-          }
+        for (let i = 0; i < s.height; i += 20) {
+          s.fill(129, 206, 15)
+          s.rect(0, i, s.width, 10)
+          s.fill(255)
+          s.rect(i, 0, 10, s.height)
         }
-      }, 'example-display'),
+      }
+    }, 'example-display'),
     setupAndDraw: () => new P5Container((s: P5Sketch) => {
       let y = 100
 
@@ -213,6 +215,56 @@ export const examples = {
 
         s.image(pg, 150, 75)
       }
+    }, 'example-display')
+  },
+  simulate: {
+    main: {
+      name: 'Simulate',
+      buttons: [
+        {link: ['simulate', 'forces'], icon: 'new', name: 'Forces'}
+      ]
+    },
+    forces: () => new P5Container((s: P5Sketch) => {
+      const movers = []
+
+      let liquid
+
+      s.setup = () => {
+        s.createCanvas(640, 360)
+        s.reset()
+        liquid = new P5Liquid(s, 0, s.height / 2, s.width, s.height / 2, 0.1)
+      }
+
+      s.draw = () => {
+        s.background(127)
+
+        liquid.display()
+
+        movers.forEach(mover => {
+          if (liquid.contains(mover)) {
+            const dragForce = liquid.calculateDrag(mover)
+
+            mover.applyForce(dragForce)
+          }
+
+          const gravity = s.createVector(0, 0.1 * mover.mass)
+
+          mover.applyForce(gravity)
+
+          mover.update()
+          mover.display()
+          mover.checkEdges()
+        })
+      }
+
+      s.mousePressed = () => s.reset()
+
+      s.reset = () => {
+        for (let i = 0; i < 9; i++) {
+          movers[i] = new P5Mover(s, s.random(0.5, 3), 40 + i * 70, 0)
+        }
+      }
+
     }, 'example-display'),
     template: () => new P5Container((s: P5Sketch) => {}, 'example-display')
   }
@@ -234,7 +286,7 @@ function setupStructure(s: P5Sketch, title: string) {
 function createStructureLine(s: P5Sketch, y: number, decrease: number = 1): number {
   s.background(0)
 
-  y -= 1
+  y -= decrease
 
   if (y < 0) {
     y = s.height

@@ -17,7 +17,7 @@ export interface P5Vector {
   sub: SubFn                                        // https://p5js.org/reference/#/p5.Vector/sub  // missing return
   mult: MutliDivFn
   div: MutliDivFn
-  mag: (vect?: P5Vector) => P5Vector
+  mag: (vect?: P5Vector) => number
   magSq: NumberSupplier
   dot: DotFn
   cross: CrossDistFn
@@ -60,10 +60,9 @@ type SubFn =
   ((v1: P5Vector, v2: P5Vector, target?: P5Vector) => P5Vector)
 
 type MutliDivFn =
-  ((n: number) => void) &
-  ((x: number, y: number, z?: number) => void) &
-  ((arr: number[]) => void) &
-  ((v: P5Vector) => void) &
+  ((n: number) => P5Vector) &
+  ((arr: number[]) => P5Vector) &
+  ((v: P5Vector) => P5Vector) &
   ((x: number, y: number, z?: number) => P5Vector) &
   ((v: P5Vector, n: number, target?: P5Vector) => P5Vector) &
   ((v0: P5Vector, v1: P5Vector, target?: P5Vector) => P5Vector) &

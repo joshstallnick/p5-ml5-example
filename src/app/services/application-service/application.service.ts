@@ -32,6 +32,7 @@ export class ApplicationService {
         items: [
           {link: ['basic', 'circle'], icon: 'new', name: 'Basic'},
           {link: ['structure', 'coordinates'], icon: 'grid-chart', name: 'Structure'},
+          {link: ['simulate', 'forces'], icon: 'network-globe', name: 'Simulate'}
         ]
       }
     },

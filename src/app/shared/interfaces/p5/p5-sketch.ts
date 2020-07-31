@@ -30,7 +30,7 @@ import {P5Camera} from './p5-camera'
  *
  * https://p5js.org/reference/
  */
-export interface P5Sketch {
+export interface P5Sketch extends P5Graphics {
 
   // COLOR
   // creating & reading
@@ -299,7 +299,7 @@ export interface P5Sketch {
   mousePressed: EventConsumer
   mouseReleased: EventConsumer
   mouseClicked: EventConsumer
-  doubleClicked: EventConsumer
+  doubleClicked: (fxn: Runnable | boolean) => P5Element
   mouseWheel: EventConsumer
   requestPointerLock: Runnable
   exitPointerLock: Runnable
