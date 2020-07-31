@@ -1,5 +1,5 @@
 import {P5Sketch, P5Vector} from '../../interfaces'
-import {P5Particle} from './p5-particle'
+import {P5CrazyParticle, P5Particle} from './p5-particle'
 
 export class P5ParticleSystem {
 
@@ -10,8 +10,11 @@ export class P5ParticleSystem {
     this.origin = position.copy()
   }
 
-  addParticle() {
-    this.particles.push(new P5Particle(this.sketch, this.origin))
+  addParticle(normal: boolean = true) {
+    const p = (normal || this.sketch.int(this.sketch.random(0, 2) === 0)) ? new P5Particle(this.sketch, this.origin) :
+                                                                            new P5CrazyParticle(this.sketch, this.origin)
+
+    this.particles.push(p)
   }
 
   run() {

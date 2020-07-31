@@ -410,7 +410,7 @@ export interface P5Sketch extends P5Graphics {
 
   // TYPOGRAPHY
   // attributes
-  textAlign: (horizAlign: HorizAlign, vertAlign?: VertAlign) => void
+  textAlign: (horizAlign: HorizAlign | string, vertAlign?: VertAlign) => void
   textLeading: (leading?: number) => void
   textSize: (theSize?: number) => void
   textStyle: (theStyle?: TextStyle) => void
@@ -763,16 +763,16 @@ type TrigBaseFn = (angle: number) => number
 // TYPOGRAPHY
 // attributes
 export enum HorizAlign {
-  LEFT = 'LEFT',
-  CENTER = 'CENTER',
-  RIGHT = 'RIGHT'
+  LEFT = 'left',
+  CENTER = 'center',
+  RIGHT = 'right'
 }
 
 export enum VertAlign {
-  TOP = 'TOP',
-  BOTTOM = 'BOTTOM',
-  CENTER = 'CENTER',
-  BASELINE = 'BASELINE'
+  TOP = 'top',
+  BOTTOM = 'bottom',
+  CENTER = 'center',
+  BASELINE = 'baseline'
 }
 
 export enum TextStyle {

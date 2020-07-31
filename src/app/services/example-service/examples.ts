@@ -1,6 +1,7 @@
 import {P5Sketch} from '../../shared/interfaces'
 import {Runnable} from '../../shared/types'
 import {P5Boid, P5Container, P5Flock, P5Liquid, P5Mover, P5ParticleSystem} from '../../shared/classes'
+import {HorizAlign} from '../../shared/interfaces/p5/p5-sketch'
 
 // example object called by the example service
 export const examples = {
@@ -225,6 +226,7 @@ export const examples = {
         {link: ['simulate', 'flock'], icon: 'new', name: 'Flock'},
         {link: ['simulate', 'wolframCA'], icon: 'new', name: 'Wolfram CA'},
         {link: ['simulate', 'gameOfLife'], icon: 'new', name: 'Game of Life'},
+        {link: ['simulate', 'multipleParticleSystems'], icon: 'new', name: 'Multiple Particle Systems'},
       ]
     },
     forces: () => new P5Container((s: P5Sketch) => {
@@ -441,9 +443,7 @@ export const examples = {
         for (let i = 0; i < columns; i++) {
           for (let j = 0; j < rows; j++) {
             // line the edges with 0s else fill it randomly
-            const val = (i * j === 0 || i === columns - 1 || j === rows - 1) ? 0 : s.floor(s.random(2))
-
-            board[i][j] = val
+            board[i][j] = (i * j === 0 || i === columns - 1 || j === rows - 1) ? 0 : s.floor(s.random(2))
 
             next[i][j] = 0
           }
@@ -484,6 +484,36 @@ export const examples = {
       }
 
     }, 'example-display'),
+    multipleParticleSystems: () => new P5Container((s: P5Sketch) => {
+      const systems: P5ParticleSystem[] = []
+
+      s.setup = () => {
+        setupCanvas(s, 'Multiple Particle Systems', 710, 400)
+      }
+
+      s.draw = () => {
+        s.background(51)
+        s.background(0)
+
+        systems.forEach(system => {
+          system.run()
+          system.addParticle(false)
+        })
+
+        if (systems.length === 0) {
+          s.fill(255)
+          s.textAlign(HorizAlign.CENTER)
+          s.textSize(32)
+
+          s.text('click mouse to add particle systems', s.width / 2, s.height / 2)
+        }
+      }
+
+      s.mousePressed = () => {
+        const p = new P5ParticleSystem(s, s.createVector(s.mouseX, s.mouseY))
+        systems.push(p)
+      }
+    }, 'example-display'),
     template: () => new P5Container((s: P5Sketch) => {}, 'example-display')
   }
 }
@@ -503,7 +533,7 @@ function setupStructure(s: P5Sketch, title: string) {
 
 function setupCanvas(s: P5Sketch, title: string, width: number, height: number) {
   s.createElement('h3', title)
-  s.createCanvas(720, 400)
+  s.createCanvas(width, height)
 }
 
 function createStructureLine(s: P5Sketch, y: number, decrease: number = 1): number {

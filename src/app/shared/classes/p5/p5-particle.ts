@@ -6,7 +6,7 @@ export class P5Particle {
   position: P5Vector
   lifespan = 255
 
-  constructor(private sketch: P5Sketch, position: P5Vector) {
+  constructor(protected sketch: P5Sketch, position: P5Vector) {
     this.acceleration = sketch.createVector(0, 0.05)
     this.velocity = sketch.createVector(sketch.random(-1, 1), sketch.random(-1, 0))
     this.position = position.copy()
@@ -32,5 +32,32 @@ export class P5Particle {
 
   isDead(): boolean {
     return this.lifespan < 0
+  }
+}
+
+export class P5CrazyParticle extends P5Particle {
+
+  theta = 0.0
+
+  constructor(sketch: P5Sketch, origin: P5Vector) {
+    super(sketch, origin)
+  }
+
+  update() {
+    super.update()
+
+    // increment rotation based on horizontal velocity
+    this.theta += (this.velocity.x * this.velocity.mag()) / 10.0
+  }
+
+  display() {
+    super.display()
+
+    this.sketch.push()
+    this.sketch.translate(this.position.x, this.position.y)
+    this.sketch.rotate(this.theta)
+    this.sketch.stroke(255, this.lifespan)
+    this.sketch.line(0, 0, 25, 0)
+    this.sketch.pop()
   }
 }
