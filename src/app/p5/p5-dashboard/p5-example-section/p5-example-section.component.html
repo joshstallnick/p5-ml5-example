@@ -1,7 +1,7 @@
 
 <h1>{{(exampleService.main$ | async)?.name}}</h1>
 
-<div>
+<div style="margin-bottom: 20px">
   <button class="btn btn-primary"
           *ngFor="let button of (exampleService.main$ | async)?.buttons"
           (click)="exampleService.getExample(button.link)">{{button.name}}</button>

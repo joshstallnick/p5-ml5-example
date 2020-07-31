@@ -1,5 +1,5 @@
 import {P5Container} from '../../shared/classes/p5-container'
-import {P5Sketch} from '../../shared/interfaces'
+import {P5Graphics, P5Sketch} from '../../shared/interfaces'
 import {Runnable} from '../../shared/types'
 
 export const examples = {
@@ -32,10 +32,17 @@ export const examples = {
       buttons: [
         { link: ['structure', 'coordinates'], icon: 'new', name: 'Coordinates' },
         { link: ['structure', 'widthAndHeight'], icon: 'new', name: 'Width & Height' },
+        { link: ['structure', 'setupAndDraw'], icon: 'new', name: 'Setup & Draw' },
+        { link: ['structure', 'noLoop'], icon: 'new', name: 'No Loop' },
+        { link: ['structure', 'loop'], icon: 'new', name: 'Loop' },
+        { link: ['structure', 'redraw'], icon: 'new', name: 'Redraw' },
+        { link: ['structure', 'functions'], icon: 'new', name: 'Functions' },
+        { link: ['structure', 'recursion'], icon: 'new', name: 'Recursion' },
+        { link: ['structure', 'createGraphics'], icon: 'new', name: 'Create Graphics' }
       ]
     },
     coordinates: () => new P5Container((s: P5Sketch) => {
-        s.setup = setupStructure(s, 'Coordinates')
+        s.setup = () => setupStructure(s, 'Coordinates')
 
         s.draw = () => {
           const {width, height} = s
@@ -58,7 +65,7 @@ export const examples = {
 
       }, 'example-display'),
     widthAndHeight: () => new P5Container((s: P5Sketch) => {
-        s.setup = setupStructure(s, 'Width & Height')
+        s.setup = () => setupStructure(s, 'Width & Height')
 
         s.draw = () => {
           s.background(127)
@@ -71,7 +78,143 @@ export const examples = {
             s.rect(i, 0, 10, s.height)
           }
         }
-      }, 'example-display')
+      }, 'example-display'),
+    setupAndDraw: () => new P5Container((s: P5Sketch) => {
+      let y = 100
+
+      s.setup = () => {
+        setupStructure(s, 'Setup & Draw')
+        s.stroke(255)
+        s.frameRate(30)
+      }
+
+      s.draw = () => {
+        y = createStructureLine(s, y)
+      }
+    }, 'example-display'),
+    noLoop: () => new P5Container((s: P5Sketch) => {
+      let y
+
+      s.setup = () => {
+        setupStructure(s, 'No Loop')
+        s.stroke(255)
+        s.noLoop()
+
+        y = s.height * 0.5
+      }
+
+      s.draw = () => createStructureLine(s, y)
+    }, 'example-display'),
+    loop: () => new P5Container((s: P5Sketch) => {
+      let y = 100
+
+      s.setup = () => {
+        setupStructure(s, 'Loop')
+        s.stroke(255)
+        s.frameRate(30)
+      }
+
+      s.draw = () => {
+        y = createStructureLine(s, y)
+      }
+    }, 'example-display'),
+    redraw: () => new P5Container((s: P5Sketch) => {
+      let y
+
+      s.setup = () => {
+        setupStructure(s, 'Redraw')
+        s.stroke(255)
+        s.noLoop()
+        y = s.height * 0.5
+      }
+
+      s.draw = () => {
+        y = createStructureLine(s, y, 4)
+      }
+
+      s.mousePressed = () => {
+        s.redraw(8)
+      }
+    }, 'example-display'),
+    functions: () => new P5Container((s: P5Sketch) => {
+      s.setup = () => {
+        setupStructure(s, 'Functions')
+        s.background(51)
+        s.noStroke()
+        s.noLoop()
+      }
+
+      s.draw = () => {
+        const {width, height} = s
+
+        drawTarget(width * 0.25, height * 0.4, 200, 4)
+        drawTarget(width * 0.5, height * 0.5, 300, 10)
+        drawTarget(width * 0.75, height * 0.3, 120, 6)
+      }
+
+      const drawTarget = (x, y, size, num) => {
+        const grayValues = 255 / num
+        const steps = size / num
+        for (let i = 0; i < num; i++) {
+          s.fill(i * grayValues)
+
+          const wh = size - i * steps
+
+          s.ellipse(x, y, wh, wh)
+        }
+      }
+    }, 'example-display'),
+    recursion: () => new P5Container((s: P5Sketch) => {
+      s.setup = () => {
+        s.createCanvas(720, 560)
+        s.noStroke()
+        s.noLoop()
+      }
+
+      s.draw = () => drawCircle(s.width / 2, 280, 6)
+
+      const drawCircle = (x, radius, level) => {
+        const tt = (126 * level) / 4.0
+        const doubleR = radius * 2
+        const halfR = radius / 2
+
+        s.fill(tt)
+        s.ellipse(x, s.height / 2, doubleR, doubleR)
+        if (level > 1) {
+          level -= 1
+          drawCircle(x - halfR, halfR, level)
+          drawCircle(x + halfR, halfR, level)
+        }
+      }
+    }, 'example-display'),
+    createGraphics: () => new P5Container((s: P5Sketch) => {
+      let pg: P5Sketch
+
+      s.setup = () => {
+        s.createCanvas(710, 400)
+        pg = s.createGraphics(400, 250)
+      }
+
+      s.draw = () => {
+        const {mouseX, mouseY} = s
+
+        const wh = 60
+
+        s.fill(0, 12)
+        s.rect(0, 0, s.width, s.height)
+        s.fill(255)
+        s.noStroke()
+        s.ellipse(mouseX, mouseY, wh, wh)
+
+        pg.background(51)
+        pg.noFill()
+        pg.stroke(255)
+        pg.ellipse(mouseX - 150, mouseY - 75, wh, wh)
+
+        s.image(pg, 150, 75)
+      }
+    }, 'example-display'),
+    template: () => new P5Container((s: P5Sketch) => {}, 'example-display')
   }
 }
 
@@ -83,9 +226,21 @@ function setupBasic(s: P5Sketch, title: string): Runnable {
   }
 }
 
-function setupStructure(s: P5Sketch, title: string): Runnable {
-  return () => {
-    s.createElement('h3', title)
-    s.createCanvas(720, 400)
+function setupStructure(s: P5Sketch, title: string) {
+  s.createElement('h3', title)
+  s.createCanvas(720, 400)
+}
+
+function createStructureLine(s: P5Sketch, y: number, decrease: number = 1): number {
+  s.background(0)
+
+  y -= 1
+
+  if (y < 0) {
+    y = s.height
   }
+
+  s.line(0, y, s.width, y)
+
+  return y
 }

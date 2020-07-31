@@ -188,7 +188,7 @@ export interface P5Sketch {
   createCanvas: (width: number, height: number, renderer?: RendererType) => P5Renderer
   resizeCanvas: (w: number, h: number, noRedraw?: boolean) => void
   noCanvas: Runnable
-  createGraphics: (w: number, h: number, renderer?: RendererType) => P5Graphics
+  createGraphics: (w: number, h: number, renderer?: RendererType) => P5Sketch
   blendMode: (mode: BlendMode) => void
   setAttributes: SetAttributeConsumer
 
@@ -688,7 +688,7 @@ type SaveCanvasConsumer =
 
 // loading & display
 
-type Image = P5Image | P5Element
+type Image = P5Image | P5Element | P5Sketch
 
 type ImageConsumer =
   ((img: Image, x: number, y: number, width?: number, height?: number) => void) &
