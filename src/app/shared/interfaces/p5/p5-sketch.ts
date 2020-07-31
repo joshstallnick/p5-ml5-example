@@ -225,7 +225,7 @@ export interface P5Sketch extends P5Graphics {
   shuffle: (array: any[], bool?: boolean) => any[]
 
   // conversion
-  float: (str: string) => number
+  float: (str: NumberOrString) => number
   int: IntConversionFn
   str: (n: string | boolean | number | any[]) => string
   boolean: (item: any) => boolean

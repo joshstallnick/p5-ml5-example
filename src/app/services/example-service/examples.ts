@@ -2,6 +2,7 @@ import {P5Sketch} from '../../shared/interfaces'
 import {Runnable} from '../../shared/types'
 import {P5Boid, P5Container, P5Flock, P5Liquid, P5Mover, P5ParticleSystem} from '../../shared/classes'
 import {HorizAlign} from '../../shared/interfaces/p5/p5-sketch'
+import {π, τ} from '../../shared/constants/p5.constants'
 
 // example object called by the example service
 export const examples = {
@@ -227,6 +228,7 @@ export const examples = {
         {link: ['simulate', 'wolframCA'], icon: 'new', name: 'Wolfram CA'},
         {link: ['simulate', 'gameOfLife'], icon: 'new', name: 'Game of Life'},
         {link: ['simulate', 'multipleParticleSystems'], icon: 'new', name: 'Multiple Particle Systems'},
+        {link: ['simulate', 'spirograph'], icon: 'new', name: 'Spirograph'},
       ]
     },
     forces: () => new P5Container((s: P5Sketch) => {
@@ -513,6 +515,80 @@ export const examples = {
         const p = new P5ParticleSystem(s, s.createVector(s.mouseX, s.mouseY))
         systems.push(p)
       }
+    }, 'example-display'),
+    spirograph: () => new P5Container((s: P5Sketch) => {
+      const numberOfSines = 100
+      const sines = new Array(numberOfSines)
+      let centralRad
+
+      // play with these to get a sense of what's going on:
+      const fund = 0.005    // the speed of the central sine
+      const ratio = 1       // what multiplier for speed is each additional sine?
+      const alpha = 50      // how opaque is the tracing system
+
+      let trace = false
+
+      s.setup = () => {
+        setupCanvas(s, 'Spirograph', 710, 400)
+
+        centralRad = s.height / 4
+        s.background(204)
+
+        for (let i = 0; i < sines.length; i++) {
+          sines[i] = π // start everyone facing north
+        }
+      }
+
+      s.draw = () => {
+        if (!trace) {
+          s.background(204)     // clear screen if showing geometry
+          s.stroke(0, 255)      // black pen
+          s.noFill()
+        }
+
+        // main action
+        s.push()      // start the transformation matrix
+        s.translate(s.width / 2, s.height / 2)    // move to the middle of the screen
+
+        sines.forEach((sine, i) => {
+          let eRad = 0    // radius for small "point" within circle... this is the 'pen' when tracing
+          // setup for tracing
+          if (trace) {
+            s.stroke(0, 0, 255 * (s.float(i) / sines.length), alpha)    // blue
+            s.fill(0, 0, 255, alpha / 2)
+            eRad = 5.0 * (1.0 - s.float(i) / sines.length)  // pen relates to the sign size
+          }
+
+          const radius = centralRad / (i + 1)
+          s.rotate(sine)
+
+          if (!trace) {
+            s.ellipse(0, 0, radius * 2, radius * 2)
+          }
+
+          s.push() // go up one level
+          s.translate(0, radius) // move to sine edge
+
+          if (!trace) { s.ellipse(0, 0, 5, 5) }
+
+          if (trace) { s.ellipse(0, 0, eRad, eRad) }
+
+          s.pop() // go down one level
+          s.translate(0, radius) // move into position for next sine
+
+          sines[i] = (sine + (fund + (fund * i * ratio))) % τ   // update angle based on fundamental
+        })
+
+        s.pop()   // pop down final transformation
+      }
+
+      s.keyReleased = () => {
+        if (s.key === ' ') {
+          trace = !trace
+          s.background(255)
+        }
+      }
+
     }, 'example-display'),
     template: () => new P5Container((s: P5Sketch) => {}, 'example-display')
   }
