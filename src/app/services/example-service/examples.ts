@@ -231,7 +231,8 @@ export const examples = {
         {link: ['simulate', 'spirograph'], icon: 'new', name: 'Spirograph'},
         {link: ['simulate', 'lSystems'], icon: 'new', name: 'L-Systems'},
         {link: ['simulate', 'spring'], icon: 'new', name: 'Spring'},
-        {link: ['simulate', 'recursiveTree'], icon: 'new', name: 'Recursive Tree'}
+        {link: ['simulate', 'recursiveTree'], icon: 'new', name: 'Recursive Tree'},
+        {link: ['simulate', 'mandelbrotSet'], icon: 'new', name: 'The Mandelbrot Set'}
       ]
     },
     forces: () => new P5Container((s: P5Sketch) => {
@@ -830,7 +831,96 @@ export const examples = {
         }
       }
     }, 'example-display'),
+    mandelbrotSet: () => new P5Container((s: P5Sketch) => {
+
+      s.setup = () => {
+        setupCanvas(s, 'The Mandelbrot Set', 710, 400)
+        s.pixelDensity(1)
+        s.noLoop()
+      }
+
+      s.draw = () => {
+        s.background(0)
+
+        // establish a range of values on the complex plane
+        // a different range will allow us to "zoom" in our out on the fractal
+
+        // it all starts with the width, try higher or lower values
+        const w = 4
+        const h = (w * s.height) / s.width
+
+        // start at negative half the width and height
+        const xMin = -w / 2
+        const yMin = -h / 2
+
+        // make sure we can write to the pixels[] array
+        // only need to do this once since we don't do any other drawing
+        s.loadPixels()
+
+        // maximum number of iterations for each point on the complex plane
+        const maxIterations = 100
+
+        // x goes from xMin to xMax
+        const xMax = xMin + w
+        // w goes from yMin to yMax
+        const yMax = yMin + h
+
+        // calculate amount we increment x, y for each pixel
+        const dx = (xMax - xMin) / s.width
+        const dy = (yMax - yMin) / s.height
+
+        // start y
+        let y = yMin
+        for (let j = 0; j < s.width; j++) {
+          // start x
+          let x = xMin
+          for (let i = 0; i < s.width; i++) {
+            // now we test, as we iterate z = z^2 + cm does z tend towards i
+            let a = x
+            let b = y
+            let n = 0
+
+            while (n < maxIterations) {
+              const aa = a * a
+              const bb = b * b
+              const twoAB = 2.0 * a * b
+              a = aa - bb + x
+              b = twoAB + y
+
+              // bail function
+              if (s.dist(aa, bb, 0, 0) > 16) {
+                break;
+              }
+
+              n++
+            }
+
+            // we color each pixel based on how long it takes to get to infinity
+            // if we never got there, let's pick the color black
+            const pix: number = (i + j * s.width) * 4
+            const norm = s.map(n, 0, maxIterations, 0, 1)
+            let bright = s.map(s.sqrt(norm), 0, 1, 0, 255)
+
+            if (n === maxIterations) {
+              bright = 0
+            } else {
+              s.pixels[pix] = bright
+              s.pixels[pix + 1] = bright
+              s.pixels[pix + 2] = bright
+              s.pixels[pix + 3] = 255
+            }
+
+            x += dx
+          }
+
+          y += dy
+        }
+
+        s.updatePixels()
+      }
+    }, 'example-display'),
     template: () => new P5Container((s: P5Sketch) => {
+
     }, 'example-display')
   }
 }
