@@ -222,7 +222,8 @@ export const examples = {
       buttons: [
         {link: ['simulate', 'forces'], icon: 'new', name: 'Forces'},
         {link: ['simulate', 'particleSystem'], icon: 'new', name: 'Particle System'},
-        {link: ['simulate', 'flock'], icon: 'new', name: 'Flock'}
+        {link: ['simulate', 'flock'], icon: 'new', name: 'Flock'},
+        {link: ['simulate', 'wolframCA'], icon: 'new', name: 'Wolfram CA'},
       ]
     },
     forces: () => new P5Container((s: P5Sketch) => {
@@ -310,6 +311,77 @@ export const examples = {
 
       s.mouseDragged = () => {
         flock.addBoid(new P5Boid(s, s.mouseX, s.mouseY))
+      }
+    }, 'example-display'),
+    wolframCA: () => new P5Container((s: P5Sketch) => {
+      const w = 10
+
+      // an array of 1s and 0s
+      let cells: number[]
+
+      // we arbitrarily start with just the middle cell having a state of "1"
+      let generation = 0
+
+      // an array to store the ruleset, for example {0,1,1,0,1,1,0,1}
+      const ruleset = [0, 1, 0, 1, 1, 0, 1, 0]
+
+      s.setup = () => {
+        s.createCanvas(640, 400)
+        cells = Array(s.floor(s.width / w))
+
+        for (let i = 0; i < cells.length; i++) {
+          cells[i] = 0
+        }
+
+        cells[cells.length / 2] = 1
+      }
+
+      s.draw = () => {
+        cells.forEach((cell, i) => {
+          if (cell === 1) {
+            s.fill(200)
+          } else {
+            s.fill(51)
+            s.noStroke()
+            s.rect(i * w, generation * w, w, w)
+          }
+        })
+
+        if (generation < s.height / w) {
+          generate()
+        }
+      }
+
+      const generate = () => {
+        // first create an empty array for the new values
+        const nextGen = Array(cells.length)
+
+        // for every spot, determine new state by examining the current state and neighbor states
+        // ignore edges that only have one neighbor
+        for (let i = 1; i < cells.length - 1; i++) {
+          const left =    cells[i - 1]    // left neighbor state
+          const current = cells[i]        // current state
+          const right =   cells[i + 1]    // right neighbor state
+
+          nextGen[i] = rules(left, current, right)  // compute the next generation state based on ruleset
+        }
+
+        // the current generation is the new generation
+        cells = nextGen
+        generation++
+      }
+
+      const rules = (a: number, b: number, c: number) => {
+        const boolCheck = (ea: number, eb: number, ec: number) => a === ea && b === eb && c === ec
+
+        return boolCheck(1, 1, 1) ? ruleset[0] :
+               boolCheck(1, 1, 0) ? ruleset[1] :
+               boolCheck(1, 0, 1) ? ruleset[2] :
+               boolCheck(1, 0, 0) ? ruleset[3] :
+               boolCheck(0, 1, 1) ? ruleset[4] :
+               boolCheck(0, 1, 0) ? ruleset[5] :
+               boolCheck(0, 0, 1) ? ruleset[6] :
+               boolCheck(0, 0, 0) ? ruleset[7] : 0
       }
     }, 'example-display'),
     template: () => new P5Container((s: P5Sketch) => {}, 'example-display')
