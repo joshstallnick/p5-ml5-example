@@ -15,6 +15,6 @@ export class P5ExampleSectionComponent {
     applicationService.selectedDashboard$.next('p5')
     applicationService.subNav$.next('examples')
 
-    exampleService.getExample(['simulate', 'forces'])
+    exampleService.getExample(['simulate', 'particleSystem'])
   }
 }

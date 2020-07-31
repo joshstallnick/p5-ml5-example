@@ -1,5 +1,4 @@
 import {P5Container} from './p5-container'
-import * as P5 from 'p5'
 import {P5Sketch, P5Vector} from '../interfaces'
 
 export class P5Mover {

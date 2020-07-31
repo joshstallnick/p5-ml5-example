@@ -1,6 +1,5 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core'
 import {BehaviorSubject} from 'rxjs'
-import {examples} from '../example-service/examples'
 import {ExampleService} from '../example-service/example.service'
 import {AnyFunction} from '../../shared/types'
 
@@ -22,13 +21,14 @@ export class ApplicationService {
   selectedDashboard$: BehaviorSubject<'p5' | 'ml5'> = new BehaviorSubject(null)
   subNav$: BehaviorSubject<string> = new BehaviorSubject(null)
 
+  // this is used to create a vertical nav if needed
   verticalNavOptions = {
     p5: {
       dashboard: {
         items: []
       },
       examples: {
-        linkCall: (link: string[]) =>  this.exampleService.getExample(link),
+        linkCall: (link: string[]) => this.exampleService.getExample(link),
         items: [
           {link: ['basic', 'circle'], icon: 'new', name: 'Basic'},
           {link: ['structure', 'coordinates'], icon: 'grid-chart', name: 'Structure'},
@@ -46,5 +46,6 @@ export class ApplicationService {
     }
   }
 
-  constructor(private exampleService: ExampleService) { }
+  constructor(private exampleService: ExampleService) {
+  }
 }

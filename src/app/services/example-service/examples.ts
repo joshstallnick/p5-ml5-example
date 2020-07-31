@@ -1,9 +1,8 @@
-import {P5Container} from '../../shared/classes/p5-container'
 import {P5Sketch} from '../../shared/interfaces'
 import {Runnable} from '../../shared/types'
-import {P5Liquid} from '../../shared/classes/p5-liquid'
-import {P5Mover} from '../../shared/classes/p5-mover'
+import {P5Container, P5Liquid, P5Mover, P5ParticleSystem} from '../../shared/classes'
 
+// example object called by the example service
 export const examples = {
   basic: {
     main: {
@@ -221,7 +220,8 @@ export const examples = {
     main: {
       name: 'Simulate',
       buttons: [
-        {link: ['simulate', 'forces'], icon: 'new', name: 'Forces'}
+        {link: ['simulate', 'forces'], icon: 'new', name: 'Forces'},
+        {link: ['simulate', 'particleSystem'], icon: 'new', name: 'Particle System'}
       ]
     },
     forces: () => new P5Container((s: P5Sketch) => {
@@ -271,6 +271,20 @@ export const examples = {
         console.groupEnd()
       }
 
+    }, 'example-display'),
+    particleSystem: () => new P5Container((s: P5Sketch) => {
+      let system: P5ParticleSystem
+
+      s.setup = () => {
+        s.createCanvas(720, 400)
+        system = new P5ParticleSystem(s, s.createVector(s.width / 2, 50))
+      }
+
+      s.draw = () => {
+        s.background(51)
+        system.addParticle()
+        system.run()
+      }
     }, 'example-display'),
     template: () => new P5Container((s: P5Sketch) => {}, 'example-display')
   }
