@@ -1,5 +1,5 @@
 import {P5Container} from './p5-container'
-import {P5Sketch, P5Vector} from '../interfaces'
+import {P5Sketch, P5Vector} from '../../interfaces'
 
 export class P5Mover {
   mass: number

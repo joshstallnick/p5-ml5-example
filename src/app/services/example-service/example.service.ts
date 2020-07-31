@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from 'rxjs'
-import {P5Container} from '../../shared/classes/p5-container'
+import {P5Container} from '../../shared/classes'
 import {SubSectionItem} from '../application-service/application.service'
 import {examples} from './examples'
 

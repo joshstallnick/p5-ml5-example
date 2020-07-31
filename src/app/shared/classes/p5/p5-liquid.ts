@@ -1,5 +1,5 @@
 import {P5Mover} from './p5-mover'
-import {P5Sketch, P5Vector} from '../interfaces'
+import {P5Sketch, P5Vector} from '../../interfaces'
 
 export class P5Liquid {
   constructor(public sketch: P5Sketch,
@@ -11,8 +11,6 @@ export class P5Liquid {
   }
 
   contains(m: P5Mover): boolean {
-    const l = m.position
-
     const {x, y} = m.position
 
     return x > this.x && x < this.x + this.w &&

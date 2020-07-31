@@ -1,4 +1,4 @@
-import {P5Sketch, P5Vector} from '../interfaces'
+import {P5Sketch, P5Vector} from '../../interfaces'
 import {P5Particle} from './p5-particle'
 
 export class P5ParticleSystem {

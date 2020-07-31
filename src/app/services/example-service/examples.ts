@@ -1,6 +1,6 @@
 import {P5Sketch} from '../../shared/interfaces'
 import {Runnable} from '../../shared/types'
-import {P5Container, P5Liquid, P5Mover, P5ParticleSystem} from '../../shared/classes'
+import {P5Boid, P5Container, P5Flock, P5Liquid, P5Mover, P5ParticleSystem} from '../../shared/classes'
 
 // example object called by the example service
 export const examples = {
@@ -221,7 +221,8 @@ export const examples = {
       name: 'Simulate',
       buttons: [
         {link: ['simulate', 'forces'], icon: 'new', name: 'Forces'},
-        {link: ['simulate', 'particleSystem'], icon: 'new', name: 'Particle System'}
+        {link: ['simulate', 'particleSystem'], icon: 'new', name: 'Particle System'},
+        {link: ['simulate', 'flock'], icon: 'new', name: 'Flock'}
       ]
     },
     forces: () => new P5Container((s: P5Sketch) => {
@@ -284,6 +285,31 @@ export const examples = {
         s.background(51)
         system.addParticle()
         system.run()
+      }
+    }, 'example-display'),
+    flock: () => new P5Container((s: P5Sketch) => {
+      let flock: P5Flock
+
+      s.setup = () => {
+        s.createElement('h1', 'Flock')
+        s.createCanvas(640, 360)
+        s.createP('Drag the mouse to generate new boids.')
+
+        flock = new P5Flock()
+
+        for (let i = 0; i < 100; i++) {
+          const b = new P5Boid(s, s.width / 2, s.height / 2)
+          flock.addBoid(b)
+        }
+      }
+
+      s.draw = () => {
+        s.background(51)
+        flock.run()
+      }
+
+      s.mouseDragged = () => {
+        flock.addBoid(new P5Boid(s, s.mouseX, s.mouseY))
       }
     }, 'example-display'),
     template: () => new P5Container((s: P5Sketch) => {}, 'example-display')
