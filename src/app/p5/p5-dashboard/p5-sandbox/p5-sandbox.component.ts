@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core'
 import {ApplicationService} from '../../../services/application-service/application.service'
-import {P5Container} from '../../../shared/classes'
 import {P5Sketch} from '../../../shared/interfaces'
+import {P5Grid} from '../../../shared/classes/p5/p5-grid'
 
 @Component({
   selector: 'app-p5-sandbox',
@@ -10,16 +10,26 @@ import {P5Sketch} from '../../../shared/interfaces'
 })
 export class P5SandboxComponent implements OnInit {
 
-  container = P5Container.default()
+  // container = P5Container.default()
+  grid: P5Grid
 
   constructor(private applicationService: ApplicationService) {
     applicationService.changeLocation('p5', 'sandbox')
   }
 
   ngOnInit(): void {
-    this.container = new P5Container((s) => {
-      this.createGrid(s, 1000, 10, true)
-    }, 'vedic')
+    this.grid = new P5Grid('vedic', 1000, 10, true)
+
+    this.grid.container.canvas.remove()
+
+    this.grid.add(s => {
+      s.fill(100)
+      s.ellipse(0, 0, 100, 100)
+    })
+
+    // this.container = new P5Container((s) => {
+    //   this.createGrid(s, 1000, 10, true)
+    // }, 'vedic')
   }
 
   createGrid(s: P5Sketch, width: number, divisions: number = 10, byPercent: boolean = false) {
