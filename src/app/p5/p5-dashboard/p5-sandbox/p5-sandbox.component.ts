@@ -18,11 +18,15 @@ export class P5SandboxComponent implements OnInit {
 
   ngOnInit(): void {
     this.container = new P5Container((s) => {
-      this.createGrid(s, 180, 10)
+      this.createGrid(s, 1000, 10, true)
     }, 'vedic')
   }
 
-  createGrid(s: P5Sketch, width: number, divisions: number = 10) {
+  createGrid(s: P5Sketch, width: number, divisions: number = 10, byPercent: boolean = false) {
+    if (byPercent) {
+      divisions = s.floor(width / divisions)
+    }
+
     const adjustDimension = (n: number) => {
       const additional = n % divisions
       return n + (divisions - additional)
