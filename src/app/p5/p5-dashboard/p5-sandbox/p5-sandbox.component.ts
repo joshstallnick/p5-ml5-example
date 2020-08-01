@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core'
 import {ApplicationService} from '../../../services/application-service/application.service'
 import {P5Sketch} from '../../../shared/interfaces'
-import {P5Grid} from '../../../shared/classes/p5/p5-grid'
+import {P5Grid, P5GridSection} from '../../../shared/classes/p5/p5-grid'
 
 @Component({
   selector: 'app-p5-sandbox',
@@ -22,9 +22,12 @@ export class P5SandboxComponent implements OnInit {
 
     this.grid.container.canvas.remove()
 
-    this.grid.add(s => {
-      s.fill(100)
-      s.ellipse(0, 0, 100, 100)
+    this.grid.add((s) => {
+      const section: P5GridSection = this.grid.addSection(
+        {startX: 10, startY: 10, rowsAmount: 8, columnAmount: 8})
+
+      s.strokeWeight(3)
+      s.rect(section.startX, section.startY, section.width, section.height)
     })
 
     // this.container = new P5Container((s) => {
