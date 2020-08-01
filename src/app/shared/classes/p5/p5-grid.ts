@@ -9,7 +9,7 @@ export interface P5GridCell {
 }
 
 export interface P5GridSection {
-  rowsAmount?: number
+  rowAmount?: number
   columnAmount?: number
   startX: number
   startY: number
@@ -39,13 +39,21 @@ export class P5Grid {
     this.container = new P5Container(this.createGrid(), divId)
   }
 
+  private static adjustDimension(n: number, adjuster: number): number {
+    if (n === 0 || n % adjuster === 0 || adjuster === 0) {
+      return n
+    }
+    const additional = n % adjuster
+    return n + (adjuster - additional)
+  }
+
   createGrid() {
     return (s: P5Sketch) => {
       if (this.byPercent) {
         this.divisions = s.floor(this.width / this.divisions)
       }
 
-      this.width = this.adjustDimension(this.width, this.divisions)
+      this.width = P5Grid.adjustDimension(this.width, this.divisions)
 
       s.setup = () => {
         s.createCanvas(this.width, this.width)
@@ -56,15 +64,12 @@ export class P5Grid {
         s.fill(255)
         s.rect(0, 0, s.width, s.height)
 
-        for (let i = 0; i < this.divisions; i++) {
-          for (let j = 0; j < this.divisions; j++) {
-            this.cell.width = s.width / this.divisions
-            this.cell.height = s.height / this.divisions
-
-            s.fill(255)
-            s.rect(this.cell.width * i, this.cell.height * j, this.cell.width, this.cell.height)
-          }
+        if (this.cell.width === 0 || this.cell.height === 0) {
+          this.cell.width = s.width / this.divisions
+          this.cell.height = s.height / this.divisions
         }
+
+        this.createCells(s, this.divisions, this.divisions)
 
         this.drawFns.forEach(fn => fn(s, this.cell))
       }
@@ -75,15 +80,50 @@ export class P5Grid {
     this.drawFns.push(drawFn)
   }
 
-  addSection(section: P5GridSection): P5GridSection {
-    section.startX = this.adjustDimension(section.startX, this.cell.width)
-    section.startY = this.adjustDimension(section.startY, this.cell.height)
+  addSection(section: P5GridSection, strokeWeight: number = 1): P5GridSection {
 
-    if (section.rowsAmount && section.columnAmount) {
-      section.endX = (this.cell.width * section.rowsAmount) + this.cell.width
-      section.endY = (this.cell.height * section.columnAmount) + this.cell.height
+    strokeWeight = strokeWeight % 2 === 0 ? strokeWeight + 1 : strokeWeight
+
+    strokeWeight = strokeWeight < 0 ? 1 : strokeWeight
+
+    this.add(s => {
+      section = this.sanitizeSection(section)
+
+      this.sections.push(section)
+
+      s.stroke(s.color(255, 204, 0))
+
+      s.strokeWeight(1)
+      this.createCells(s, section.rowAmount, section.columnAmount, section.startX, section.startY)
+      s.strokeWeight(strokeWeight)
+      s.fill(1, 0)
+      s.rect(section.startX, section.startY, section.width, section.height)
+
+    })
+
+    return section
+  }
+
+  createCells(s: P5Sketch,
+                      rowAmount: number, columnAmount: number,
+                      x: number = 0, y: number = 0, color: number = 255) {
+    for (let i = 0; i < rowAmount; i++) {
+      for (let j = 0; j < columnAmount; j++) {
+        s.fill(color)
+        s.rect((this.cell.width * i) + x, (this.cell.height * j) + y, this.cell.width, this.cell.height)
+      }
+    }
+  }
+
+  private sanitizeSection(section: P5GridSection): P5GridSection {
+    section.startX = P5Grid.adjustDimension(section.startX, this.cell.width)
+    section.startY = P5Grid.adjustDimension(section.startY, this.cell.height)
+
+    if (section.rowAmount && section.columnAmount) {
+      section.endX = (this.cell.width * section.rowAmount) + section.startX
+      section.endY = (this.cell.height * section.columnAmount) + section.startY
     } else if (section.endX && section.endY) {
-      section.rowsAmount = section.endX / this.cell.width
+      section.rowAmount = section.endX / this.cell.width
       section.columnAmount = section.endY / this.cell.height
     } else {
       return section
@@ -94,13 +134,6 @@ export class P5Grid {
       section.height = section.endY - section.startY
     }
 
-    this.sections.push(section)
     return section
-  }
-
-  private static adjustDimension(n: number, adjuster: number): number {
-    if (n === 0 || n % adjuster === 0) { return n }
-    const additional = n % adjuster
-    return n + (adjuster - additional)
   }
 }
