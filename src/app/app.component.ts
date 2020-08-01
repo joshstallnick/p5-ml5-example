@@ -13,7 +13,11 @@ export class AppComponent {
   selectedLinkRefs: { link: string, name: string }[]
 
   linkRefs = {
-    p5: [{link: '/p5/dashboard', name: 'Dashboard'}, {link: '/p5/dashboard/examples', name: 'Example Section'}],
+    p5: [
+      {link: '/p5/dashboard', name: 'Dashboard'},
+      {link: '/p5/dashboard/examples', name: 'Example Section'},
+      {link: '/p5/dashboard/sandbox', name: 'Sandbox'}
+     ],
     ml5: [{link: '/ml5/dashboard', name: 'Dashboard'}, {link: '/ml5/dashboard/sandbox', name: 'Sandbox'}]
   }
 

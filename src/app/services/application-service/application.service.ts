@@ -34,6 +34,9 @@ export class ApplicationService {
           {link: ['structure', 'coordinates'], icon: 'grid-chart', name: 'Structure'},
           {link: ['simulate', 'forces'], icon: 'network-globe', name: 'Simulate'}
         ]
+      },
+      sandbox: {
+        items: []
       }
     },
     ml5: {
@@ -47,5 +50,10 @@ export class ApplicationService {
   }
 
   constructor(private exampleService: ExampleService) {
+  }
+
+  changeLocation(nav: 'p5' | 'ml5', subNav: string) {
+    this.selectedDashboard$.next(nav)
+    this.subNav$.next(subNav)
   }
 }

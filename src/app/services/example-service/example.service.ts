@@ -36,4 +36,9 @@ export class ExampleService {
   setMain(main: { name: string, buttons: SubSectionItem[] }) {
     this.main$.next(main)
   }
+
+  clearMain() {
+    console.log('nulll')
+    this.main$.next(null)
+  }
 }
