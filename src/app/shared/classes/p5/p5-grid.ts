@@ -1,5 +1,6 @@
 import {P5Container} from './p5-container'
-import {P5Sketch} from '../../interfaces'
+import {P5Color, P5Sketch} from '../../interfaces'
+import {createColor, P5ColorOption} from '../../interfaces/p5/p5-sketch'
 
 export interface P5GridCell {
   width: number
@@ -19,6 +20,12 @@ export interface P5GridSection {
   height?: number
 }
 
+export interface P5GridSectionOptions {
+  section: P5GridSection
+  color?: P5ColorOption
+  strokeWeight?: number
+}
+
 export class P5Grid {
   container: P5Container
 
@@ -30,6 +37,8 @@ export class P5Grid {
   }
 
   sections: P5GridSection[] = []
+
+  subsectionColor: P5ColorOption = {v1: 0, v2: 0, v3: 0}
 
   constructor(
     private divId: string,
@@ -80,7 +89,10 @@ export class P5Grid {
     this.drawFns.push(drawFn)
   }
 
-  addSection(section: P5GridSection, strokeWeight: number = 1): P5GridSection {
+  addSection(options: P5GridSectionOptions): P5GridSection {
+    let {section, color, strokeWeight} = options
+
+    strokeWeight = strokeWeight ?? 1
 
     strokeWeight = strokeWeight % 2 === 0 ? strokeWeight + 1 : strokeWeight
 
@@ -91,7 +103,20 @@ export class P5Grid {
 
       this.sections.push(section)
 
-      s.stroke(s.color(255, 204, 0))
+      // let pColor
+      // if (color) {
+      //   console.log('color exists', color)
+      //   pColor = createColor(s, color)
+      // } else {
+      //   console.log('color not exist', this.subsectionColor)
+      //   pColor = createColor(s, this.subsectionColor)
+      // }
+
+      const pColor = color ? createColor(s, color) : createColor(s, this.subsectionColor)
+
+      console.log('----', pColor)
+
+      s.stroke(pColor)
 
       s.strokeWeight(1)
       this.createCells(s, section.rowAmount, section.columnAmount, section.startX, section.startY)

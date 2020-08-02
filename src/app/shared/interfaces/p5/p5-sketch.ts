@@ -505,6 +505,64 @@ export enum ColorMode {
   HSL = 'HSL'
 }
 
+export type P5ColorOption =
+  {v1: number, v2: number, v3: number, a?: number} |
+  {gray: number, alpha?: number} |
+  {values: number[]} |
+  {value: string} |
+  number[] |
+  string | number | P5Color
+
+export function createColor(s: P5Sketch, option: P5ColorOption): P5Color {
+  console.log('-------fuck', option)
+
+  const a = option as {v1: number, v2: number, v3: number, a?: number}
+
+  if (a?.v1 !== null) {
+    return s.color(a.v1, a.v2, a.v3, a.a)
+  }
+
+  console.log('goes past')
+
+  const b = option as {gray: number, alpha?: number}
+
+  if (b?.gray !== null) {
+    return s.color(b.gray, b.alpha)
+  }
+
+  const c = option as {values: number[]}
+
+  if (c?.values !== null) {
+    return s.color(c.values)
+  }
+
+  const d = option as {value: string}
+
+  if (d?.value !== null) {
+    return s.color(c.values)
+  }
+
+  const arr = option as number[]
+
+  if (arr?.length > 0) {
+    return s.color(arr)
+  }
+
+  const str = option as string
+
+  if (str?.length > 0) {
+    return s.color(str)
+  }
+
+  const n = option as number
+
+  if (n) {
+    return s.color(n)
+  }
+
+  return s.color(option as P5Color)
+}
+
 type ColorOptionsFn =
   ((v1: number, v2: number, v3: number, alpha?: number) => void) &
   ((value: string) => void) &

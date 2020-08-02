@@ -4,6 +4,8 @@ import {P5Sketch} from '../../interfaces'
 
 export class P5Container {
   // static methods
+  static color = P5.color
+
   static Vector = {
     div: P5.Vector.div,
     dist: P5.Vector.dist,
