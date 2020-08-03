@@ -1,4 +1,5 @@
 import {P5Sketch} from '../../interfaces'
+import {TextStyle} from '../../interfaces/p5/p5-sketch'
 
 export interface P5GraphBounds {
   x: number
@@ -11,10 +12,12 @@ export interface P5GraphLabel {
   x: number
   y: number
   content: any
+  length: number
 }
 
 interface P5GraphDimension {
   axis: {
+    maxLength?: number
     division?: number
     labels: P5GraphLabel[]
   }
@@ -25,6 +28,7 @@ interface P5GraphDimension {
 export class P5LineGraph {
   x: P5GraphDimension = {
     axis: {
+      maxLength: null,
       division: null,
       labels: []
     },
@@ -34,6 +38,7 @@ export class P5LineGraph {
 
   y: P5GraphDimension = {
     axis: {
+      maxLength: null,
       division: null,
       labels: []
     },
@@ -68,9 +73,11 @@ export class P5LineGraph {
     this.x.axis.division = division
 
     this.labels.x.forEach(label => {
-      this.x.axis.labels.push({x: position, y: this.y.end, content: label})
+      this.x.axis.labels.push({x: position, y: this.y.end, content: label, length: this.s.textWidth(label)})
       position += division
     })
+
+    this.x.axis.maxLength = Math.max(...this.x.axis.labels.map(label => label.length))
   }
 
   /**
@@ -79,6 +86,12 @@ export class P5LineGraph {
   displayPositionsOfLabelsForX() {
     this.x.axis.labels.forEach(label => {
       this.s.circle(label.x, label.y, 10)
+    })
+  }
+
+  displayLabelsForX() {
+    this.x.axis.labels.forEach(label => {
+      this.s.text(label.content, label.x, label.y + 20)
     })
   }
 
@@ -99,9 +112,11 @@ export class P5LineGraph {
     this.y.axis.division = division
 
     this.labels.y.forEach(label => {
-      this.y.axis.labels.push({x: this.x.start, y: position, content: label})
+      this.y.axis.labels.push({x: this.x.start, y: position, content: label, length: this.s.textWidth(label)})
       position -= division
     })
+
+    this.y.axis.maxLength = Math.max(...this.y.axis.labels.map(label => label.length))
   }
 
   /**
@@ -113,6 +128,20 @@ export class P5LineGraph {
     })
   }
 
+  displayLabelsForY() {
+    this.s.fill(0)
+
+    this.y.axis.labels.forEach(label => {
+      const buffer = this.y.axis.maxLength - label.length
+
+      const padding = 36
+
+      console.log('---y', label.x, this.y.axis.maxLength, label.length)
+
+      this.s.text(label.content, label.x - padding + buffer, label.y + 3)
+    })
+  }
+
   displayGraphAndPositions() {
     this.createAxisX()
     this.createLabelsForX()
@@ -120,6 +149,7 @@ export class P5LineGraph {
     this.createAxisY()
     this.createLabelsForY()
     this.displayPositionOfLabelsForY()
+    this.displayLabelsForY()
   }
 }
 

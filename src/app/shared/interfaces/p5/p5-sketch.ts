@@ -830,10 +830,10 @@ export enum VertAlign {
 }
 
 export enum TextStyle {
-  NORMAL = 'NORMAL',
-  ITALIC = 'ITALIC',
-  BOLD = 'BOLD',
-  BOLDITALIC = 'BOLDITALIC'
+  NORMAL = 'normal',
+  ITALIC = 'italic',
+  BOLD = 'bold',
+  BOLDITALIC = 'bolditalic'
 }
 
 

@@ -31,9 +31,12 @@ export class P5SandboxComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let runOnce = true
+
     this.container = new P5Container(s => {
       s.setup = () => {
         s.createCanvas(1000, 800)
+        s.noLoop()
       }
 
       s.draw = () => {
@@ -44,6 +47,12 @@ export class P5SandboxComponent implements OnInit {
 
         this.graph = new P5LineGraph(s, this.bounds, {x: this.xAxisLabels, y: this.yAxisLabels})
         this.graph.displayGraphAndPositions()
+
+        if (runOnce) {
+          console.log('------ graph', this.graph)
+        }
+
+        runOnce = false
       }
     }, 'graphs')
   }
