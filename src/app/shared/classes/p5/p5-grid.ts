@@ -1,6 +1,7 @@
 import {P5Container} from './p5-container'
-import {P5Color, P5Sketch} from '../../interfaces'
+import {P5Sketch} from '../../interfaces'
 import {createColor, P5ColorOption} from '../../interfaces/p5/p5-sketch'
+import {Runnable} from '../../types'
 
 export interface P5GridCell {
   width: number
@@ -39,6 +40,9 @@ export class P5Grid {
   sections: P5GridSection[] = []
 
   subsectionColor: P5ColorOption = {v1: 0, v2: 0, v3: 0}
+  subsectionStrokeWeight = 1
+
+  sketch: P5Sketch
 
   constructor(
     private divId: string,
@@ -58,6 +62,8 @@ export class P5Grid {
 
   createGrid() {
     return (s: P5Sketch) => {
+      this.sketch = s
+
       if (this.byPercent) {
         this.divisions = s.floor(this.width / this.divisions)
       }
@@ -90,9 +96,40 @@ export class P5Grid {
   }
 
   addSection(options: P5GridSectionOptions): P5GridSection {
+    return this.sharedSectionCreator(options, (s, section) => {
+      section = this.sanitizeSection(section)
+
+      this.sections.push(section)
+
+      this.createCells(s, section.rowAmount, section.columnAmount, section.startX, section.startY)
+    })
+  }
+
+  // divideGrid(options: P5GridSectionOptions) {
+  //   return this.sharedSectionCreator(options, (s, section) => {
+  //     let xEnd = 10
+  //
+  //     for (let x = 10; x < this.width;) {
+  //       for (let y = 10; y < this.width;) {
+  //         const sect = this.sanitizeSection(
+  //           {startX: x, startY: y, columnAmount: section.columnAmount, rowAmount: section.rowAmount})
+  //
+  //         this.sections.push(sect)
+  //
+  //         this.createCells(s, sect.rowAmount, sect.columnAmount, sect.startX, sect.startY)
+  //         xEnd = sect.endX
+  //         y = sect.endY
+  //       }
+  //       x = xEnd
+  //     }
+  //   })
+  // }
+
+  private sharedSectionCreator(options: P5GridSectionOptions,
+                               fn: (s: P5Sketch, section: P5GridSection) => void = () => {}): P5GridSection {
     let {section, color, strokeWeight} = options
 
-    strokeWeight = strokeWeight ?? 1
+    strokeWeight = strokeWeight ?? this.subsectionStrokeWeight
 
     strokeWeight = strokeWeight % 2 === 0 ? strokeWeight + 1 : strokeWeight
 
@@ -103,23 +140,12 @@ export class P5Grid {
 
       this.sections.push(section)
 
-      // let pColor
-      // if (color) {
-      //   console.log('color exists', color)
-      //   pColor = createColor(s, color)
-      // } else {
-      //   console.log('color not exist', this.subsectionColor)
-      //   pColor = createColor(s, this.subsectionColor)
-      // }
-
-      const pColor = color ? createColor(s, color) : createColor(s, this.subsectionColor)
-
-      console.log('----', pColor)
+      const pColor = createColor(s, color ?? this.subsectionColor)
 
       s.stroke(pColor)
 
       s.strokeWeight(1)
-      this.createCells(s, section.rowAmount, section.columnAmount, section.startX, section.startY)
+      fn(s, section)
       s.strokeWeight(strokeWeight)
       s.fill(1, 0)
       s.rect(section.startX, section.startY, section.width, section.height)
@@ -130,8 +156,8 @@ export class P5Grid {
   }
 
   createCells(s: P5Sketch,
-                      rowAmount: number, columnAmount: number,
-                      x: number = 0, y: number = 0, color: number = 255) {
+              rowAmount: number, columnAmount: number,
+              x: number = 0, y: number = 0, color: number = 255) {
     for (let i = 0; i < rowAmount; i++) {
       for (let j = 0; j < columnAmount; j++) {
         s.fill(color)
@@ -140,7 +166,7 @@ export class P5Grid {
     }
   }
 
-  private sanitizeSection(section: P5GridSection): P5GridSection {
+  sanitizeSection(section: P5GridSection): P5GridSection {
     section.startX = P5Grid.adjustDimension(section.startX, this.cell.width)
     section.startY = P5Grid.adjustDimension(section.startY, this.cell.height)
 

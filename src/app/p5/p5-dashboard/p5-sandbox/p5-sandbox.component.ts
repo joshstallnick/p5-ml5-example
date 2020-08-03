@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core'
 import {ApplicationService} from '../../../services/application-service/application.service'
-import {P5Grid} from '../../../shared/classes/p5/p5-grid'
+import {P5Grid, P5GridSection} from '../../../shared/classes/p5/p5-grid'
 
 @Component({
   selector: 'app-p5-sandbox',
@@ -27,6 +27,26 @@ export class P5SandboxComponent implements OnInit {
     }
 
     this.grid.addSection(section1)
-    this.grid.addSection({section: {startX: 90, startY: 90, rowAmount: 8, columnAmount: 8}, strokeWeight: 1})
+    this.grid.addSection({section: {startX: 90, startY: 90, rowAmount: 8, columnAmount: 8}})
+
+    // this.grid.divideGrid({section: {startX: 90, startY: 90, rowAmount: 8, columnAmount: 8}})
+
+    // let i = 10
+    // let j = 10
+    //
+    // for (let x = i; x < this.grid.width; x += i) {
+    //   for (let y = j; y < this.grid.width; y += j) {
+    //     const section: P5GridSection = this.grid.addSection({
+    //       section: {startX: x, startY: y, rowAmount: 12, columnAmount: 12}
+    //     })
+    //
+    //     console.log(i, j, section.endX, section.endY)
+    //
+    //     i = section.endX
+    //     j = section.endY
+    //     Object.keys(section).forEach(k => console.log('------fuck ' + k, section[k]))
+    //     console.log('=======sect', i, j, x, y, section, this.grid.width)
+    //   }
+    // }
   }
 }

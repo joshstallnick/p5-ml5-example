@@ -514,15 +514,11 @@ export type P5ColorOption =
   string | number | P5Color
 
 export function createColor(s: P5Sketch, option: P5ColorOption): P5Color {
-  console.log('-------fuck', option)
-
   const a = option as {v1: number, v2: number, v3: number, a?: number}
 
   if (a?.v1 !== null) {
     return s.color(a.v1, a.v2, a.v3, a.a)
   }
-
-  console.log('goes past')
 
   const b = option as {gray: number, alpha?: number}
 
