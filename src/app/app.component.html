@@ -1,5 +1,5 @@
 
-<main class="main-container">
+<main class="main-container" style="height: 100%">
   <header class="header header-4">
     <div class="branding">
       <a class="nav-link" routerLink="/">
@@ -33,7 +33,7 @@
     </ul>
   </nav>
 
-  <div class="content-container" style="height: 100%">
+  <div class="content-container">
     <clr-vertical-nav *ngIf="vertNav.length > 0">
 <!--                      [clrVerticalNavCollapsible]="true"-->
 <!--                      [(clrVerticalNavCollapsed)]="collapsed">-->
@@ -45,9 +45,6 @@
 
     <div class="content-area">
       <router-outlet></router-outlet>
-
-      <div style="margin-bottom: 40px"></div>
-
 <!--      <router-outlet name="exampleDisplay"></router-outlet>-->
     </div>
   </div>
