@@ -1,6 +1,6 @@
 import {P5Sketch} from '../../shared/interfaces'
 import {Runnable} from '../../shared/types'
-import {P5Boid, P5Container, P5Flock, P5Liquid, P5Mover, P5ParticleSystem} from '../../shared/classes'
+import {P5Boid, P5Container, P5Flock, P5Liquid, P5Mover, P5Particle, P5ParticleSystem} from '../../shared/classes'
 import {HorizAlign, LocationMode} from '../../shared/interfaces/p5/p5-sketch'
 import {π, τ} from '../../shared/constants/p5.constants'
 
@@ -232,7 +232,8 @@ export const examples = {
         {link: ['simulate', 'lSystems'], icon: 'new', name: 'L-Systems'},
         {link: ['simulate', 'spring'], icon: 'new', name: 'Spring'},
         {link: ['simulate', 'recursiveTree'], icon: 'new', name: 'Recursive Tree'},
-        {link: ['simulate', 'mandelbrotSet'], icon: 'new', name: 'The Mandelbrot Set'}
+        {link: ['simulate', 'mandelbrotSet'], icon: 'new', name: 'The Mandelbrot Set'},
+        {link: ['simulate', 'particles'], icon: 'new', name: 'Particles'}
       ]
     },
     forces: () => new P5Container((s: P5Sketch) => {
@@ -918,6 +919,34 @@ export const examples = {
 
         s.updatePixels()
       }
+    }, 'example-display'),
+    particles: () => new P5Container((s: P5Sketch) => {
+      const particles: P5Particle[] = []
+
+      s.setup = () => {
+        s.createCanvas(720, 400)
+
+        for (let i = 0; i < s.width / 10; i++) {
+          const options = {
+            position: s.createVector(s.random(0, s.width), s.random(0, s.height)),
+            radii: s.random(1, 8),
+            speed: s.createVector(s.random(-2, 2), s.random(-1, 1.5)),
+            fill: 'rgba(200,169,169,0.5)'
+          }
+
+          particles.push(new P5Particle(s, options))
+        }
+      }
+
+      s.draw = () => {
+        s.background('#0f0f0f')
+        particles.forEach((particle, i) => {
+          particle.display()
+          particle.move()
+          particle.joinParticles(particles.slice(i))
+        })
+      }
+
     }, 'example-display'),
     template: () => new P5Container((s: P5Sketch) => {
 

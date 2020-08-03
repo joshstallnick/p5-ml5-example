@@ -11,8 +11,11 @@ export class P5ParticleSystem {
   }
 
   addParticle(normal: boolean = true) {
-    const p = (normal || this.sketch.int(this.sketch.random(0, 2) === 0)) ? new P5Particle(this.sketch, this.origin) :
-                                                                            new P5CrazyParticle(this.sketch, this.origin)
+    const stroke = {color: 200, weight: 2}
+
+    const p = (normal || this.sketch.int(this.sketch.random(0, 2) === 0)) ?
+      new P5Particle(this.sketch, {radii: 12}).setupForces(this.origin, stroke) :
+      new P5CrazyParticle(this.sketch, {radii: 12}).setupForces(this.origin, stroke)
 
     this.particles.push(p)
   }

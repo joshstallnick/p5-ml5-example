@@ -14,7 +14,7 @@ export class P5ExampleSectionComponent implements OnDestroy {
   constructor(private applicationService: ApplicationService, public exampleService: ExampleService) {
     applicationService.changeLocation('p5', 'examples')
 
-    // exampleService.getExample(['simulate', 'mandelbrotSet'])
+    exampleService.getExample(['simulate', 'particles'])
   }
 
   ngOnDestroy(): void {
