@@ -90,8 +90,10 @@ export class P5LineGraph {
   }
 
   displayLabelsForX() {
+    this.s.fill(0)
+
     this.x.axis.labels.forEach(label => {
-      this.s.text(label.content, label.x, label.y + 20)
+      this.s.text(label.content, label.x, label.y + 36)
     })
   }
 
@@ -123,6 +125,8 @@ export class P5LineGraph {
    *  For each of the labels add a circle to where they exist on the y axis
    */
   displayPositionOfLabelsForY() {
+    this.s.fill(255)
+
     this.y.axis.labels.forEach(label => {
       this.s.circle(label.x, label.y, 10)
     })
@@ -136,8 +140,6 @@ export class P5LineGraph {
 
       const padding = 36
 
-      console.log('---y', label.x, this.y.axis.maxLength, label.length)
-
       this.s.text(label.content, label.x - padding + buffer, label.y + 3)
     })
   }
@@ -146,6 +148,7 @@ export class P5LineGraph {
     this.createAxisX()
     this.createLabelsForX()
     this.displayPositionsOfLabelsForX()
+    this.displayLabelsForX()
     this.createAxisY()
     this.createLabelsForY()
     this.displayPositionOfLabelsForY()
