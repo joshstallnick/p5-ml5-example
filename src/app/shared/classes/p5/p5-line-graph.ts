@@ -51,10 +51,12 @@ export class P5LineGraph {
     end: null
   }
 
+  dataPoints: {}
+
   constructor(public s: P5Sketch,
               public bounds: P5GraphBounds,
               public labels?: { x: any[], y: any[] },
-              public data?: {x: any, y: any}[]) {
+              public data?: {x: any, y: any, xCoord?: number, yCoord?: number}[]) {
 
     this.y.start = bounds.y
     this.y.end = bounds.height + bounds.y
@@ -183,6 +185,8 @@ export class P5LineGraph {
 
     const fullRange = rangeBound / dateBound
 
+    this.s.fill(255)
+
     this.data.forEach(datum => {
       // y
       const yDataMin = datum.y - this.y.axis.min
@@ -197,8 +201,20 @@ export class P5LineGraph {
 
       const xProduct = dateMin * fullRange
 
-      this.s.ellipse(xProduct + this.x.start, yProduct + this.y.start, 10)
+      this.s.ellipse(xProduct + this.x.start, yProduct + this.y.start, 6)
+
+      datum.xCoord = xProduct + this.x.start
+      datum.yCoord = yProduct + this.y.start
     })
+  }
+
+  connectDataPoints() {
+    for (let i = 0; i  < this.data.length - 1; i++) {
+      const first = this.data[i]
+      const second = this.data[i + 1]
+
+      this.s.line(first.xCoord, first.yCoord, second.xCoord, second.yCoord)
+    }
   }
 
   displayGraphAndPositions() {

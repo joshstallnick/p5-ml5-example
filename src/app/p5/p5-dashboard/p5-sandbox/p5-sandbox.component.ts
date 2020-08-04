@@ -72,6 +72,8 @@ export class P5SandboxComponent implements OnInit {
         this.graph.displayGraphAndPositions()
         this.graph.addDataPoints()
 
+        this.graph.connectDataPoints()
+
         if (runOnce) {
           console.log('------ graph', this.graph)
         }
