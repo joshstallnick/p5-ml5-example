@@ -1,4 +1,5 @@
 import {P5Sketch} from '../../interfaces'
+import {P5ColorOption} from '../../interfaces/p5/p5-sketch'
 
 export interface P5GraphBounds {
   x: number
@@ -26,6 +27,37 @@ interface P5GraphDimension {
   end?: number
 }
 
+interface P5AxisOptions {
+  line: {
+    color?: P5ColorOption,
+    borderWidth?: number
+  },
+  font: {
+    color?: P5ColorOption,
+    size?: number
+  }
+}
+
+export interface P5GraphOptions {
+  labels?: { x: any[], y: any[] }
+  data?: {x: any, y: any, xCoord?: number, yCoord?: number}[]
+  styles?: {
+    yAxis?: P5AxisOptions
+    xAxis?: P5AxisOptions
+    data?: {
+      point?: {
+        style?: 'circle' | 'triangle'
+        color?: P5AxisOptions
+        size?: number
+      },
+      line?: {
+        color?: P5AxisOptions
+        thickness?: number
+      }
+    }
+  }
+}
+
 export class P5LineGraph {
   x: P5GraphDimension = {
     axis: {
@@ -50,8 +82,6 @@ export class P5LineGraph {
     start: null,
     end: null
   }
-
-  dataPoints: {}
 
   constructor(public s: P5Sketch,
               public bounds: P5GraphBounds,
@@ -158,14 +188,6 @@ export class P5LineGraph {
     })
   }
 
-  parseDate(dateString: string): Date {
-    const splitDate = dateString.split('/')
-
-    const newFormat = splitDate[2] + '-' + splitDate[0] + '-' + splitDate[1] + 'T01:00:00'
-
-    return new Date(newFormat)
-  }
-
   addDataPoints() {
     // y data
     const yBound = this.y.axis.max - this.y.axis.min
@@ -201,11 +223,13 @@ export class P5LineGraph {
 
       const xProduct = dateMin * fullRange
 
-      this.s.ellipse(xProduct + this.x.start, yProduct + this.y.start, 6)
-
       datum.xCoord = xProduct + this.x.start
       datum.yCoord = yProduct + this.y.start
     })
+  }
+
+  displayDataPoints() {
+    this.data.forEach(datum => this.s.ellipse(datum.xCoord, datum.yCoord, 6))
   }
 
   connectDataPoints() {
