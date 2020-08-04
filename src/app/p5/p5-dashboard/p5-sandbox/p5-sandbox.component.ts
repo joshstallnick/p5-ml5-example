@@ -26,6 +26,29 @@ export class P5SandboxComponent implements OnInit {
   ]
   graph: P5LineGraph
 
+  data = [
+    {y: 88, x: '06/03/2019'},
+    {y: 89, x: '06/09/2019'},
+    {y: 88, x: '06/15/2019'},
+    {y: 88, x: '06/21/2019'},
+    {y: 75, x: '06/27/2019'},
+    {y: 92, x: '07/03/2019'},
+    {y: 95, x: '07/09/2019'},
+    {y: 94, x: '07/15/2019'},
+    {y: 94, x: '07/21/2019'},
+    {y: 95, x: '07/27/2019'},
+    {y: 98, x: '08/02/2019'},
+    {y: 99, x: '08/08/2019'},
+    {y: 95, x: '08/14/2019'},
+    {y: 94, x: '08/20/2019'},
+    {y: 96, x: '08/26/2019'},
+    {y: 100, x: '09/02/2019'},
+    {y: 92, x: '09/08/2019'},
+    {y: 100, x: '09/14/2019'},
+    {y: 94, x: '09/20/2019'},
+    {y: 98, x: '09/26/2019'}
+  ]
+
   constructor(private applicationService: ApplicationService) {
     applicationService.changeLocation('p5', 'sandbox')
   }
@@ -45,8 +68,9 @@ export class P5SandboxComponent implements OnInit {
 
         s.stroke(0)
 
-        this.graph = new P5LineGraph(s, this.bounds, {x: this.xAxisLabels, y: this.yAxisLabels})
+        this.graph = new P5LineGraph(s, this.bounds, {x: this.xAxisLabels, y: this.yAxisLabels}, this.data)
         this.graph.displayGraphAndPositions()
+        this.graph.addDataPoints()
 
         if (runOnce) {
           console.log('------ graph', this.graph)

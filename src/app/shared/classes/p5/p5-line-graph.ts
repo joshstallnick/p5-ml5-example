@@ -1,5 +1,4 @@
 import {P5Sketch} from '../../interfaces'
-import {TextStyle} from '../../interfaces/p5/p5-sketch'
 
 export interface P5GraphBounds {
   x: number
@@ -17,6 +16,8 @@ export interface P5GraphLabel {
 
 interface P5GraphDimension {
   axis: {
+    min?: any
+    max?: any
     maxLength?: number
     division?: number
     labels: P5GraphLabel[]
@@ -28,6 +29,8 @@ interface P5GraphDimension {
 export class P5LineGraph {
   x: P5GraphDimension = {
     axis: {
+      min: null,
+      max: null,
       maxLength: null,
       division: null,
       labels: []
@@ -38,6 +41,8 @@ export class P5LineGraph {
 
   y: P5GraphDimension = {
     axis: {
+      min: null,
+      max: null,
       maxLength: null,
       division: null,
       labels: []
@@ -48,7 +53,8 @@ export class P5LineGraph {
 
   constructor(public s: P5Sketch,
               public bounds: P5GraphBounds,
-              public labels?: {x: any[], y: any[]}) {
+              public labels?: { x: any[], y: any[] },
+              public data?: {x: any, y: any}[]) {
 
     this.y.start = bounds.y
     this.y.end = bounds.height + bounds.y
@@ -76,6 +82,9 @@ export class P5LineGraph {
       this.x.axis.labels.push({x: position, y: this.y.end, content: label, length: this.s.textWidth(label)})
       position += division
     })
+
+    this.x.axis.min = this.x.axis.labels[0].content
+    this.x.axis.max = this.x.axis.labels[this.labels.x.length - 1].content
 
     this.x.axis.maxLength = Math.max(...this.x.axis.labels.map(label => label.length))
   }
@@ -118,6 +127,9 @@ export class P5LineGraph {
       position -= division
     })
 
+    this.y.axis.min = this.y.axis.labels[0].content
+    this.y.axis.max = this.y.axis.labels[this.labels.y.length - 1].content
+
     this.y.axis.maxLength = Math.max(...this.y.axis.labels.map(label => label.length))
   }
 
@@ -141,6 +153,51 @@ export class P5LineGraph {
       const padding = 36
 
       this.s.text(label.content, label.x - padding + buffer, label.y + 3)
+    })
+  }
+
+  parseDate(dateString: string): Date {
+    const splitDate = dateString.split('/')
+
+    const newFormat = splitDate[2] + '-' + splitDate[0] + '-' + splitDate[1] + 'T01:00:00'
+
+    return new Date(newFormat)
+  }
+
+  addDataPoints() {
+    // y data
+    const yBound = this.y.axis.max - this.y.axis.min
+
+    const bound = this.y.end - this.y.start
+
+    const fullDiv = bound / yBound
+
+    // x data
+    const firstDate = new Date(this.x.axis.max)
+
+    const secondDate = new Date(this.x.axis.min)
+
+    const dateBound = (firstDate.getTime() - secondDate.getTime()) / (1000 * 3600 * 24)
+
+    const rangeBound = this.x.end - this.x.start
+
+    const fullRange = rangeBound / dateBound
+
+    this.data.forEach(datum => {
+      // y
+      const yDataMin = datum.y - this.y.axis.min
+
+      const yProduct = yDataMin * fullDiv
+
+      const xDate = new Date(datum.x)
+
+      const xMinDate = new Date(this.x.axis.min)
+
+      const dateMin = (xDate.getTime() - xMinDate.getTime()) / (1000 * 3600 * 24)
+
+      const xProduct = dateMin * fullRange
+
+      this.s.ellipse(xProduct + this.x.start, yProduct + this.y.start, 10)
     })
   }
 
