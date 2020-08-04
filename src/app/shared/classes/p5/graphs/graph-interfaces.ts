@@ -20,13 +20,15 @@ export interface P5GraphDimension {
     max?: any
     maxLength?: number
     division?: number
-    labels: P5GraphLabel[]
+    labels?: P5GraphLabel[],
+    offset?: number
   }
   start?: number
   end?: number
 }
 
 export interface P5AxisOptions {
+  offset?: number,
   line: {
     color?: P5ColorOption,
     borderWidth?: number

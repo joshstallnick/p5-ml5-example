@@ -9,7 +9,8 @@ export class TwoAxisGraph {
       max: null,
       maxLength: null,
       division: null,
-      labels: []
+      labels: [],
+      offset: null
     },
     start: null,
     end: null
@@ -21,7 +22,8 @@ export class TwoAxisGraph {
       max: null,
       maxLength: null,
       division: null,
-      labels: []
+      labels: [],
+      offset: null
     },
     start: null,
     end: null
@@ -60,9 +62,11 @@ export class TwoAxisGraph {
    *  For each label it adds the x/y coordinates calculated based on the bounds.
    */
   createLabelsForX() {
-    let position = this.x.start
+    const offset = this.options?.styles?.xAxis?.offset ?? 0
 
-    const division = this.bounds.width / (this.labels.x.length - 1)
+    let position = this.x.start + offset
+
+    const division = (this.bounds.width - offset * 2) / (this.labels.x.length - 1)
 
     this.x.axis.division = division
 
