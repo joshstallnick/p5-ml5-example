@@ -1,62 +1,8 @@
-import {P5Sketch} from '../../interfaces'
-import {createColor, P5ColorOption} from '../../interfaces/p5/p5-sketch'
+import {P5Sketch} from '../../../interfaces'
+import {P5GraphBounds, P5GraphDimension, P5GraphOptions} from './graph-interfaces'
+import {createColor} from '../../../interfaces/p5/p5-sketch'
 
-export interface P5GraphBounds {
-  x: number
-  y: number
-  width: number
-  height: number
-}
-
-export interface P5GraphLabel {
-  x: number
-  y: number
-  content: any
-  length: number
-}
-
-interface P5GraphDimension {
-  axis: {
-    min?: any
-    max?: any
-    maxLength?: number
-    division?: number
-    labels: P5GraphLabel[]
-  }
-  start?: number
-  end?: number
-}
-
-interface P5AxisOptions {
-  line: {
-    color?: P5ColorOption,
-    borderWidth?: number
-  },
-  font: {
-    color?: P5ColorOption,
-    size?: number
-  }
-}
-
-export interface P5GraphOptions {
-  styles?: {
-    yAxis?: P5AxisOptions
-    xAxis?: P5AxisOptions
-    data?: {
-      point?: {
-        style?: 'circle' | 'triangle'
-        color?: P5ColorOption
-        size?: number
-      },
-      line?: {
-        color?: P5ColorOption
-        thickness?: number
-      }
-    }
-  }
-}
-
-export class P5LineGraph {
+export class TwoAxisGraph {
   x: P5GraphDimension = {
     axis: {
       min: null,
@@ -84,9 +30,8 @@ export class P5LineGraph {
   constructor(public s: P5Sketch,
               public bounds: P5GraphBounds,
               public labels?: { x: any[], y: any[] },
-              public data?: {x: any, y: any, xCoord?: number, yCoord?: number}[],
+              public data?: { x: any, y: any, xCoord?: number, yCoord?: number }[],
               public options?: P5GraphOptions) {
-
     this.y.start = bounds.y
     this.y.end = bounds.height + bounds.y
     this.x.start = bounds.x
@@ -132,6 +77,8 @@ export class P5LineGraph {
     this.x.axis.maxLength = Math.max(...this.x.axis.labels.map(label => label.length))
   }
 
+
+
   /**
    *  For each of the labels add a circle to where they exist on the x axis
    */
@@ -145,7 +92,7 @@ export class P5LineGraph {
 
   displayLabelsForX() {
     const colorVal = this.options?.styles?.xAxis?.font?.color ??
-                     this.options?.styles?.yAxis?.font?.color ?? '#000000'
+      this.options?.styles?.yAxis?.font?.color ?? '#000000'
 
     const color = createColor(this.s, colorVal)
 
@@ -222,76 +169,6 @@ export class P5LineGraph {
     })
   }
 
-  addDataPoints() {
-    // y data
-    const yBound = this.y.axis.max - this.y.axis.min
-
-    const bound = this.y.end - this.y.start
-
-    const fullDiv = bound / yBound
-
-    // x data
-    const firstDate = new Date(this.x.axis.max)
-
-    const secondDate = new Date(this.x.axis.min)
-
-    const dateBound = (firstDate.getTime() - secondDate.getTime()) / (1000 * 3600 * 24)
-
-    const rangeBound = this.x.end - this.x.start
-
-    const fullRange = rangeBound / dateBound
-
-    this.s.fill(255)
-
-    this.data.forEach(datum => {
-      // y
-      const yDataMin = datum.y - this.y.axis.min
-
-      const yProduct = yDataMin * fullDiv
-
-      const xDate = new Date(datum.x)
-
-      const xMinDate = new Date(this.x.axis.min)
-
-      const dateMin = (xDate.getTime() - xMinDate.getTime()) / (1000 * 3600 * 24)
-
-      const xProduct = dateMin * fullRange
-
-      datum.xCoord = xProduct + this.x.start
-      datum.yCoord = yProduct + this.y.start
-    })
-  }
-
-  displayDataPoints() {
-    const colorVal = this.options?.styles?.data?.point?.color ?? '#000000'
-
-    const color = createColor(this.s, colorVal)
-
-    this.s.fill(color)
-    this.s.stroke(color)
-
-    this.data.forEach(datum => this.s.ellipse(datum.xCoord, datum.yCoord, 6))
-  }
-
-  connectDataPoints() {
-    const colorVal = this.options?.styles?.data?.line?.color ?? '#000000'
-
-    const color = createColor(this.s, colorVal)
-
-    this.s.stroke(color)
-
-    const lineWidth = this.options?.styles?.data?.line?.thickness ?? 1
-
-    this.s.strokeWeight(lineWidth)
-
-    for (let i = 0; i  < this.data.length - 1; i++) {
-      const first = this.data[i]
-      const second = this.data[i + 1]
-
-      this.s.line(first.xCoord, first.yCoord, second.xCoord, second.yCoord)
-    }
-  }
-
   displayGraphAndPositions() {
     this.createAxisX()
     this.createLabelsForX()
@@ -303,4 +180,3 @@ export class P5LineGraph {
     this.displayLabelsForY()
   }
 }
-

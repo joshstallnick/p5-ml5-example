@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core'
 import {ApplicationService} from '../../../services/application-service/application.service'
 import {P5Container} from '../../../shared/classes'
-import {P5GraphBounds, P5LineGraph} from '../../../shared/classes/p5/p5-line-graph'
+import {P5GraphBounds, P5LineGraph} from '../../../shared/classes/p5/graphs/p5-line-graph'
 import {FilterType} from '../../../shared/interfaces'
 
 @Component({
@@ -75,7 +75,7 @@ export class P5SandboxComponent implements OnInit {
           },
           line: {
             color: line,
-            thickness: 3
+            thickness: 2
           }
         }
       }
