@@ -516,25 +516,25 @@ export type P5ColorOption =
 export function createColor(s: P5Sketch, option: P5ColorOption): P5Color {
   const a = option as {v1: number, v2: number, v3: number, a?: number}
 
-  if (a?.v1 !== null) {
+  if (a?.v3 != null) {
     return s.color(a.v1, a.v2, a.v3, a.a)
   }
 
   const b = option as {gray: number, alpha?: number}
 
-  if (b?.gray !== null) {
+  if (b?.gray != null) {
     return s.color(b.gray, b.alpha)
   }
 
   const c = option as {values: number[]}
 
-  if (c?.values !== null) {
+  if (c?.values != null) {
     return s.color(c.values)
   }
 
   const d = option as {value: string}
 
-  if (d?.value !== null) {
+  if (d?.value != null) {
     return s.color(c.values)
   }
 

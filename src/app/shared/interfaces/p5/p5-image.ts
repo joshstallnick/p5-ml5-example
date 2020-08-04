@@ -39,32 +39,32 @@ export interface P5Image {
 }
 
 export enum FilterType {
-  THRESHOLD = 'THRESHOLD',
-  GRAY = 'GRAY',
-  OPAQUE = 'OPAQUE',
-  INVERT = 'INVERT',
-  POSTERIZE = 'POSTERIZE',
-  BLUR = 'BLUR',
-  ERODE = 'ERODE',
-  DILATE = 'DILATE'
+  THRESHOLD = 'threshold',
+  GRAY = 'gray',
+  OPAQUE = 'opaque',
+  INVERT = 'invert',
+  POSTERIZE = 'posterize',
+  BLUR = 'blur',
+  ERODE = 'erode',
+  DILATE = 'dilate'
 }
 
 export enum BlendMode {
-  BLEND = 'BLEND',
-  DARKEST = 'DARKEST',
-  LIGHTEST = 'LIGHTEST',
-  DIFFERENCE = 'DIFFERENCE',
-  MULTIPLY = 'MULTIPLY',
-  EXCLUSION = 'EXCLUSION',
-  SCREEN = 'SCREEN',
-  REPLACE = 'REPLACE',
-  OVERLAY = 'OVERLAY',
-  HARD_LIGHT = 'HARD_LIGHT',
-  SOFT_LIGHT = 'SOFT_LIGHT',
-  DODGE = 'DODGE',
-  BURN = 'BURN',
-  ADD = 'ADD',
-  NORMAL = 'NORMAL'
+  BLEND = 'blend',
+  DARKEST = 'darkest',
+  LIGHTEST = 'lightest',
+  DIFFERENCE = 'difference',
+  MULTIPLY = 'multiply',
+  EXCLUSION = 'exclusion',
+  SCREEN = 'screen',
+  REPLACE = 'replace',
+  OVERLAY = 'overlay',
+  HARD_LIGHT = 'hard_light',
+  SOFT_LIGHT = 'soft_light',
+  DODGE = 'dodge',
+  BURN = 'burn',
+  ADD = 'add',
+  NORMAL = 'normal'
 }
 
 // Number|Number[]|Object: grayscale value | pixel array | a p5.Color | image to copy

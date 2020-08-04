@@ -1,5 +1,5 @@
 import {P5Sketch} from '../../interfaces'
-import {P5ColorOption} from '../../interfaces/p5/p5-sketch'
+import {createColor, P5ColorOption} from '../../interfaces/p5/p5-sketch'
 
 export interface P5GraphBounds {
   x: number
@@ -39,19 +39,17 @@ interface P5AxisOptions {
 }
 
 export interface P5GraphOptions {
-  labels?: { x: any[], y: any[] }
-  data?: {x: any, y: any, xCoord?: number, yCoord?: number}[]
   styles?: {
     yAxis?: P5AxisOptions
     xAxis?: P5AxisOptions
     data?: {
       point?: {
         style?: 'circle' | 'triangle'
-        color?: P5AxisOptions
+        color?: P5ColorOption
         size?: number
       },
       line?: {
-        color?: P5AxisOptions
+        color?: P5ColorOption
         thickness?: number
       }
     }
@@ -86,7 +84,8 @@ export class P5LineGraph {
   constructor(public s: P5Sketch,
               public bounds: P5GraphBounds,
               public labels?: { x: any[], y: any[] },
-              public data?: {x: any, y: any, xCoord?: number, yCoord?: number}[]) {
+              public data?: {x: any, y: any, xCoord?: number, yCoord?: number}[],
+              public options?: P5GraphOptions) {
 
     this.y.start = bounds.y
     this.y.end = bounds.height + bounds.y
@@ -94,7 +93,19 @@ export class P5LineGraph {
     this.x.end = bounds.x + bounds.width
   }
 
+  changeColorToAxisX() {
+    const colorVal = this.options?.styles?.xAxis?.line?.color ??
+      this.options?.styles?.yAxis?.line?.color ?? '#000000'
+
+    const color = createColor(this.s, colorVal)
+
+    this.s.stroke(color)
+    this.s.fill(color)
+  }
+
   createAxisX() {
+    this.changeColorToAxisX()
+
     this.s.line(this.x.start, this.y.end, this.x.end, this.y.end)
   }
 
@@ -125,20 +136,40 @@ export class P5LineGraph {
    *  For each of the labels add a circle to where they exist on the x axis
    */
   displayPositionsOfLabelsForX() {
+    this.changeColorToAxisX()
+
     this.x.axis.labels.forEach(label => {
-      this.s.circle(label.x, label.y, 10)
+      this.s.circle(label.x, label.y, 6)
     })
   }
 
   displayLabelsForX() {
-    this.s.fill(0)
+    const colorVal = this.options?.styles?.xAxis?.font?.color ??
+                     this.options?.styles?.yAxis?.font?.color ?? '#000000'
+
+    const color = createColor(this.s, colorVal)
+
+    this.s.fill(color)
+    this.s.stroke(color)
 
     this.x.axis.labels.forEach(label => {
       this.s.text(label.content, label.x, label.y + 36)
     })
   }
 
+  changeColorToAxisY() {
+    const colorVal = this.options?.styles?.yAxis?.line?.color ??
+      this.options?.styles?.xAxis?.line?.color ?? '#000000'
+
+    const color = createColor(this.s, colorVal)
+
+    this.s.stroke(color)
+    this.s.fill(color)
+  }
+
   createAxisY() {
+    this.changeColorToAxisY()
+
     this.s.line(this.x.start, this.y.start, this.x.start, this.y.end)
   }
 
@@ -169,15 +200,18 @@ export class P5LineGraph {
    *  For each of the labels add a circle to where they exist on the y axis
    */
   displayPositionOfLabelsForY() {
-    this.s.fill(255)
+    this.changeColorToAxisY()
 
     this.y.axis.labels.forEach(label => {
-      this.s.circle(label.x, label.y, 10)
+      this.s.circle(label.x, label.y, 6)
     })
   }
 
   displayLabelsForY() {
-    this.s.fill(0)
+    const color = createColor(this.s, this.options?.styles?.yAxis?.font?.color ?? '#000000')
+
+    this.s.fill(color)
+    this.s.stroke(color)
 
     this.y.axis.labels.forEach(label => {
       const buffer = this.y.axis.maxLength - label.length
@@ -229,10 +263,27 @@ export class P5LineGraph {
   }
 
   displayDataPoints() {
+    const colorVal = this.options?.styles?.data?.point?.color ?? '#000000'
+
+    const color = createColor(this.s, colorVal)
+
+    this.s.fill(color)
+    this.s.stroke(color)
+
     this.data.forEach(datum => this.s.ellipse(datum.xCoord, datum.yCoord, 6))
   }
 
   connectDataPoints() {
+    const colorVal = this.options?.styles?.data?.line?.color ?? '#000000'
+
+    const color = createColor(this.s, colorVal)
+
+    this.s.stroke(color)
+
+    const lineWidth = this.options?.styles?.data?.line?.thickness ?? 1
+
+    this.s.strokeWeight(lineWidth)
+
     for (let i = 0; i  < this.data.length - 1; i++) {
       const first = this.data[i]
       const second = this.data[i + 1]
@@ -244,11 +295,11 @@ export class P5LineGraph {
   displayGraphAndPositions() {
     this.createAxisX()
     this.createLabelsForX()
-    this.displayPositionsOfLabelsForX()
+    // this.displayPositionsOfLabelsForX()
     this.displayLabelsForX()
     this.createAxisY()
     this.createLabelsForY()
-    this.displayPositionOfLabelsForY()
+    // this.displayPositionOfLabelsForY()
     this.displayLabelsForY()
   }
 }

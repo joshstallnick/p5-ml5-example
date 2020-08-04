@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core'
 import {ApplicationService} from '../../../services/application-service/application.service'
 import {P5Container} from '../../../shared/classes'
 import {P5GraphBounds, P5LineGraph} from '../../../shared/classes/p5/p5-line-graph'
+import {FilterType} from '../../../shared/interfaces'
 
 @Component({
   selector: 'app-p5-sandbox',
@@ -56,19 +57,45 @@ export class P5SandboxComponent implements OnInit {
   ngOnInit(): void {
     let runOnce = true
 
+    const line = '#b77bce'
+
+    const graphOptions = {
+      styles: {
+        yAxis: {
+          line: {
+            color: '#908780'
+          },
+          font: {
+            color: 255
+          }
+        },
+        data: {
+          point: {
+            color: line
+          },
+          line: {
+            color: line,
+            thickness: 3
+          }
+        }
+      }
+    }
+
     this.container = new P5Container(s => {
       s.setup = () => {
+        s.setAttributes('antialias', true)
         s.createCanvas(1000, 800)
         s.noLoop()
       }
 
       s.draw = () => {
-        s.background(255)
+        s.filter(FilterType.BLUR, 4)
+        s.background('#2c396f')
         s.fill(255)
 
         s.stroke(0)
 
-        this.graph = new P5LineGraph(s, this.bounds, {x: this.xAxisLabels, y: this.yAxisLabels}, this.data)
+        this.graph = new P5LineGraph(s, this.bounds, {x: this.xAxisLabels, y: this.yAxisLabels}, this.data, graphOptions)
         this.graph.displayGraphAndPositions()
         this.graph.addDataPoints()
         this.graph.connectDataPoints()
