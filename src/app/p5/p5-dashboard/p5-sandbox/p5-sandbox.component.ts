@@ -25,7 +25,7 @@ export class P5SandboxComponent implements OnInit {
   ]
 
   yAxisLabels = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9
   ]
 
   data = [
@@ -90,6 +90,8 @@ export class P5SandboxComponent implements OnInit {
         this.graph = new P5BarGraph(s, this.bounds, {x: this.xAxisLabels, y: this.yAxisLabels}, this.data, graphOptions)
 
         this.graph.displayGraphAndPositions()
+        this.graph.addDataPoints()
+        this.graph.addBars()
 
         if (runOnce) {
           console.log('------ graph', this.graph)

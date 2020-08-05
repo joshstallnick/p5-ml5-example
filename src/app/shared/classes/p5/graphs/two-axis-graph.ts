@@ -3,6 +3,9 @@ import {P5GraphBounds, P5GraphDimension, P5GraphOptions} from './graph-interface
 import {createColor} from '../../../interfaces/p5/p5-sketch'
 
 export class TwoAxisGraph {
+  xLabelMap: {[label: string]: number} = {}
+  yLabelMap: {[label: string]: number} = {}
+
   x: P5GraphDimension = {
     axis: {
       min: null,
@@ -71,6 +74,8 @@ export class TwoAxisGraph {
     this.x.axis.division = division
 
     this.labels.x.forEach(label => {
+      this.xLabelMap[label] = position
+
       this.x.axis.labels.push({x: position, y: this.y.end, content: label, length: this.s.textWidth(label)})
       position += division
     })
@@ -137,6 +142,8 @@ export class TwoAxisGraph {
     this.y.axis.division = division
 
     this.labels.y.forEach(label => {
+      this.yLabelMap[label] = position
+
       this.y.axis.labels.push({x: this.x.start, y: position, content: label, length: this.s.textWidth(label)})
       position -= division
     })
