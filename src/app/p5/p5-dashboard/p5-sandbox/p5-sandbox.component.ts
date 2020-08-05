@@ -3,6 +3,7 @@ import {ApplicationService} from '../../../services/application-service/applicat
 import {P5BarGraph, P5Container, P5LineGraph} from '../../../shared/classes'
 import {P5GraphBounds, P5GraphOptions} from '../../../shared/classes/p5/graphs/graph-interfaces'
 import {FilterType} from '../../../shared/interfaces'
+import {P5PieGraph} from '../../../shared/classes/p5/graphs/p5-pie-graph'
 
 @Component({
   selector: 'app-p5-sandbox',
@@ -34,71 +35,19 @@ export class P5SandboxComponent implements OnInit {
     {x: 'c', y: 9},
     {x: 'e', y: 8},
     {x: 'd', y: 1},
-    {x: 'f', y: 5}
+    {x: 'f', y: 5},
+    {x: 'g', y: 12},
+    {x: 'h', y: 10},
+    {x: 'i', y: 5}
   ]
 
-  graph: P5BarGraph
+  graph: P5PieGraph
 
   constructor(private applicationService: ApplicationService) {
     applicationService.changeLocation('p5', 'sandbox')
   }
 
   ngOnInit(): void {
-    let runOnce = true
 
-    const line = '#b77bce'
-
-    const graphOptions = {
-      styles: {
-        yAxis: {
-          line: {
-            color: '#908780'
-          },
-          font: {
-            color: 255
-          }
-        },
-        xAxis: {
-          offset: 50
-        },
-        data: {
-          point: {
-            color: line
-          },
-          line: {
-            color: line,
-            thickness: 2
-          }
-        }
-      }
-    } as P5GraphOptions
-
-    this.container = new P5Container(s => {
-      s.setup = () => {
-        s.setAttributes('antialias', true)
-        s.createCanvas(1000, 800)
-        s.noLoop()
-      }
-
-      s.draw = () => {
-        s.filter(FilterType.BLUR, 4)
-        s.background('#2c396f')
-        s.fill(255)
-
-        s.stroke(0)
-
-        this.graph = new P5BarGraph(s, this.bounds, {x: this.xAxisLabels, y: this.yAxisLabels}, this.data, graphOptions)
-
-        this.graph.displayGraphAndPositions()
-        this.graph.addDataPoints()
-        this.graph.addBars()
-
-        if (runOnce) {
-          console.log('------ graph', this.graph)
-        }
-
-        runOnce = false
-      }
-    }, 'graphs')
   }
 }
