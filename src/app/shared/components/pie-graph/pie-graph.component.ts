@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core'
+import {Component, Input, OnInit} from '@angular/core'
 import {P5Container} from '../../classes'
 import {P5GraphBounds} from '../../classes/p5/graphs/graph-interfaces'
 import {P5PieGraph} from '../../classes/p5/graphs/p5-pie-graph'
@@ -13,6 +13,8 @@ import {CanvasService} from '../../../services/canvas-service/canvas.service'
   styles: []
 })
 export class PieGraphComponent implements OnInit {
+
+  @Input() useStandAlone = false
 
   container = P5Container.default()
 
@@ -49,13 +51,17 @@ export class PieGraphComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.canvasService.addOneDrawFn(s => {
-      this.graph = new P5PieGraph(s, {x: s.width / 2, y: s.height / 2, width: 300, height: 300}, this.data)
+    if (!this.useStandAlone) {
+      this.canvasService.addOneDrawFn(s => {
+        this.graph = new P5PieGraph(s, {x: s.width / 2, y: s.height / 2, width: 300, height: 300}, this.data)
 
-      s.noStroke()
+        s.noStroke()
 
-      this.graph.displayGraph()
-    })
+        this.graph.displayGraph()
+      })
+    } else {
+      this.standAlone()
+    }
   }
 
   standAlone() {

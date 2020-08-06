@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core'
 import {P5BarGraph, P5Container} from '../../classes'
 import {P5GraphBounds, P5GraphOptions} from '../../classes/p5/graphs/graph-interfaces'
-import {ApplicationService} from '../../../services/application-service/application.service'
 import {FilterType} from '../../interfaces'
 import {CanvasService} from '../../../services/canvas-service/canvas.service'
 
@@ -10,10 +9,11 @@ import {CanvasService} from '../../../services/canvas-service/canvas.service'
   template: `
     <div style="border: 1px solid gainsboro; display: flex; justify-content: center" id="bar-graph"></div>
   `,
-  styles: [
-  ]
+  styles: []
 })
 export class BarGraphComponent implements OnInit {
+  @Input() useStandAlone = false
+
   container = P5Container.default()
 
   bounds: P5GraphBounds = {
@@ -70,15 +70,19 @@ export class BarGraphComponent implements OnInit {
   } as P5GraphOptions
 
   constructor(private canvasService: CanvasService) {
-    this.canvasService.addOneDrawFn(s => {
-      s.stroke(0)
+    if (!this.useStandAlone) {
+      this.canvasService.addOneDrawFn(s => {
+        s.stroke(0)
 
-      this.graph = new P5BarGraph(s, this.bounds, {x: this.xAxisLabels, y: this.yAxisLabels}, this.data, this.graphOptions)
+        this.graph = new P5BarGraph(s, this.bounds, {x: this.xAxisLabels, y: this.yAxisLabels}, this.data, this.graphOptions)
 
-      this.graph.displayGraphAndPositions()
-      this.graph.addDataPoints()
-      this.graph.addBars()
-    })
+        this.graph.displayGraphAndPositions()
+        this.graph.addDataPoints()
+        this.graph.addBars()
+      })
+    } else {
+      this.standAlone()
+    }
   }
 
   ngOnInit(): void {
