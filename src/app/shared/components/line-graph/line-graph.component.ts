@@ -94,6 +94,7 @@ export class LineGraphComponent implements OnInit {
     this.graph.displayGraphAndPositions()
     this.graph.addDataPoints()
     this.graph.fillDataFall()
+    this.graph.fillDataRise()
     this.graph.connectDataPoints()
     this.graph.displayDataPoints()
   }

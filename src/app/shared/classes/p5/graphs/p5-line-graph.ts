@@ -78,14 +78,21 @@ export class P5LineGraph extends TwoAxisGraph {
         pointB.xCoord, this.y.end - 10,
         pointA.xCoord, this.y.end - 10)
     }
+  }
 
-    // this.data.forEach(datum => {
-    //   this.s.quad(
-    //     datum.xCoord, datum.yCoord,
-    //     datum.xCoord + 50, datum.yCoord,
-    //     datum.xCoord + 50, datum.yCoord + 50,
-    //     datum.xCoord, datum.yCoord + 50)
-    // })
+  fillDataRise() {
+    this.s.fill('#eeaeee')
+    this.s.stroke('#eeaeee')
+    for (let i = 0; i < this.data.length - 1; i++) {
+      const pointA  = this.data[i]
+      const pointB = this.data[i + 1]
+
+      this.s.quad(
+        pointA.xCoord, pointA.yCoord,
+        pointB.xCoord, pointB.yCoord,
+        pointB.xCoord, this.y.start - 10,
+        pointA.xCoord, this.y.start - 10)
+    }
   }
 
   connectDataPoints() {
