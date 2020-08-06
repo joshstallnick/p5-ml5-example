@@ -58,31 +58,29 @@ export class P5LineGraph extends TwoAxisGraph {
 
     const color = createColor(this.s, colorVal)
 
+    this.s.push()
+
     this.s.fill(color)
     this.s.stroke(color)
 
     this.data.forEach(datum => this.s.ellipse(datum.xCoord, datum.yCoord, 6))
+
+    this.s.pop()
   }
 
   fillDataFall() {
-    this.s.fill('#6bcb99')
-    this.s.stroke('#6bcb99')
-
-    for (let i = 0; i < this.data.length - 1; i++) {
-      const pointA  = this.data[i]
-      const pointB = this.data[i + 1]
-
-      this.s.quad(
-        pointA.xCoord, pointA.yCoord,
-        pointB.xCoord, pointB.yCoord,
-        pointB.xCoord, this.y.end - 10,
-        pointA.xCoord, this.y.end - 10)
-    }
+    this.fillData(this.y.end, '#6bcb99', -10)
   }
 
   fillDataRise() {
-    this.s.fill('#eeaeee')
-    this.s.stroke('#eeaeee')
+    this.fillData(this.y.start, '#eeaeee')
+  }
+
+  private fillData(baseline: number, color: string, padding: number = 0) {
+    this.s.push()
+    this.s.fill(color)
+    this.s.stroke(color)
+
     for (let i = 0; i < this.data.length - 1; i++) {
       const pointA  = this.data[i]
       const pointB = this.data[i + 1]
@@ -90,15 +88,19 @@ export class P5LineGraph extends TwoAxisGraph {
       this.s.quad(
         pointA.xCoord, pointA.yCoord,
         pointB.xCoord, pointB.yCoord,
-        pointB.xCoord, this.y.start - 10,
-        pointA.xCoord, this.y.start - 10)
+        pointB.xCoord, baseline + padding,
+        pointA.xCoord, baseline + padding)
     }
+
+    this.s.pop()
   }
 
   connectDataPoints() {
     const colorVal = this.options?.styles?.data?.line?.color ?? '#000000'
 
     const color = createColor(this.s, colorVal)
+
+    this.s.push()
 
     this.s.stroke(color)
 
@@ -112,6 +114,13 @@ export class P5LineGraph extends TwoAxisGraph {
 
       this.s.line(first.xCoord, first.yCoord, second.xCoord, second.yCoord)
     }
+
+    this.s.pop()
   }
 }
 
+export enum LineGraphParams {
+  LINES = 'lines', DOTS = 'dots', RISE = 'rise', FALL = 'fall'
+}
+
+export type LineGraphParamType = 'lines' | 'dots' | 'rise' | 'fall'

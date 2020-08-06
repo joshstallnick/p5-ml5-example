@@ -181,13 +181,18 @@ export class TwoAxisGraph {
   }
 
   displayGraphAndPositions() {
+    this.s.push()
     this.createAxisX()
     this.createLabelsForX()
     // this.displayPositionsOfLabelsForX()
     this.displayLabelsForX()
+    this.s.pop()
+
+    this.s.push()
     this.createAxisY()
     this.createLabelsForY()
     // this.displayPositionOfLabelsForY()
     this.displayLabelsForY()
+    this.s.pop()
   }
 }

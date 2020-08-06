@@ -3,6 +3,7 @@ import {P5Container, P5LineGraph} from '../../classes'
 import {FilterType} from '../../interfaces'
 import {P5GraphBounds} from '../../classes/p5/graphs/graph-interfaces'
 import {CanvasService} from '../../../services/canvas-service/canvas.service'
+import {LineGraphParams, LineGraphParamType} from '../../classes/p5/graphs/p5-line-graph'
 
 @Component({
   selector: 'app-line-graph',
@@ -13,14 +14,20 @@ import {CanvasService} from '../../../services/canvas-service/canvas.service'
 export class LineGraphComponent implements OnInit {
 
   @Input() useStandAlone = false
+  @Input() lines = false
+  @Input() dots = true
+  @Input() rise = false
+  @Input() fall = false
+  @Input() params: LineGraphParams[] | LineGraphParamType[] = []
 
-  container = P5Container.default()
-  bounds: P5GraphBounds = {
+  @Input() bounds: P5GraphBounds = {
     x: 100,
     y: 100,
     width: 800,
     height: 400
   }
+
+  container = P5Container.default()
   xAxisLabels = [
     '6/2/2019', '6/16/2019', '6/30/2019', '7/14/2019', '7/28/2019', '8/11/2019',
     '8/25/2019', '9/8/2019', '9/22/2019', '10/6/2019', '10/20/2019'
@@ -71,15 +78,17 @@ export class LineGraphComponent implements OnInit {
         },
         line: {
           color: this.line,
-          thickness: 2
+          thickness: 1.86
         }
       }
     }
   }
 
-  constructor(private canvasService: CanvasService) { }
+  constructor(private canvasService: CanvasService) {}
 
   ngOnInit(): void {
+    this.params.forEach(param => {this[param] = true})
+
     if (!this.useStandAlone) {
       this.canvasService.addOneDrawFn(this.addDrawFn)
     } else {
@@ -93,10 +102,11 @@ export class LineGraphComponent implements OnInit {
     this.graph = new P5LineGraph(s, this.bounds, {x: this.xAxisLabels, y: this.yAxisLabels}, this.data, this.graphOptions)
     this.graph.displayGraphAndPositions()
     this.graph.addDataPoints()
-    this.graph.fillDataFall()
-    this.graph.fillDataRise()
-    this.graph.connectDataPoints()
-    this.graph.displayDataPoints()
+
+    if (this.rise)  { this.graph.fillDataRise()      }
+    if (this.fall)  { this.graph.fillDataFall()      }
+    if (this.lines) { this.graph.connectDataPoints() }
+    if (this.dots)  { this.graph.displayDataPoints() }
   }
 
   standAlone() {

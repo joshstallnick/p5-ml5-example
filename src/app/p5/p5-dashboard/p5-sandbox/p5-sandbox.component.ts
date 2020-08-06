@@ -3,6 +3,7 @@ import {ApplicationService} from '../../../services/application-service/applicat
 import {P5Container} from '../../../shared/classes'
 import {P5GraphBounds} from '../../../shared/classes/p5/graphs/graph-interfaces'
 import {P5PieGraph} from '../../../shared/classes/p5/graphs/p5-pie-graph'
+import {LineGraphParams} from '../../../shared/classes/p5/graphs/p5-line-graph'
 
 @Component({
   selector: 'app-p5-sandbox',
@@ -10,6 +11,8 @@ import {P5PieGraph} from '../../../shared/classes/p5/graphs/p5-pie-graph'
   styleUrls: ['./p5-sandbox.component.sass']
 })
 export class P5SandboxComponent implements OnInit {
+
+  LineGraphParams = LineGraphParams
 
   container = P5Container.default()
 

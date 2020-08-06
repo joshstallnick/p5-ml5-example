@@ -139,6 +139,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ### [p5](https://www.npmjs.com/package/p5)
 
+* [additional canvas context](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D)
 * [how to use p5 in angular](https://stackoverflow.com/questions/49472433/how-to-use-p5-js-in-angular-5-application)
 
 ### [ml5](https://www.npmjs.com/package/ml5)

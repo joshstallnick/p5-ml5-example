@@ -158,8 +158,8 @@ export interface P5Sketch extends P5Graphics {
 
 
   // DOM
-  select: (selectors: string, container: string | P5Element | HTMLElement) => P5Element
-  selectAll: (selectors: string, container: string | P5Element | HTMLElement) => P5Element[]
+  select: (selectors: string, container?: string | P5Element | HTMLElement) => P5Element
+  selectAll: (selectors: string, container?: string | P5Element | HTMLElement) => P5Element[]
   removeElements: Runnable
   changed: AnyFunction | boolean
   input: AnyFunction | boolean
