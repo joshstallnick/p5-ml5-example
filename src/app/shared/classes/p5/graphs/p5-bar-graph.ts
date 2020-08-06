@@ -12,8 +12,6 @@ export class P5BarGraph extends TwoAxisGraph {
     padding: 5
   }
 
-  xMap: {[k: string]: number}
-
   constructor(s: P5Sketch,
               bounds: P5GraphBounds,
               labels?: { x: any[], y: any[] },
@@ -23,30 +21,15 @@ export class P5BarGraph extends TwoAxisGraph {
   }
 
   addDataPoints() {
-    // y data
-    const yBound = this.y.axis.max - this.y.axis.min
-
-    const yRange = this.y.end - this.y.start
-
-    const yDiff = yRange / yBound
-
     this.s.fill(255)
 
     this.data.forEach(datum => {
-      // y
-      const yDataMin = datum.y - this.y.axis.min
-
-      const yProduct = yDataMin * yDiff
-
-      // x
       datum.xCoord = this.xLabelMap[datum.x]
       datum.yCoord = this.yLabelMap[datum.y]
     })
   }
 
   addBars() {
-    console.log(this.yLabelMap)
-
     this.s.strokeWeight(1)
     this.s.rectMode(LocationMode.CORNER)
 
@@ -55,7 +38,6 @@ export class P5BarGraph extends TwoAxisGraph {
     this.data.forEach(datum => {
       const barHeight = datum.y * this.y.axis.division
 
-      console.log(datum.y, this.y.axis.division)
       this.s.rect(datum.xCoord - 20, datum.yCoord, barWidth, barHeight)
     })
   }

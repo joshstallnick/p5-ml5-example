@@ -20,7 +20,7 @@ export class CanvasComponent implements OnInit {
   drawFns: ((P5Sketch) => void)[] = []
 
   constructor(private canvasService: CanvasService) {
-    console.log('canvas - id', this.id)
+
   }
 
   ngOnInit(): void {

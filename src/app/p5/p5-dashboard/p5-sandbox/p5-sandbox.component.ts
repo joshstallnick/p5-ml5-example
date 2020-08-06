@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core'
 import {ApplicationService} from '../../../services/application-service/application.service'
-import {P5BarGraph, P5Container, P5LineGraph} from '../../../shared/classes'
-import {P5GraphBounds, P5GraphOptions} from '../../../shared/classes/p5/graphs/graph-interfaces'
-import {FilterType} from '../../../shared/interfaces'
+import {P5Container} from '../../../shared/classes'
+import {P5GraphBounds} from '../../../shared/classes/p5/graphs/graph-interfaces'
 import {P5PieGraph} from '../../../shared/classes/p5/graphs/p5-pie-graph'
 
 @Component({

@@ -3,6 +3,7 @@ import {P5BarGraph, P5Container} from '../../classes'
 import {P5GraphBounds, P5GraphOptions} from '../../classes/p5/graphs/graph-interfaces'
 import {ApplicationService} from '../../../services/application-service/application.service'
 import {FilterType} from '../../interfaces'
+import {CanvasService} from '../../../services/canvas-service/canvas.service'
 
 @Component({
   selector: 'app-bar-graph',
@@ -41,38 +42,51 @@ export class BarGraphComponent implements OnInit {
 
   graph: P5BarGraph
 
-  constructor() {
+  line = '#b77bce'
+
+  graphOptions = {
+    styles: {
+      yAxis: {
+        line: {
+          color: '#908780'
+        },
+        font: {
+          color: 255
+        }
+      },
+      xAxis: {
+        offset: 50
+      },
+      data: {
+        point: {
+          color: this.line
+        },
+        line: {
+          color: this.line,
+          thickness: 2
+        }
+      }
+    }
+  } as P5GraphOptions
+
+  constructor(private canvasService: CanvasService) {
+    this.canvasService.addOneDrawFn(s => {
+      s.stroke(0)
+
+      this.graph = new P5BarGraph(s, this.bounds, {x: this.xAxisLabels, y: this.yAxisLabels}, this.data, this.graphOptions)
+
+      this.graph.displayGraphAndPositions()
+      this.graph.addDataPoints()
+      this.graph.addBars()
+    })
   }
 
   ngOnInit(): void {
+
+  }
+
+  standAlone() {
     let runOnce = true
-
-    const line = '#b77bce'
-
-    const graphOptions = {
-      styles: {
-        yAxis: {
-          line: {
-            color: '#908780'
-          },
-          font: {
-            color: 255
-          }
-        },
-        xAxis: {
-          offset: 50
-        },
-        data: {
-          point: {
-            color: line
-          },
-          line: {
-            color: line,
-            thickness: 2
-          }
-        }
-      }
-    } as P5GraphOptions
 
     this.container = new P5Container(s => {
       s.setup = () => {
@@ -88,7 +102,7 @@ export class BarGraphComponent implements OnInit {
 
         s.stroke(0)
 
-        this.graph = new P5BarGraph(s, this.bounds, {x: this.xAxisLabels, y: this.yAxisLabels}, this.data, graphOptions)
+        this.graph = new P5BarGraph(s, this.bounds, {x: this.xAxisLabels, y: this.yAxisLabels}, this.data, this.graphOptions)
 
         this.graph.displayGraphAndPositions()
         this.graph.addDataPoints()
