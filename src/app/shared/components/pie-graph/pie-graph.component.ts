@@ -1,17 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core'
 import {P5Container} from '../../classes'
-import {P5GraphBounds, P5GraphOptions} from '../../classes/p5/graphs/graph-interfaces'
+import {P5GraphBounds} from '../../classes/p5/graphs/graph-interfaces'
 import {P5PieGraph} from '../../classes/p5/graphs/p5-pie-graph'
-import {ApplicationService} from '../../../services/application-service/application.service'
 import {FilterType} from '../../interfaces'
+import {CanvasService} from '../../../services/canvas-service/canvas.service'
 
 @Component({
   selector: 'app-pie-graph',
   template: `
     <div style="border: 1px solid gainsboro; display: flex; justify-content: center" id="pie-graph"></div>
   `,
-  styles: [
-  ]
+  styles: []
 })
 export class PieGraphComponent implements OnInit {
 
@@ -46,38 +45,21 @@ export class PieGraphComponent implements OnInit {
 
   graph: P5PieGraph
 
-  constructor() {
+  constructor(private canvasService: CanvasService) {
   }
 
   ngOnInit(): void {
+    this.canvasService.addOneDrawFn(s => {
+      this.graph = new P5PieGraph(s, {x: s.width / 2, y: s.height / 2, width: 300, height: 300}, this.data)
+
+      s.noStroke()
+
+      this.graph.displayGraph()
+    })
+  }
+
+  standAlone() {
     let runOnce = true
-
-    const line = '#b77bce'
-
-    const graphOptions = {
-      styles: {
-        yAxis: {
-          line: {
-            color: '#908780'
-          },
-          font: {
-            color: 255
-          }
-        },
-        xAxis: {
-          offset: 50
-        },
-        data: {
-          point: {
-            color: line
-          },
-          line: {
-            color: line,
-            thickness: 2
-          }
-        }
-      }
-    } as P5GraphOptions
 
     this.container = new P5Container(s => {
       s.setup = () => {
