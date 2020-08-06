@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core'
 import {P5Container, P5LineGraph} from '../../classes'
 import {FilterType} from '../../interfaces'
 import {P5GraphBounds} from '../../classes/p5/graphs/graph-interfaces'
+import {CanvasService} from '../../../services/canvas-service/canvas.service'
 
 @Component({
   selector: 'app-line-graph',
@@ -12,6 +13,8 @@ import {P5GraphBounds} from '../../classes/p5/graphs/graph-interfaces'
   ]
 })
 export class LineGraphComponent implements OnInit {
+
+  @Input() useStandAlone = false
 
   container = P5Container.default()
   bounds: P5GraphBounds = {
@@ -52,34 +55,50 @@ export class LineGraphComponent implements OnInit {
     {y: 98, x: '09/26/2019'}
   ]
 
-  constructor() { }
+  line = '#b77bce'
 
-  ngOnInit(): void {
-    let runOnce = true
-
-    const line = '#b77bce'
-
-    const graphOptions = {
-      styles: {
-        yAxis: {
-          line: {
-            color: '#908780'
-          },
-          font: {
-            color: 255
-          }
+  graphOptions = {
+    styles: {
+      yAxis: {
+        line: {
+          color: '#908780'
         },
-        data: {
-          point: {
-            color: line
-          },
-          line: {
-            color: line,
-            thickness: 2
-          }
+        font: {
+          color: 255
+        }
+      },
+      data: {
+        point: {
+          color: this.line
+        },
+        line: {
+          color: this.line,
+          thickness: 2
         }
       }
     }
+  }
+
+  constructor(private canvasService: CanvasService) { }
+
+  ngOnInit(): void {
+    if (!this.useStandAlone) {
+      this.canvasService.addOneDrawFn(s => {
+        s.stroke(0)
+
+        this.graph = new P5LineGraph(s, this.bounds, {x: this.xAxisLabels, y: this.yAxisLabels}, this.data, this.graphOptions)
+        this.graph.displayGraphAndPositions()
+        this.graph.addDataPoints()
+        this.graph.connectDataPoints()
+        this.graph.displayDataPoints()
+      })
+    } else {
+      this.standAlone()
+    }
+  }
+
+  standAlone() {
+    let runOnce = true
 
     this.container = new P5Container(s => {
       s.setup = () => {
@@ -95,7 +114,7 @@ export class LineGraphComponent implements OnInit {
 
         s.stroke(0)
 
-        this.graph = new P5LineGraph(s, this.bounds, {x: this.xAxisLabels, y: this.yAxisLabels}, this.data, graphOptions)
+        this.graph = new P5LineGraph(s, this.bounds, {x: this.xAxisLabels, y: this.yAxisLabels}, this.data, this.graphOptions)
         this.graph.displayGraphAndPositions()
         this.graph.addDataPoints()
         this.graph.connectDataPoints()
