@@ -42,9 +42,4 @@ export class CanvasComponent implements OnInit {
       }
     }, 'canvas-' + this.id)
   }
-
-  addSketchFn(sketchFn: (P5Sketch) => void) {
-    this.drawFns.push(sketchFn)
-  }
-
 }

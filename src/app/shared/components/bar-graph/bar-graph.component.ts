@@ -8,8 +8,7 @@ import {CanvasService} from '../../../services/canvas-service/canvas.service'
   selector: 'app-bar-graph',
   template: `
     <div style="border: 1px solid gainsboro; display: flex; justify-content: center" id="bar-graph"></div>
-  `,
-  styles: []
+  `
 })
 export class BarGraphComponent implements OnInit {
   @Input() useStandAlone = false

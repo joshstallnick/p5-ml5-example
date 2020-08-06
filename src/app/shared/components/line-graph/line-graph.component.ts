@@ -8,9 +8,7 @@ import {CanvasService} from '../../../services/canvas-service/canvas.service'
   selector: 'app-line-graph',
   template: `
     <div style="border: 1px solid gainsboro; display: flex; justify-content: center" id="line-graph"></div>
-  `,
-  styles: [
-  ]
+  `
 })
 export class LineGraphComponent implements OnInit {
 
@@ -83,18 +81,21 @@ export class LineGraphComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.useStandAlone) {
-      this.canvasService.addOneDrawFn(s => {
-        s.stroke(0)
-
-        this.graph = new P5LineGraph(s, this.bounds, {x: this.xAxisLabels, y: this.yAxisLabels}, this.data, this.graphOptions)
-        this.graph.displayGraphAndPositions()
-        this.graph.addDataPoints()
-        this.graph.connectDataPoints()
-        this.graph.displayDataPoints()
-      })
+      this.canvasService.addOneDrawFn(this.addDrawFn)
     } else {
       this.standAlone()
     }
+  }
+
+  addDrawFn = s => {
+    s.stroke(0)
+
+    this.graph = new P5LineGraph(s, this.bounds, {x: this.xAxisLabels, y: this.yAxisLabels}, this.data, this.graphOptions)
+    this.graph.displayGraphAndPositions()
+    this.graph.addDataPoints()
+    this.graph.fillDataFall()
+    this.graph.connectDataPoints()
+    this.graph.displayDataPoints()
   }
 
   standAlone() {
@@ -112,13 +113,7 @@ export class LineGraphComponent implements OnInit {
         s.background('#2c396f')
         s.fill(255)
 
-        s.stroke(0)
-
-        this.graph = new P5LineGraph(s, this.bounds, {x: this.xAxisLabels, y: this.yAxisLabels}, this.data, this.graphOptions)
-        this.graph.displayGraphAndPositions()
-        this.graph.addDataPoints()
-        this.graph.connectDataPoints()
-        this.graph.displayDataPoints()
+        this.addDrawFn(s)
 
         if (runOnce) {
           console.log('------ graph', this.graph)

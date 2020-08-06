@@ -1,6 +1,6 @@
 import {P5Sketch} from '../../../interfaces'
 import {createColor} from '../../../interfaces/p5/p5-sketch'
-import {P5GraphBounds, P5GraphDimension, P5GraphOptions} from './graph-interfaces'
+import {P5GraphBounds, P5GraphOptions} from './graph-interfaces'
 import {TwoAxisGraph} from './two-axis-graph'
 
 
@@ -62,6 +62,30 @@ export class P5LineGraph extends TwoAxisGraph {
     this.s.stroke(color)
 
     this.data.forEach(datum => this.s.ellipse(datum.xCoord, datum.yCoord, 6))
+  }
+
+  fillDataFall() {
+    this.s.fill('#6bcb99')
+    this.s.stroke('#6bcb99')
+
+    for (let i = 0; i < this.data.length - 1; i++) {
+      const pointA  = this.data[i]
+      const pointB = this.data[i + 1]
+
+      this.s.quad(
+        pointA.xCoord, pointA.yCoord,
+        pointB.xCoord, pointB.yCoord,
+        pointB.xCoord, this.y.end - 10,
+        pointA.xCoord, this.y.end - 10)
+    }
+
+    // this.data.forEach(datum => {
+    //   this.s.quad(
+    //     datum.xCoord, datum.yCoord,
+    //     datum.xCoord + 50, datum.yCoord,
+    //     datum.xCoord + 50, datum.yCoord + 50,
+    //     datum.xCoord, datum.yCoord + 50)
+    // })
   }
 
   connectDataPoints() {

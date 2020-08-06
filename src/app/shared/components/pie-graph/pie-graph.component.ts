@@ -9,8 +9,7 @@ import {CanvasService} from '../../../services/canvas-service/canvas.service'
   selector: 'app-pie-graph',
   template: `
     <div style="border: 1px solid gainsboro; display: flex; justify-content: center" id="pie-graph"></div>
-  `,
-  styles: []
+  `
 })
 export class PieGraphComponent implements OnInit {
 
