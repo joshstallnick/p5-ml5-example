@@ -7,9 +7,7 @@ export interface ML5ImageClassifier {
   modelName: string
   modelUrl: string
 
-  constructor: (model: ImageClassifierModel | string, video?: HTMLVideoElement,
-                option?: {version?: number, alpha?: number, topk?: number},
-                callback?: AnyFunction) => ML5ImageClassifier
+  constructor: ML5ImageClassifierFn
 
   classify: (input: HTMLImageElement | ImageData | HTMLCanvasElement | HTMLVideoElement,
              numberOfClasses?: number,
@@ -21,3 +19,8 @@ export enum ImageClassifierModel {
   DARK_NET = 'Darknet',
   DOODLE_NET = 'DoodleNet'
 }
+
+export type ML5ImageClassifierFn = (model: ImageClassifierModel | string,
+                                    video?: HTMLVideoElement,
+                                    option?: { version?: number, alpha?: number, topk?: number },
+                                    callback?: AnyFunction) => ML5ImageClassifier
