@@ -102,18 +102,19 @@ export class LineGraphComponent implements OnInit {
     this.graph = new P5LineGraph(s,
       this.bounds, {x: this.xAxisLabels, y: this.yAxisLabels},
       this.data, this.graphOptions,
-      {
-        fallGradient: [
-          {offset: 0, color: '#d9e9df'},
-          {offset: 0.7, color: '#6bcb99'},
-          {offset: 1, color: '#0d532f'}
-        ],
-        riseGradient: [
-          {offset: 0, color: '#f3e7f3'},
-          {offset: 0.7, color: '#eeaeee'},
-          {offset: 1, color: '#d770d7'}
-        ]
-      })
+      // {
+      //   fallGradient: [
+      //     {offset: 0, color: '#d9e9df'},
+      //     {offset: 0.7, color: '#6bcb99'},
+      //     {offset: 1, color: '#0d532f'}
+      //   ],
+      //   riseGradient: [
+      //     {offset: 0, color: '#f3e7f3'},
+      //     {offset: 0.7, color: '#eeaeee'},
+      //     {offset: 1, color: '#d770d7'}
+      //   ]
+      // }
+      )
     this.graph.displayGraphAndPositions()
     this.graph.addDataPoints()
 
