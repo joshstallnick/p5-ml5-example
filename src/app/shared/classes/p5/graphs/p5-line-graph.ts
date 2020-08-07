@@ -2,6 +2,7 @@ import {P5Sketch} from '../../../interfaces'
 import {createColor} from '../../../interfaces/p5/p5-sketch'
 import {P5GraphBounds, P5GraphOptions} from './graph-interfaces'
 import {TwoAxisGraph} from './two-axis-graph'
+import {createGradient, P5Gradient} from '../../canvas/canvas-helper'
 
 
 export class P5LineGraph extends TwoAxisGraph {
@@ -9,8 +10,9 @@ export class P5LineGraph extends TwoAxisGraph {
               bounds: P5GraphBounds,
               labels?: { x: any[], y: any[] },
               data?: { x: any, y: any, xCoord?: number, yCoord?: number }[],
-              options?: P5GraphOptions) {
-    super(s, bounds, labels, data, options)
+              graphOptions?: P5GraphOptions,
+              public lineGraphOptions?: P5LineGraphOptions) {
+    super(s, bounds, labels, data, graphOptions)
   }
 
   addDataPoints() {
@@ -69,17 +71,28 @@ export class P5LineGraph extends TwoAxisGraph {
   }
 
   fillDataFall() {
-    this.fillData(this.y.end, '#6bcb99', -10)
+    this.fillData(this.y.end, '#6bcb99', -10, false)
   }
 
   fillDataRise() {
     this.fillData(this.y.start, '#eeaeee')
   }
 
-  private fillData(baseline: number, color: string, padding: number = 0) {
+  private fillData(baseline: number, color: string, padding: number = 0, rise: boolean = true) {
     this.s.push()
-    this.s.fill(color)
-    this.s.stroke(color)
+
+    const colorStops: P5Gradient[] = rise ? this.lineGraphOptions?.riseGradient : this.lineGraphOptions?.fallGradient
+
+    if (colorStops?.length > 0) {
+      const gradient = createGradient(this.s, this.x.end / 2, this.y.start, this.x.end / 2, this.y.end, colorStops)
+
+      this.s.drawingContext.fillStyle = gradient
+      this.s.drawingContext.strokeStyle = gradient
+      // this.s.noStroke()
+    } else {
+      this.s.fill(color)
+      this.s.stroke(color)
+    }
 
     for (let i = 0; i < this.data.length - 1; i++) {
       const pointA  = this.data[i]
@@ -124,3 +137,8 @@ export enum LineGraphParams {
 }
 
 export type LineGraphParamType = 'lines' | 'dots' | 'rise' | 'fall'
+
+export interface P5LineGraphOptions {
+  riseGradient?: P5Gradient[]
+  fallGradient?: P5Gradient[]
+}

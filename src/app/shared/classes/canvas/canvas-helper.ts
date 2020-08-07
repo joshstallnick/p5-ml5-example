@@ -84,7 +84,9 @@ export class P5Rectangle {
         ]
       }
 
-      this.s.drawingContext.fillStyle = this.createGradient(this.background)
+      this.s.drawingContext.fillStyle = createGradient(s,
+        this.x + (this.width / 2), this.y,
+        this.x + (this.width / 2), this.y + this.height, this.background)
     }
 
     const {tr, br, bl, tl} = this.corners
@@ -107,14 +109,12 @@ export class P5Rectangle {
   private generateStandardRectangle() {
 
   }
+}
 
-  private createGradient(gradientStops: P5Gradient[]): any {
-    const gradient = this.s.drawingContext.createLinearGradient(
-      this.x + (this.width / 2), this.y,
-      this.x + (this.width / 2), this.y + this.height)
+export function createGradient(s: P5Sketch, x1, y1, x2, y2, gradientStops: P5Gradient[]): any {
+  const gradient = s.drawingContext.createLinearGradient(x1, y1, x2, y2)
 
-    gradientStops.forEach(part => gradient.addColorStop(part.offset, part.color))
+  gradientStops.forEach(part => gradient.addColorStop(part.offset, part.color))
 
-    return gradient
-  }
+  return gradient
 }
