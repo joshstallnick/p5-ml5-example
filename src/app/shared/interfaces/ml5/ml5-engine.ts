@@ -9,6 +9,7 @@ import {ML5PoseNetFunction} from './ml5-pose-net'
 import {ML5BodyPixFn} from './ml5-body-pix'
 import {ML5UNETFunction} from './ml5-u-net'
 import {ML5FaceAPIFunction} from './ml5-face-api'
+import {ML5StyleTransferFunction} from './ml5-style-transfer'
 
 export interface ML5Engine {
   neuralNetwork: ML5NeuralNetworkFunction,
@@ -19,6 +20,7 @@ export interface ML5Engine {
   bodyPix: ML5BodyPixFn
   uNET: ML5UNETFunction
   faceAPI: ML5FaceAPIFunction
+  styleTransfer: ML5StyleTransferFunction
 
   KNNClassifier: () => ML5KNNClassifier
 }
