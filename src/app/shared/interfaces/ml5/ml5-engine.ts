@@ -15,6 +15,7 @@ import {ML5CVAEFunction} from './ml5-cvae'
 import {ML5DCGANFunction} from './ml5-dcgan'
 import {ML5SketchRNNFunction} from './ml5-sketch-rnn'
 import {ML5YOLOFunction} from './ml5-yolo'
+import {ML5SoundClassifierFunction} from './ml5-sound-classifier'
 
 export interface ML5Engine {
   NeuralNetwork: ML5NeuralNetworkFunction,
@@ -31,6 +32,7 @@ export interface ML5Engine {
   DCGAN: ML5DCGANFunction
   SketchRNN: ML5SketchRNNFunction
   YOLO: ML5YOLOFunction
+  SoundClassifier: ML5SoundClassifierFunction
 
   KNNClassifier: () => ML5KNNClassifier
 }
