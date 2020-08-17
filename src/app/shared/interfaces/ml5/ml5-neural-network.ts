@@ -14,7 +14,7 @@ export interface ML5NeuralNetwork {
   constructor: ML5NeuralNetworkFunction
 
   addData: (xs: ObjectOrArray, ys: ObjectOrArray) => void
-  normalize: Runnable
+  normalizeData: Runnable
   train: (optionsOrCallback?: {batchSize: number, epochs: number} | AnyFunction,
           optionsOrWhileTraining?: AnyFunction,
           callback?: AnyFunction) => void
@@ -49,11 +49,17 @@ export interface ML5NeuralNetworkOptions {
   outputs: any[] | number,
   dataUrl?: string,
   modelUrl?: string,
-  layers: any[],
-  task?: 'classification' | 'regression' | 'imageClassification',
+  layers?: any[],
+  task?: ML5NeuralNetworkTask,
   debug: boolean,
-  learningRate: number,
-  hiddenUnits: number
+  learningRate?: number,
+  hiddenUnits?: number
 }
 
 export type ML5NeuralNetworkFunction = (opts: ML5NeuralNetworkOptions) => ML5NeuralNetwork
+
+export enum ML5NeuralNetworkTask {
+  Classification = 'classification',
+  Regression = 'regression',
+  ImageClassification = 'imageClassification'
+}

@@ -920,3 +920,7 @@ type SpecularMaterialConsumer =
 
 // camera
 type CameraFormConsumer = (left?: number, right?: number, bottom?: number, top?: number, near?: number, far?: number) => void
+
+export enum CaptureType {
+  VIDEO = 'VIDEO', AUDIO = 'AUDIO'
+}

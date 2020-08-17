@@ -1,3 +1,28 @@
 <h1>Classifier</h1>
 
 <div id="ml5-test"></div>
+
+<section *ngIf="featureExtractorExampleShow">
+  <h1>Image Regression using Deature Extraction with MobileNet. Build with p5.js</h1>
+  <h2>(Train a Neural Network to move the red square)</h2>
+  <div class="videoContainer"></div>
+  <h6><span id="modelStatus">Loading base model...</span> | <span id="videoStatus">Loading video...</span></h6>
+  <p><input type="range" id="slider" name="slider" min="0.01" max="1.0" step="0.01" value="0.5"></p>
+  <br />
+
+  <p><button id="addSample">Add Sample</button></p>
+
+  <p><span id="amountOfSamples">0</span> Sample Images</p>
+  <br />
+
+  <p>
+    <button id="train">Click</button>
+    <span id="loss"></span>
+  </p>
+  <br />
+
+  <p>
+    <button id="buttonPredict">Click</button>
+    <br />
+  </p>
+</section>

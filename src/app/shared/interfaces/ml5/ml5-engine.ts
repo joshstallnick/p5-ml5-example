@@ -22,28 +22,34 @@ import {ML5SentimentFunction} from './ml5-sentiment'
 import {ML5Word2VecFunction} from './ml5-word-2-vec'
 import {P5MediaElement} from '..'
 
+declare let ml5: ML5Engine
+
 export interface ML5Engine {
-  NeuralNetwork: ML5NeuralNetworkFunction,
-  FeatureExtractor: ML5FeatureExtractorFunction
-  KMeans: (data: JsonObject | URL | any, options?: { k: number, maxIter: number, threshold: any }, callback?: AnyFunction) => ML5KMeans
-  ImageClassifier: ML5ImageClassifierFunction
-  PoseNet: ML5PoseNetFunction
-  BodyPix: ML5BodyPixFn
-  UNET: ML5UNETFunction
-  FaceAPI: ML5FaceAPIFunction
-  StyleTransfer: ML5StyleTransferFunction
-  Pix2Pix: ML5Pix2PixFunction
+  neuralNetwork: ML5NeuralNetworkFunction,
+  featureExtractor: ML5FeatureExtractorFunction
+  kmeans: (data: JsonObject | URL | any, options?: { k: number, maxIter: number, threshold: any }, callback?: AnyFunction) => ML5KMeans
+  imageClassifier: ML5ImageClassifierFunction
+  poseNet: ML5PoseNetFunction
+  bodyPix: ML5BodyPixFn
+  uNET: ML5UNETFunction
+  faceApi: ML5FaceAPIFunction
+  styleTransfer: ML5StyleTransferFunction
+  pix2Pix: ML5Pix2PixFunction
   CVAE: ML5CVAEFunction
   DCGAN: ML5DCGANFunction
-  SketchRNN: ML5SketchRNNFunction
+  sketchRNN: ML5SketchRNNFunction
   YOLO: ML5YOLOFunction
-  SoundClassifier: ML5SoundClassifierFunction
-  PitchDetection: ML5PitchDetectionFunction
-  CharRNN: ML5CharRNNFunction
-  Sentiment: ML5SentimentFunction
-  Word2Vec: ML5Word2VecFunction
+  soundClassifier: ML5SoundClassifierFunction
+  pitchDetection: ML5PitchDetectionFunction
+  charRNN: ML5CharRNNFunction
+  sentiment: ML5SentimentFunction
+  word2vec: ML5Word2VecFunction
 
   KNNClassifier: () => ML5KNNClassifier
 
   flipImage: (input?: HTMLVideoElement | P5MediaElement | HTMLImageElement) => any
+}
+
+export function getML5Engine(): ML5Engine {
+  return ml5
 }
