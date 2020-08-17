@@ -11,7 +11,7 @@ export interface ML5NeuralNetwork {
   data: any
   ready: boolean
 
-  constructor: ML5NeuralNetworkFn
+  constructor: ML5NeuralNetworkFunction
 
   addData: (xs: ObjectOrArray, ys: ObjectOrArray) => void
   normalize: Runnable
@@ -56,4 +56,4 @@ export interface ML5NeuralNetworkOptions {
   hiddenUnits: number
 }
 
-export type ML5NeuralNetworkFn = (opts: ML5NeuralNetworkOptions) => ML5NeuralNetwork
+export type ML5NeuralNetworkFunction = (opts: ML5NeuralNetworkOptions) => ML5NeuralNetwork

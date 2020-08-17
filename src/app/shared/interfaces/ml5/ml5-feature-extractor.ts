@@ -8,7 +8,7 @@ export interface ML5FeatureExtractor {
   usageType: 'regressor' | 'classifier'
   isPredicting: boolean
 
-  constructor: ML5FeatureExtractorFn
+  constructor: ML5FeatureExtractorFunction
 
   classification: VideoConsumer
   regression: VideoConsumer
@@ -48,6 +48,6 @@ export interface ML5FeatureExtractorOptions {
   batchSize: number
 }
 
-export type ML5FeatureExtractorFn = (model: string,
-                                     callback?: AnyFunction,
-                                     options?: ML5FeatureExtractorOptions) => ML5FeatureExtractor
+export type ML5FeatureExtractorFunction = (model: string,
+                                           callback?: AnyFunction,
+                                           options?: ML5FeatureExtractorOptions) => ML5FeatureExtractor

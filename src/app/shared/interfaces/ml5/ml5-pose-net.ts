@@ -16,16 +16,16 @@ export interface ML5PoseNet {
   quantBytes: any
   nmsRadius: number
 
-  constructor: ML5PoseNetFn
+  constructor: ML5PoseNetFunction
   on: (event: 'pose', callback: AnyFunction) => object[]
   singlePose: (input?: ML5Image) => ML5Pose[]
   multiPose: (input?: ML5Image | number) => ML5Pose[]
 }
 
-export type ML5PoseNetFn = (video?: HTMLVideoElement,
-                            type?: 'single' | 'multiple',
-                            callback?: AnyFunction,
-                            options?: ML5PoseNetOptions) => ML5PoseNet
+export type ML5PoseNetFunction = (video?: HTMLVideoElement,
+                                  type?: 'single' | 'multiple',
+                                  callback?: AnyFunction,
+                                  options?: ML5PoseNetOptions) => ML5PoseNet
 
 export interface ML5Pose {
   keypoints: {
