@@ -18,6 +18,9 @@ import {ML5YOLOFunction} from './ml5-yolo'
 import {ML5SoundClassifierFunction} from './ml5-sound-classifier'
 import {ML5PitchDetectionFunction} from './ml5-pitch-detection'
 import {ML5CharRNNFunction} from './ml5-char-rnn'
+import {ML5SentimentFunction} from './ml5-sentiment'
+import {ML5Word2VecFunction} from './ml5-word-2-vec'
+import {P5MediaElement} from '..'
 
 export interface ML5Engine {
   NeuralNetwork: ML5NeuralNetworkFunction,
@@ -37,6 +40,10 @@ export interface ML5Engine {
   SoundClassifier: ML5SoundClassifierFunction
   PitchDetection: ML5PitchDetectionFunction
   CharRNN: ML5CharRNNFunction
+  Sentiment: ML5SentimentFunction
+  Word2Vec: ML5Word2VecFunction
 
   KNNClassifier: () => ML5KNNClassifier
+
+  flipImage: (input?: HTMLVideoElement | P5MediaElement | HTMLImageElement) => any
 }
