@@ -14,6 +14,7 @@ import {ML5Pix2PixFunction} from './ml5-pix-2-pix'
 import {ML5CVAEFunction} from './ml5-cvae'
 import {ML5DCGANFunction} from './ml5-dcgan'
 import {ML5SketchRNNFunction} from './ml5-sketch-rnn'
+import {ML5YOLOFunction} from './ml5-yolo'
 
 export interface ML5Engine {
   NeuralNetwork: ML5NeuralNetworkFunction,
@@ -29,6 +30,7 @@ export interface ML5Engine {
   CVAE: ML5CVAEFunction
   DCGAN: ML5DCGANFunction
   SketchRNN: ML5SketchRNNFunction
+  YOLO: ML5YOLOFunction
 
   KNNClassifier: () => ML5KNNClassifier
 }
