@@ -17,6 +17,7 @@ import {ML5SketchRNNFunction} from './ml5-sketch-rnn'
 import {ML5YOLOFunction} from './ml5-yolo'
 import {ML5SoundClassifierFunction} from './ml5-sound-classifier'
 import {ML5PitchDetectionFunction} from './ml5-pitch-detection'
+import {ML5CharRNNFunction} from './ml5-char-rnn'
 
 export interface ML5Engine {
   NeuralNetwork: ML5NeuralNetworkFunction,
@@ -35,6 +36,7 @@ export interface ML5Engine {
   YOLO: ML5YOLOFunction
   SoundClassifier: ML5SoundClassifierFunction
   PitchDetection: ML5PitchDetectionFunction
+  CharRNN: ML5CharRNNFunction
 
   KNNClassifier: () => ML5KNNClassifier
 }
