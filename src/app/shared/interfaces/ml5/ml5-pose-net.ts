@@ -22,18 +22,18 @@ export interface ML5PoseNet {
   multiPose: (input?: ML5Image | number) => ML5Pose[]
 }
 
-export type ML5PoseNetFunction = (video?: HTMLVideoElement,
-                                  type?: 'single' | 'multiple',
-                                  callback?: AnyFunction,
-                                  options?: ML5PoseNetOptions) => ML5PoseNet
+export type ML5PoseNetFunction =
+  ((video?: HTMLVideoElement, type?: 'single' | 'multiple', callback?: AnyFunction, options?: ML5PoseNetOptions) => ML5PoseNet) &
+  ((video?: HTMLVideoElement, callback?: AnyFunction) => ML5PoseNet)
+
 
 export interface ML5Pose {
   keypoints: {
     position: {x: number, y: number}
     score: any
     part: any
-  }
-  [name: string]: {x: number, y: number, confidence: number} | {position: {x: number, y: number}, score: any, part: any}
+  }[]
+  [name: string]: {x: number, y: number, confidence: number} | {position: {x: number, y: number}, score: any, part: any}[]
 }
 
 export const ML5_POSE_NET_OPTIONS_DEFAULT = {

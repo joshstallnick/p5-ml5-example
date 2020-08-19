@@ -1,6 +1,5 @@
 import {ML5ModelCreatorFunction} from '../../types/ml5.types'
 import {AnyFunction} from '../../types'
-import {AnyRecord} from 'dns'
 
 export interface ML5Word2Vec {
   ready: boolean

@@ -4,7 +4,7 @@ export type Supplier<T> = () => T
 
 export type Function<T, U> = (T) => U
 
-export type AnyFunction = Function<any, any>
+export type AnyFunction = any
 
 export type ArraySupplier<T> = () => T[]
 

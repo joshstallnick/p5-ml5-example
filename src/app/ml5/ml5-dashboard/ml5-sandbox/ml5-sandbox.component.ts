@@ -7,6 +7,8 @@ import {P5Container} from '../../../shared/classes'
 import {getML5Engine, ML5Engine} from '../../../shared/interfaces/ml5/ml5-engine'
 import {ML5NeuralNetworkTask} from '../../../shared/interfaces/ml5/ml5-neural-network'
 import {CaptureType} from '../../../shared/interfaces/p5/p5-sketch'
+import {ML5Pose} from '../../../shared/interfaces/ml5/ml5-pose-net'
+import {Runnable} from '../../../shared/types'
 
 declare let ml5: ML5
 
@@ -28,6 +30,8 @@ export class ML5SandboxComponent implements OnInit, OnDestroy {
 
   featureExtractorExampleShow = false
 
+  knnClassificationWithPoseNetExampleShow = true
+
   constructor(private canvasService: CanvasService) {
     this.ml5 = getML5Engine()
     // this.canvasService.addOnePreloadFn(s => {
@@ -43,7 +47,7 @@ export class ML5SandboxComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.container = new P5Container((s: P5Sketch) => {
-
+      
 
     }, 'ml5-test')
   }
@@ -174,6 +178,193 @@ export class ML5SandboxComponent implements OnInit, OnDestroy {
       }
 
       const predict = () => regressor.predict(gotResults)
+
+    }, 'ml5-test')
+  }
+
+  // not working
+  poseNetExample() {
+    this.container = new P5Container((s: P5Sketch) => {
+      let video
+      const knnClassifier = this.ml5.KNNClassifier()
+      let poseNet
+      let poses: {pose: ML5Pose, skeleton: any}[] = []
+
+      s.setup = () => {
+        s.noLoop()
+        const canvas = s.createCanvas(640, 480)
+        canvas.parent('#videoContainer2')
+        video = s.createCapture(CaptureType.VIDEO)
+        video.size(s.width, s.height)
+
+        // create the UI buttons
+        createButtons()
+
+        // create a new poseNet method with a single detection
+        poseNet = this.ml5.poseNet(video, modelReady)
+
+        console.log('pose net', poseNet, video)
+
+        // this sets up an event that fills the global variable "poses"
+        // with an array every time new poses are detected
+        poseNet.on('pose', results => {
+          poses = results
+        })
+
+        // hide the video element, and just show the canvas
+        video.hide()
+      }
+
+      s.draw = () => {
+        s.image(video, 0, 0, s.width, s.height)
+
+        // we can call both functions to draw all keypoints and the skeletons
+        drawKeypoints()
+        drawSkeleton()
+      }
+
+      // A util function to create UI buttons
+      const createButtons = () => {
+        const createButton = (id: string, mousePressedRunnable: Runnable) => {
+          const button = s.select(id)
+          button.mousePressed(mousePressedRunnable)
+        }
+
+        // when the A button is pressed, add the current frame
+        // from the video with a label of "A" to the classifier
+        createButton('#addClassA', () => addExample('A'))
+
+        // when the B button is pressed, add the current frame
+        // from the video with a label of "B" to the classifier
+        createButton('#addClassB', () => addExample('B'))
+
+        // reset buttons
+        createButton('#resetA', () => clearLabel('A'))
+
+        createButton('#resetB', () => clearLabel('B'))
+
+        // predict button
+        createButton('#buttonPredict2', classify)
+
+        // clear all classes button
+        createButton('#clearAll', clearAllLabels)
+      }
+
+      // FUNCTION: Add the current frame from the video to the classifier
+      const addExample = label => {
+        const poseArray = convertPoses()
+
+        // add an example with a label to the classifier
+        knnClassifier.addExample(poseArray, label)
+      }
+
+      // region Clear Methods
+      // FUNCTION: Clear the examples in one label
+      const clearLabel = classLabel => {
+        knnClassifier.clearLabel(classLabel)
+        updateCounts()
+      }
+
+      // FUNCTION: Clear all the examples in all labels
+      const clearAllLabels = () => {
+        knnClassifier.clearAllLabel()
+        updateCounts()
+      }
+
+      // FUNCTION: Update the example count for each label
+      const updateCounts = () => {
+        const counts = knnClassifier.getCountByLabel()
+
+        s.select('#exampleA').html(counts['A'] || 0)
+        s.select('#exampleB').html(counts['B'] || 0)
+      }
+
+      // endregion Clear Methods
+
+      // FUNCTION: Predict the current frame
+      const classify = () => {
+        // get the total number of labels from knnClassifier
+        const numLabels = knnClassifier.getNumLabels()
+
+        if (numLabels <= 0) {
+          console.error('There is no examples in any label')
+          return
+        }
+
+        const poseArray = convertPoses()
+
+        // use knnClassifier to classify which label do these features belong to
+        // you can pass in a callback function `gotResults` to knnClassifier.classify function
+        knnClassifier.classify(poseArray, gotResults)
+      }
+
+      // FUNCTION: Show the results
+      const gotResults = (err, result: {confidencesByLabel?: any, label?: any}) => {
+        // display any error
+        if (err) {
+          console.error(err)
+        }
+
+        if (result.confidencesByLabel) {
+          const confidences = result.confidencesByLabel
+          // result.label is the label that has the highest confidence
+          if (result.label) {
+            s.select('#result').html(result.label)
+            s.select('#confidence').html(`${confidences[result.label] * 100} %`)
+          }
+
+          s.select('#confidenceA').html(`${confidences['A'] ? confidences['A'] * 100 : 0} %`)
+          s.select('#confidenceB').html(`${confidences['B'] ? confidences['B'] * 100 : 0} %`)
+        }
+
+        classify()
+      }
+
+      // FUNCTION: Convert poses results to a 2d array [[score0, x0, y0],...,[score16, x16, y16]]
+      const convertPoses = () => poses[0].pose.keypoints.map(p => [p.score, p.position.x, p.position.y])
+
+      // FUNCTION: Add video loading information
+      const modelReady = () => {
+        s.select('#status').html('model Loaded')
+      }
+
+      // region Draw Methods
+
+      // FUNCTION: A function to draw ellipses over the detected keypoints
+      const drawKeypoints = () => {
+        // loop through all the poses detected
+        poses.forEach(pose => {
+          // for each pose detected, loop through all the keypoints
+          pose.pose.keypoints.forEach(keypoint => {
+            // a keypoint is an object describing a body part (like rightArm or leftShoulder)
+            // only draw an ellipse if the pose probability is bigger than 0.2
+            if (keypoint.score > 0.2) {
+              s.fill(255, 0, 0)
+              s.noStroke()
+              s.ellipse(keypoint.position.x, keypoint.position.y, 10, 10)
+            }
+          })
+        })
+      }
+
+      // FUNCTION: A function to draw the skeletons
+      const drawSkeleton = () => {
+        // loop through all the skeletons detected
+        poses.forEach(pose => {
+          const  skeleton = pose.skeleton
+
+          skeleton.forEach(bone => {
+            const partA = bone[0]
+            const partB = bone[1]
+
+            s.stroke(255, 0, 0)
+
+            s.line(partA.position.x, partA.position.y, partB.position.x, partB.position.y)
+          })
+        })
+      }
+
+      // endregion Draw Methods
 
     }, 'ml5-test')
   }
